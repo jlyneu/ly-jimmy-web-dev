@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="initial-scale=1.25, user-scalable = no">
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-inner">
+            <p class="navbar-text pull-left">
+                <a href="widget-list.html" class="navbar-link">
+                    <span class="glyphicon glyphicon-chevron-left">
+                    </span>
+                </a>
+            </p>
+            <div class="navbar-brand pull-left">
+                Widget Edit
+            </div>
+            <p class="navbar-text pull-right">
+                <a href="widget-list.html" class="navbar-link">
+                    <span class="glyphicon glyphicon-ok">
+                    </span>
+                </a>
+            </p>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text"
+                   class="form-control"
+                   id="name"
+                   placeholder="Header Name">
+        </div>
+        <div class="form-group">
+            <label for="text">Text</label>
+            <input type="text"
+                   class="form-control"
+                   id="text"
+                   placeholder="Header Text"
+                   value="US Senate Reaches Compromise on Emergency Zika Funding">
+        </div>
+        <div class="form-group">
+            <label for="size">Size</label>
+            <input type="text"
+                   class="form-control"
+                   id="size"
+                   placeholder="Header Size"
+                   value="3">
+        </div>
+    </form>
+    <a class="btn btn-danger btn-block"
+       href="widget-list.html">Delete</a>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <div class="row navbar-text">
+            <div class="col-xs-3 pull-left">
+                <a href="#">
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                </a>
+            </div>
+            <div class="col-xs-3 text-center pull-right">
+                <a href="../user/profile.html">
+                    <span class="glyphicon glyphicon-user"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>
