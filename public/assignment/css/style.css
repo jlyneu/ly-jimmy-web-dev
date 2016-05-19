@@ -7,6 +7,11 @@ body {
     padding-bottom: 60px;
 }
 
+.navbar-center-vert {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 div.widget-element {
     position: relative;
 }
