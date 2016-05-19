@@ -6,3 +6,21 @@ body {
     padding-top: 60px;
     padding-bottom: 60px;
 }
+
+div.widget-element {
+    position: relative;
+}
+span.widget-edit {
+    background-color: white;
+    border-radius: 7px;
+    padding: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+img.widget-image {
+    width: 100%;
+}
+iframe {
+    width: 100%;
+}
