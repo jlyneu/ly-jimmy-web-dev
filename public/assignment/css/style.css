@@ -7,6 +7,10 @@ body {
     padding-bottom: 60px;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 .navbar-center-vert {
     margin-top: 15px;
     margin-bottom: 15px;
