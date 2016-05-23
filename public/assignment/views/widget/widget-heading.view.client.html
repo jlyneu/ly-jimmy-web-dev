@@ -1,30 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable = no">
-    <title>Edit Website - Mobile Site Maker</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/assignment/css/style.css" rel="stylesheet"/>
-</head>
-<body>
-
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-inner">
             <p class="navbar-text pull-left">
-                <a href="website-list.html" class="navbar-link">
+                <a href="widget-list.view.client.html" class="navbar-link">
                     <span class="glyphicon glyphicon-chevron-left">
                     </span>
                 </a>
             </p>
             <div class="navbar-brand pull-left">
-                Edit Website
+                Widget Edit
             </div>
             <p class="navbar-text pull-right">
-                <a href="website-list.html" class="navbar-link">
+                <a href="widget-list.view.client.html" class="navbar-link">
                     <span class="glyphicon glyphicon-ok">
                     </span>
                 </a>
@@ -37,23 +24,34 @@
 <div class="container">
     <form>
         <div class="form-group">
-            <label for="website-name">Website Name</label>
+            <label for="name">Name</label>
             <input type="text"
                    class="form-control"
-                   id="website-name"
-                   placeholder="Website Name"
-                   value="Blogger">
+                   id="name"
+                   placeholder="Header Name">
         </div>
         <div class="form-group">
-            <label for="website-description">Website Description</label>
-            <textarea rows="3"
-                      class="form-control"
-                      id="website-description"
-                      placeholder="Website Description">Blogger is a blog-publishing service</textarea>
+            <label for="text">Text</label>
+            <input type="text"
+                   class="form-control"
+                   id="text"
+                   placeholder="Header Text"
+                   value="US Senate Reaches Compromise on Emergency Zika Funding">
+        </div>
+        <div class="form-group">
+            <label for="size">Size</label>
+            <select id="size" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option selected value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
         </div>
     </form>
     <a class="btn btn-danger btn-block"
-       href="/assignment/website/website-list.html">Delete</a>
+       href="widget-list.view.client.html">Delete</a>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
@@ -72,6 +70,3 @@
         </div>
     </div>
 </nav>
-
-</body>
-</html>
