@@ -61,7 +61,7 @@
         // the websiteId parameter
         function deleteWebsite(websiteId) {
             for (var i in websites) {
-                if (websites[i]['_id'] === userId) {
+                if (websites[i]['_id'] === websiteId) {
                     websites.splice(i, 1);
                     return;
                 }
