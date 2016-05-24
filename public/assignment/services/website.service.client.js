@@ -24,7 +24,7 @@
         // The new website's developerId is set to the userId parameter
         function createWebsite(userId, website) {
             website["developerId"] = userId;
-            websites.append(website);
+            websites.push(website);
         }
 
         // retrieves the websites in local websites array whose developerId
@@ -33,7 +33,7 @@
             userSites = [];
             for (var i in websites) {
                 if (websites[i]['developerId'] === userId) {
-                    userSites.append(websites[i]);
+                    userSites.push(websites[i]);
                 }
             }
             return userSites;

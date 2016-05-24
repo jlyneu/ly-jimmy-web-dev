@@ -21,7 +21,7 @@
         // The new page's websiteId is set to the websiteId parameter
         function createPage(websiteId, page) {
             pages["websiteId"] = websiteId;
-            pages.append(page);
+            pages.push(page);
         }
 
         // retrieves the pages in local pages array whose websiteId
@@ -30,7 +30,7 @@
             sitePages = [];
             for (var i in pages) {
                 if (pages[i]['websiteId'] === websiteId) {
-                    sitePages.append(pages[i]);
+                    sitePages.push(pages[i]);
                 }
             }
             return sitePages;

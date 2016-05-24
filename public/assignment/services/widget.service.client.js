@@ -27,7 +27,7 @@
         // array. The new widget's pageId is set to the pageId parameter
         function createWidget(pageId, widget) {
             widgets["pageId"] = pageId;
-            widgets.append(widget);
+            widgets.push(widget);
         }
 
         // retrieves the widgets in local widgets array whose pageId
@@ -36,7 +36,7 @@
             pageWidgets = [];
             for (var i in widgets) {
                 if (widgets[i]['pageId'] === pageId) {
-                    pageWidgets.append(widgets[i]);
+                    pageWidgets.push(widgets[i]);
                 }
             }
             return pageWidgets;
