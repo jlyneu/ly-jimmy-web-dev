@@ -7,6 +7,7 @@
 
     function WidgetListController($routeParams, $sce, WidgetService) {
         var vm = this;
+        vm.trustSrc = trustSrc;
         vm.userId = $routeParams["uid"];
         vm.websiteId = $routeParams["wid"];
         vm.pageId = $routeParams["pid"];
@@ -16,7 +17,7 @@
         init();
         // use the Strict Contextual Escaping (sce) module to
         // allow YouTube url to be displayed in iframe
-        vm.trustSrc = function(src) {
+        function trustSrc(src) {
             return $sce.trustAsResourceUrl(src);
         };
     }
