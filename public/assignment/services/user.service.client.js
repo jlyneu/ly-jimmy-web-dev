@@ -10,12 +10,12 @@
             {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi" }
         ];
         var api = {
-            "createUser"            : "createUser",
-            "findUserById"          : "findUserById",
-            "findUserByUsername"    : "findUserByUsername",
-            "findUserByCredentials" : "findUserByCredentials",
-            "updateUser"            : "updateUser",
-            "deleteUser"            : "deleteUser"
+            "createUser"            : createUser,
+            "findUserById"          : findUserById,
+            "findUserByUsername"    : findUserByUsername,
+            "findUserByCredentials" : findUserByCredentials,
+            "updateUser"            : updateUser,
+            "deleteUser"            : deleteUser
         };
         return api;
 
@@ -36,7 +36,7 @@
 
         // returns the user in local users array whose username matches
         // the parameter username
-        function findUserByCredentials(username) {
+        function findUserByUsername(username) {
             for (var i in users) {
                 if (users[i]['username'] === username) {
                     return users[i];
