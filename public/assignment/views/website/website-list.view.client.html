@@ -18,13 +18,13 @@
 <div class="container">
     <ul class="list-group">
         <li ng-repeat="website in model.websites" class="list-group-item">
-            <a href="#/user/{{model.userId}}/website/{{model.websites[$index]['_id']}}/page">
-                {{model.websites[$index]['name']}}
+            <a href="#/user/{{model.userId}}/website/{{website['_id']}}/page">
+                {{website.name}}
             </a>
             <a href="javascript:void(0);" class="pull-right">
                 <span class="glyphicon glyphicon-play pull-right"></span>
             </a>
-            <a href="#/user/{{model.userId}}/website/{{model.websites[$index]['_id']}}" class="pull-right">
+            <a href="#/user/{{model.userId}}/website/{{website['_id']}}" class="pull-right">
                 <span class="glyphicon glyphicon-cog"></span>
             </a>
         </li>
