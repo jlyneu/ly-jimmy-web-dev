@@ -5,8 +5,24 @@
         .controller("RegisterController", RegisterController)
         .controller("ProfileController", ProfileController);
 
-    function LoginController(UserService) {
+    function LoginController($location, UserService) {
         var vm = this;
+
+        // event handler declarations
+        vm.login = login;
+
+        // initialize model.user object
+        vm.user = {};
+
+        // event handler functions
+        function login(user) {
+            user = UserService.findUserByCredentials(user.username, user.password);
+            if (user) {
+                $location.url("/user/" + user._id);
+            } else {
+                vm.alert = "unable to login";
+            }
+        }
     }
 
     function RegisterController(UserService) {
