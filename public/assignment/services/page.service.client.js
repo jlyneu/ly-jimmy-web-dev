@@ -9,11 +9,11 @@
             { "_id": "543", "name": "Post 3", "websiteId": "456" }
         ];
         var api = {
-            "createPage"          : "createPage",
-            "findPageByWebsiteId" : "findPageByWebsiteId",
-            "findPageById"        : "findPageById",
-            "updatePage"          : "updatePage",
-            "deletePage"          : "deletePage"
+            "createPage"          : createPage,
+            "findPageByWebsiteId" : findPageByWebsiteId,
+            "findPageById"        : findPageById,
+            "updatePage"          : updatePage,
+            "deletePage"          : deletePage
         };
         return api;
 
