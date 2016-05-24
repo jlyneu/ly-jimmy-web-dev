@@ -25,11 +25,19 @@
     <form>
         <div class="form-group">
             <label for="website-name">Website Name</label>
-            <input type="text" class="form-control" id="website-name" placeholder="Website Name">
+            <input ng-model="model.website.name"
+                   type="text"
+                   class="form-control"
+                   id="website-name"
+                   placeholder="Website Name">
         </div>
         <div class="form-group">
             <label for="website-description">Website Description</label>
-            <textarea rows="3" class="form-control" id="website-description" placeholder="Website Description"></textarea>
+            <textarea ng-model="model.website.description"
+                      rows="3"
+                      class="form-control"
+                      id="website-description"
+                      placeholder="Website Description"></textarea>
         </div>
     </form>
 </div>

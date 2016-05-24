@@ -25,21 +25,24 @@
     <form>
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text"
+            <input ng-model="model.widget.name"
+                   type="text"
                    class="form-control"
                    id="name"
                    placeholder="Video Name">
         </div>
         <div class="form-group">
             <label for="text">Text</label>
-            <input type="text"
+            <input ng-model="model.widget.text"
+                   type="text"
                    class="form-control"
                    id="text"
                    placeholder="Video Text">
         </div>
         <div class="form-group">
             <label for="url">URL</label>
-            <input type="text"
+            <input ng-model="model.widget.url"
+                   type="text"
                    class="form-control"
                    id="url"
                    placeholder="YouTube URL"
@@ -47,7 +50,8 @@
         </div>
         <div class="form-group">
             <label for="width">Width</label>
-            <input type="text"
+            <input ng-model="model.widget.width"
+                   type="text"
                    class="form-control"
                    id="width"
                    placeholder="Video Width">
