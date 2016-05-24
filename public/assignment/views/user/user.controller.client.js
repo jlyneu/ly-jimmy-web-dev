@@ -11,9 +11,6 @@
         // event handler declarations
         vm.login = login;
 
-        // initialize model.user object
-        vm.user = {};
-
         // event handler functions
         function login(user) {
             user = UserService.findUserByCredentials(user.username, user.password);
@@ -23,6 +20,9 @@
                 vm.alert = "unable to login";
             }
         }
+
+        // initialize model.user object
+        vm.user = {};
     }
 
     function RegisterController(UserService) {
