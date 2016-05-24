@@ -30,11 +30,13 @@
         // retrieves the websites in local websites array whose developerId
         // matches the parameter userId
         function findWebsitesByUser(userId) {
+            userSites = [];
             for (var i in websites) {
                 if (websites[i]['developerId'] === userId) {
-                    return websites[i];
+                    userSites.append(websites[i]);
                 }
             }
+            return userSites;
         }
 
         // retrieves the website in local websites array whose _id matches

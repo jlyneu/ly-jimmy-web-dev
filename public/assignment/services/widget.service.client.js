@@ -33,11 +33,13 @@
         // retrieves the widgets in local widgets array whose pageId
         // matches the parameter pageId
         function findWidgetsByPageId(pageId) {
+            pageWidgets = [];
             for (var i in widgets) {
                 if (widgets[i]['pageId'] === pageId) {
-                    return widgets[i];
+                    pageWidgets.append(widgets[i]);
                 }
             }
+            return pageWidgets;
         }
 
         // retrieves the page in local pages array whose _id

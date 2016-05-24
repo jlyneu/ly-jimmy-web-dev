@@ -9,11 +9,11 @@
             { "_id": "543", "name": "Post 3", "websiteId": "456" }
         ];
         var api = {
-            "createPage"          : createPage,
-            "findPageByWebsiteId" : findPageByWebsiteId,
-            "findPageById"        : findPageById,
-            "updatePage"          : updatePage,
-            "deletePage"          : deletePage
+            "createPage"           : createPage,
+            "findPagesByWebsiteId" : findPagesByWebsiteId,
+            "findPageById"         : findPageById,
+            "updatePage"           : updatePage,
+            "deletePage"           : deletePage
         };
         return api;
 
@@ -26,12 +26,14 @@
 
         // retrieves the pages in local pages array whose websiteId
         // matches the parameter websiteId
-        function findPageByWebsiteId(websiteId) {
+        function findPagesByWebsiteId(websiteId) {
+            sitePages = [];
             for (var i in pages) {
                 if (pages[i]['websiteId'] === websiteId) {
-                    return pages[i];
+                    sitePages.append(pages[i]);
                 }
             }
+            return sitePages;
         }
 
         // retrieves the page in local pages array whose _id matches
