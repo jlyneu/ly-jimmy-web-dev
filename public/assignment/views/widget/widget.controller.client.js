@@ -5,8 +5,20 @@
         .controller("NewWidgetController", NewWidgetController)
         .controller("EditWidgetController", EditWidgetController);
 
-    function WidgetListController() {
-
+    function WidgetListController($routeParams, $sce, WidgetService) {
+        var vm = this;
+        vm.userId = $routeParams["uid"];
+        vm.websiteId = $routeParams["wid"];
+        vm.pageId = $routeParams["pid"];
+        function init() {
+            vm.widgets = WidgetService.findWidgetsByPageId(vm.pageId);
+        }
+        init();
+        // use the Strict Contextual Escaping (sce) module to
+        // allow YouTube url to be displayed in iframe
+        vm.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        };
     }
 
     function NewWidgetController() {
