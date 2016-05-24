@@ -21,7 +21,10 @@
 
         // adds the user parameter instance to the local users array
         function createUser(user) {
-            users.append(user);
+            // temporarily set _id to username, assuming the usernames are unique.
+            // this will change when actual user ids are generated
+            user['_id'] = user.username;
+            users.push(user);
         }
 
         // returns the user in the local users array whose _id matches

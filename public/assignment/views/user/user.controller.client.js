@@ -25,8 +25,26 @@
         vm.user = {};
     }
 
-    function RegisterController(UserService) {
+    function RegisterController($location, UserService) {
         var vm = this;
+
+        // event handler declarations
+        vm.register = register;
+
+        // event handler functions
+        function register(user) {
+            if (user.username != null &&
+                user.password != null &&
+                user.password == user.verifyPassword) {
+                UserService.createUser(user);
+                $location.url("/user/" + user._id);
+            } else {
+                vm.alert = "unable to register user";
+            }
+        }
+
+        // initialize model.user object
+        vm.user = {};
     }
 
     function ProfileController($routeParams, UserService) {
