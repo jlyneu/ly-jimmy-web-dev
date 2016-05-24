@@ -37,8 +37,11 @@
         }
         
         // initialization to populate form fields
+        // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned website
+        // so that modifying form elements won't automatically update the object in the
+        // list in the WebsiteService. This won't be necessary once the client is talking to the Node server
         function init() {
-            vm.website = WebsiteService.findWebsiteById(vm.websiteId);
+            vm.website = JSON.parse(JSON.stringify(WebsiteService.findWebsiteById(vm.websiteId)));
         }
         init();
     }
