@@ -5,7 +5,8 @@
                 Profile
             </div>
             <p class="navbar-text pull-right">
-                <a href="#" class="navbar-link">
+                <a ng-click="model.update(model.user)"
+                   class="navbar-link">
           <span class="glyphicon glyphicon-ok">
           </span>
                 </a>
@@ -52,9 +53,9 @@
     </form>
 
     <a class="btn btn-primary btn-block"
-       href="/assignment/website/website-list.html">Websites</a>
+       href="#/user/{{model.userId}}/website">Websites</a>
     <a class="btn btn-danger  btn-block"
-       href="login.view.client.html">Logout</a>
+       href="#/login">Logout</a>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">

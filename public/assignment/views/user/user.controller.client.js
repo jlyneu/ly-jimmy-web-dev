@@ -50,6 +50,15 @@
     function ProfileController($routeParams, UserService) {
         var vm = this;
         vm.userId = $routeParams["uid"];
+
+        // event handler declarations
+        vm.update = update;
+
+        // event handler functions
+        function update(user) {
+            UserService.updateUser(vm.userId, user);
+        }
+
         function init() {
             vm.user = UserService.findUserById(vm.userId);
         }
