@@ -12,11 +12,11 @@
             { "_id": "789", "name": "Chess",       "developerId": "234" }
         ];
         var api = {
-            "createWebsite"      : "createWebsite",
-            "findWebsitesByUser" : "findWebsitesByUser",
-            "findWebsiteById"    : "findWebsiteById",
-            "updateWebsite"      : "updateWebsite",
-            "deleteWebsite"      : "deleteWebsite"
+            "createWebsite"      : createWebsite,
+            "findWebsitesByUser" : findWebsitesByUser,
+            "findWebsiteById"    : findWebsiteById,
+            "updateWebsite"      : updateWebsite,
+            "deleteWebsite"      : deleteWebsite
         };
         return api;
 
