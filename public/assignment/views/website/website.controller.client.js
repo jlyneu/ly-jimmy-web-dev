@@ -14,8 +14,20 @@
         init();
     }
 
-    function NewWebsiteController() {
+    function NewWebsiteController($routeParams, WebsiteService) {
         var vm = this;
+        vm.userId = $routeParams["uid"];
+
+        // event handler declarations
+        vm.createWebsite = createWebsite;
+
+        // event handler functions
+        function createWebsite(website) {
+            WebsiteService.createWebsite(vm.userId, website);
+        }
+
+        // initialize model.website object
+        vm.website = {};
     }
 
     function EditWebsiteController($routeParams, WebsiteService) {

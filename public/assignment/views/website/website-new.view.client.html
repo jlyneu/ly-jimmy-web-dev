@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="navbar-inner">
             <p class="navbar-text pull-left">
-                <a href="website-list.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website" class="navbar-link">
                     <span class="glyphicon glyphicon-chevron-left">
                     </span>
                 </a>
@@ -11,7 +11,9 @@
                 New Website
             </div>
             <p class="navbar-text pull-right">
-                <a href="website-list.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website"
+                   class="navbar-link"
+                   ng-click="model.createWebsite(model.website)">
                     <span class="glyphicon glyphicon-ok">
                     </span>
                 </a>
@@ -46,7 +48,7 @@
     <div class="container">
         <div class="row navbar-inner navbar-center-vert">
             <div class="col-xs-3 text-center pull-right">
-                <a href="/assignment/user/profile.html">
+                <a href="#/user/{{model.userId}}">
                     <span class="glyphicon glyphicon-user"></span>
                 </a>
             </div>
