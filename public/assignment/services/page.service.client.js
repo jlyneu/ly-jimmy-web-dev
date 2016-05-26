@@ -20,9 +20,7 @@
         // adds the page parameter instance to the local pages array.
         // The new page's websiteId is set to the websiteId parameter
         function createPage(websiteId, page) {
-            // temporarily set _id to name.
-            // this will change when actual website ids are generated
-            page["_id"] = page.name;
+            page["_id"] = (new Date()).getTime().toString();
             page["websiteId"] = websiteId;
             pages.push(page);
         }

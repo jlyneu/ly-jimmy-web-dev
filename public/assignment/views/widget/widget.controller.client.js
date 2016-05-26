@@ -33,18 +33,19 @@
         
         // event handler functions
         function createWidget(widgetType) {
-            var newId = (new Date).getTime().toString();
-            // create a widget with an _id and the provided widget type so that
+            // create a widget with the provided widget type so that
             // the edit-widget page will know which view to show, ie header,
             // image, YouTube, etc.
             var widget = {
-                "_id": newId,
                 "widgetType": widgetType
             };
-            WidgetService.createWidget(vm.pageId, widget);
-            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget/" + newId);
+            widget = WidgetService.createWidget(vm.pageId, widget);
+            if (widget) {
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget/" + widget['_id']);
+            } else {
+                vm.alert = "Unable to create widget";
+            }
         }
-        
     }
 
     function EditWidgetController($routeParams, WidgetService) {

@@ -21,9 +21,7 @@
 
         // adds the user parameter instance to the local users array
         function createUser(user) {
-            // temporarily set _id to username, assuming the usernames are unique.
-            // this will change when actual user ids are generated
-            user['_id'] = user.username;
+            user['_id'] = (new Date()).getTime().toString();
             users.push(user);
         }
 

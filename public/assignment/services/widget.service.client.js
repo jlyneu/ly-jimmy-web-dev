@@ -26,8 +26,10 @@
         // adds the widget parameter instance to the local widgets
         // array. The new widget's pageId is set to the pageId parameter
         function createWidget(pageId, widget) {
+            widget["_id"] = (new Date()).getTime().toString();
             widget["pageId"] = pageId;
             widgets.push(widget);
+            return widget;
         }
 
         // retrieves the widgets in local widgets array whose pageId
