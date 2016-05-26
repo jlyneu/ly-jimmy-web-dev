@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="navbar-inner">
             <p class="navbar-text pull-left">
-                <a href="widget-list.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget" class="navbar-link">
                     <span class="glyphicon glyphicon-chevron-left">
                     </span>
                 </a>
@@ -11,7 +11,9 @@
                 Widget Edit
             </div>
             <p class="navbar-text pull-right">
-                <a href="widget-list.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget"
+                   class="navbar-link"
+                   ng-click="model.updateWidget(model.widget)">
                     <span class="glyphicon glyphicon-ok">
                     </span>
                 </a>
@@ -45,8 +47,7 @@
                    type="text"
                    class="form-control"
                    id="url"
-                   placeholder="YouTube URL"
-                   value="https://youtu.be/uLWLashCXHE">
+                   placeholder="YouTube URL">
         </div>
         <div class="form-group">
             <label for="width">Width</label>
@@ -58,7 +59,8 @@
         </div>
     </form>
     <a class="btn btn-danger btn-block"
-       href="widget-list.view.client.html">Delete</a>
+       href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget"
+       ng-click="model.deleteWidget(model.widget)">Delete</a>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
@@ -70,7 +72,7 @@
                 </a>
             </div>
             <div class="col-xs-3 text-center pull-right">
-                <a href="/assignment/user/profile.html">
+                <a href="#/user/{{model.userId}}">
                     <span class="glyphicon glyphicon-user"></span>
                 </a>
             </div>

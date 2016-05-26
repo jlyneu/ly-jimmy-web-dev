@@ -49,9 +49,30 @@
 
     function EditWidgetController($routeParams, WidgetService) {
         var vm = this;
+        vm.userId = $routeParams["uid"];
+        vm.websiteId = $routeParams["wid"];
+        vm.pageId = $routeParams["pid"];
         vm.widgetId = $routeParams["wgid"];
+
+        // event handler declarations
+        vm.updateWidget = updateWidget;
+        vm.deleteWidget = deleteWidget;
+
+        // event handler functions
+        function updateWidget(widget) {
+            WidgetService.updateWidget(vm.widgetId, widget);
+        }
+
+        function deleteWidget() {
+            WidgetService.deleteWidget(vm.widgetId);
+        }
+
+        // initialization to populate form fields
+        // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned website
+        // so that modifying form elements won't automatically update the object in the
+        // list in the WebsiteService. This won't be necessary once the client is talking to the Node server
         function init() {
-            vm.widget = WidgetService.findWidgetById(vm.widgetId);
+            vm.widget = JSON.parse(JSON.stringify(WidgetService.findWidgetById(vm.widgetId)));
         }
         init();
     }
