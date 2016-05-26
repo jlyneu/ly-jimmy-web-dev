@@ -52,6 +52,7 @@
         // updates the page in local pages array whose _id matches
         // the pageId parameter
         function updatePage(pageId, page) {
+            console.log(page);
             for (var i in pages) {
                 if (pages[i]['_id'] === pageId) {
                     pages[i] = page;

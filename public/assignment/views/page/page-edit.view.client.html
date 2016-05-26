@@ -2,7 +2,8 @@
     <div class="container-fluid">
         <div class="navbar-inner">
             <p class="navbar-text pull-left">
-                <a href="page-list.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page"
+                   class="navbar-link">
                     <span class="glyphicon glyphicon-chevron-left">
                     </span>
                 </a>
@@ -11,7 +12,9 @@
                 Edit Page
             </div>
             <p class="navbar-text pull-right">
-                <a href="page-list.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page"
+                   class="navbar-link"
+                   ng-click="model.updatePage(model.page)">
                     <span class="glyphicon glyphicon-ok">
                     </span>
                 </a>
@@ -41,7 +44,8 @@
         </div>
     </form>
     <a class="btn btn-danger btn-block"
-       href="page-list.view.client.html">Delete</a>
+       href="#/user/{{model.userId}}/website/{{model.websiteId}}/page"
+       ng-click="model.deletePage(model.page)">Delete</a>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
@@ -53,7 +57,7 @@
                 </a>
             </div>
             <div class="col-xs-3 text-center pull-right">
-                <a href="/assignment/user/profile.html">
+                <a href="#/user/{{model.userId}}">
                     <span class="glyphicon glyphicon-user"></span>
                 </a>
             </div>
