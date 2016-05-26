@@ -59,8 +59,12 @@
             UserService.updateUser(vm.userId, user);
         }
 
+        // initialization to populate form fields
+        // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned user
+        // so that modifying form elements won't automatically update the object in the
+        // list in the UserService. This won't be necessary once the client is talking to the Node server
         function init() {
-            vm.user = UserService.findUserById(vm.userId);
+            vm.user = JSON.parse(JSON.stringify(UserService.findUserById(vm.userId)));
         }
         init();
     }

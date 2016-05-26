@@ -68,9 +68,9 @@
         }
 
         // initialization to populate form fields
-        // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned website
+        // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned widget
         // so that modifying form elements won't automatically update the object in the
-        // list in the WebsiteService. This won't be necessary once the client is talking to the Node server
+        // list in the WidgetService. This won't be necessary once the client is talking to the Node server
         function init() {
             vm.widget = JSON.parse(JSON.stringify(WidgetService.findWidgetById(vm.widgetId)));
         }
