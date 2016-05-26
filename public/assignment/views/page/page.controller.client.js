@@ -44,7 +44,7 @@
 
         // event handler functions
         function updatePage(page) {
-            PageService.updatePage(vm.pageId, vm.page);
+            PageService.updatePage(vm.pageId, page);
         }
 
         function deletePage() {
