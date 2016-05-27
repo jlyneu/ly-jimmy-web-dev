@@ -48,11 +48,17 @@
                     </div>
                 </div>
                 <div ng-switch-when="IMAGE">
-                    <img src="{{widget.url}}" class="widget-image">
+                    <img ng-src="{{widget.url}}"
+                         class="widget-image"
+                         width="{{widget.width}}">
                 </div>
                 <div ng-switch-when="YOUTUBE">
                     <div class="youtube-wrapper">
-                        <iframe ng-src="{{model.trustSrc(widget.url)}}" type="text/html" frameborder="0" allowfullscreen></iframe>
+                        <iframe ng-src="{{model.trustSrc(widget.url)}}"
+                                type="text/html"
+                                width="{{widget.width}}"
+                                frameborder="0"
+                                allowfullscreen></iframe>
                     </div>
                 </div>
                 <div ng-switch-when="HTML" ng-bind-html="widget.text">
