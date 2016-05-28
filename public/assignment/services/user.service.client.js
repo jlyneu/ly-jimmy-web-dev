@@ -67,7 +67,9 @@
         function updateUser(userId, user) {
             for (var i in users) {
                 if (users[i]['_id'] === userId) {
-                    users[i] = user;
+                    users[i].email = user.email;
+                    users[i].firstName = user.firstName;
+                    users[i].lastName = user.lastName;
                     return user;
                 }
             }

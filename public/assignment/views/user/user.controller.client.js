@@ -15,10 +15,15 @@
         // initialize model.user object
         vm.user = {};
 
+        vm.error = "";
+
         // use the UserService to determine whether the given user exists
         // based on the provided username and password. If the user exists,
         // then navigate to their profile page. Otherwise, display an error message.
         function login(user) {
+            // temporarily remove error messages
+            vm.error = "";
+
             if (!user.username) {
                 vm.error = "Username is required";
             }
@@ -46,6 +51,8 @@
 
         // initialize model.user object
         vm.user = {};
+
+        vm.error = "";
 
         // use the UserService to create the given user. If the user
         // is successfully registered, then navigate to their profile
@@ -92,6 +99,9 @@
 
         // get various id route parameters from the current url
         vm.userId = $routeParams["uid"];
+
+        vm.success = "";
+        vm.error = "";
         
         // initialize the page by fetching the current user
         // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned user
@@ -106,7 +116,20 @@
         // If the user is successfully updated, then display a success message.
         // Otherwise, display an error message.
         function update(user) {
-            UserService.updateUser(vm.userId, user);
+            // temporarily remove success and error messages
+            vm.success = "";
+            vm.error = "";
+            // check for valid email based on Angular's default email validation
+            if ($('input[type="email"]').hasClass('ng-invalid-email')) {
+                vm.error = "Please provide a valid email address";
+                return;
+            }
+            var updatedUser = UserService.updateUser(vm.userId, user);
+            if (updatedUser) {
+                vm.success = "Profile successfully updated";
+            } else {
+                vm.error = "Unable to update profile. Please try again later"
+            }
         }
     }
 })();

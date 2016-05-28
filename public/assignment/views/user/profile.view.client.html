@@ -15,8 +15,13 @@
     </div>
 </nav>
 
-
 <div class="container">
+    <div ng-if="model.success" class="alert alert-success">
+        {{model.success}}
+    </div>
+    <div ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <form>
         <div class="form-group">
             <label for="username">Username</label>
@@ -24,7 +29,8 @@
                    type="text"
                    class="form-control"
                    id="username"
-                   placeholder="Username">
+                   placeholder="Username"
+                   disabled>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
