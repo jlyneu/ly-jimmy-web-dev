@@ -54,12 +54,16 @@
         vm.websiteId = $routeParams["wid"];
         vm.pageId = $routeParams["pid"];
 
+        vm.error = "";
+
         // create a widget using the WidgetService with the given
         // widget type so that the edit-widget page will know which
         // view to show, ie header, image, YouTube, etc.
         // If the widget is successfully created, then navigate to the
         // edit-widget page. Otherwise, display an error message.
         function createWidget(widgetType) {
+            vm.error = "";
+
             // default widget with widgetType to be created
             var widget = {
                 "widgetType": widgetType
@@ -69,13 +73,13 @@
             if (widget) {
                 $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget/" + widget['_id']);
             } else {
-                vm.alert = "Unable to create widget";
+                vm.error = "Unable to create widget. Please try again later";
             }
         }
     }
 
     // controller for the widget-edit.view.client.html template
-    function EditWidgetController($routeParams, WidgetService) {
+    function EditWidgetController($location, $routeParams, WidgetService) {
         var vm = this;
 
         // event handler declarations
@@ -88,6 +92,8 @@
         vm.pageId = $routeParams["pid"];
         vm.widgetId = $routeParams["wgid"];
 
+        vm.error = "";
+
         // initialize the page by fetching the current widget
         // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned widget
         // so that modifying form elements won't automatically update the object in the
@@ -99,7 +105,34 @@
 
         // pass the given widget to the WidgetService to update the widget
         function updateWidget(widget) {
-            WidgetService.updateWidget(vm.widgetId, widget);
+            vm.error = "";
+
+            if (widget.widgetType === "HEADER") {
+                if (!widget.text) {
+                    vm.error = "Header text is required";
+                    return;
+                } else if (!widget.size) {
+                    vm.error = "Header size is required";
+                    return;
+                }
+            } else if (widget.widgetType === "IMAGE") {
+                if (!widget.url) {
+                    vm.error = "Image URL is required";
+                    return;
+                }
+            } else if (widget.widgetType === "YOUTUBE") {
+                if (!widget.url) {
+                    vm.error = "YouTube URL is required";
+                    return;
+                }
+            }
+
+            var updatedWidget = WidgetService.updateWidget(vm.widgetId, widget);
+            if (updatedWidget) {
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
+            } else {
+                vm.error = "Unable to update the widget. Please try again later";
+            }
         }
 
         // use the WidgetService to delete the current widget

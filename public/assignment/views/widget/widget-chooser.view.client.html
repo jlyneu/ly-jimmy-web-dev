@@ -14,8 +14,10 @@
     </div>
 </nav>
 
-
 <div class="container">
+    <div ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
             <a ng-click="model.createWidget('HEADER')">Header</a>
