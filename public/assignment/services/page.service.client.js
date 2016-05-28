@@ -18,11 +18,13 @@
         return api;
 
         // adds the page parameter instance to the local pages array.
-        // The new page's websiteId is set to the websiteId parameter
+        // The new page's websiteId is set to the websiteId parameter.
+        // return the page if the creation is successful, otherwise return null.
         function createPage(websiteId, page) {
             page["_id"] = (new Date()).getTime().toString();
             page["websiteId"] = websiteId;
             pages.push(page);
+            return page;
         }
 
         // retrieves the pages in local pages array whose websiteId
@@ -45,27 +47,33 @@
                     return pages[i];
                 }
             }
+            return null;
         }
 
         // updates the page in local pages array whose _id matches
-        // the pageId parameter
+        // the pageId parameter.
+        // return the page if the update is successful, otherwise return null.
         function updatePage(pageId, page) {
             for (var i in pages) {
                 if (pages[i]['_id'] === pageId) {
                     pages[i] = page;
+                    return page;
                 }
             }
+            return null;
         }
 
         // removes the page from local pages array whose _id matches
-        // the pageId parameter
+        // the pageId parameter.
+        // return true if the deletion is successful, otherwise return false.
         function deletePage(pageId) {
             for (var i in pages) {
                 if (pages[i]['_id'] === pageId) {
                     pages.splice(i, 1);
-                    return;
+                    return true;
                 }
             }
+            return false;
         }
     }
 })();

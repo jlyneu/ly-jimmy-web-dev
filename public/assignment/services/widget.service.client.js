@@ -24,7 +24,8 @@
         return api;
 
         // adds the widget parameter instance to the local widgets
-        // array. The new widget's pageId is set to the pageId parameter
+        // array. The new widget's pageId is set to the pageId parameter.
+        // Return the widget if it is successfully created. Otherwise return null.
         function createWidget(pageId, widget) {
             widget["_id"] = (new Date()).getTime().toString();
             widget["pageId"] = pageId;
@@ -33,7 +34,7 @@
         }
 
         // retrieves the widgets in local widgets array whose pageId
-        // matches the parameter pageId
+        // matches the parameter pageId.
         function findWidgetsByPageId(pageId) {
             pageWidgets = [];
             for (var i in widgets) {
@@ -52,27 +53,33 @@
                     return widgets[i];
                 }
             }
+            return null;
         }
 
         // updates the widget in local pages array whose _id
-        // matches the widgetId parameter
+        // matches the widgetId parameter.
+        // Return the updated widget if the update is successful. Return null otherwise.
         function updateWidget(widgetId, widget) {
             for (var i in widgets) {
                 if (widgets[i]['_id'] === widgetId) {
                     widgets[i] = widget;
+                    return widget;
                 }
             }
+            return null;
         }
 
         // removes the widget from local widgets array whose _id
         // matches the widgetId parameter
+        // Return true if the widget is successfully deleted. Return null otherwise.
         function deleteWidget(widgetId) {
             for (var i in widgets) {
                 if (widgets[i]['_id'] === widgetId) {
                     widgets.splice(i, 1);
-                    return;
+                    return true;
                 }
             }
+            return false;
         }
     }
 })();

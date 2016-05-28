@@ -21,11 +21,13 @@
         return api;
 
         // adds the website parameter instance to the local websites array.
-        // The new website's developerId is set to the userId parameter
+        // The new website's developerId is set to the userId parameter.
+        // Return the created widget if successful, otherwise return null.
         function createWebsite(userId, website) {
             website["_id"] = (new Date()).getTime().toString();
             website["developerId"] = userId;
             websites.push(website);
+            return website;
         }
 
         // retrieves the websites in local websites array whose developerId
@@ -48,27 +50,33 @@
                     return websites[i];
                 }
             }
+            return null;
         }
 
         // updates the website in local websites array whose _id matches
         // the websiteId parameter
+        // return the updated website if successful, otherwise return null.
         function updateWebsite(websiteId, website) {
             for (var i in websites) {
                 if (websites[i]['_id'] === websiteId) {
                     websites[i] = website;
+                    return website;
                 }
             }
+            return null;
         }
 
         // removes the website from local websites array whose _id matches
-        // the websiteId parameter
+        // the websiteId parameter.
+        // return true if the website is successfully deleted, otherwise return null.
         function deleteWebsite(websiteId) {
             for (var i in websites) {
                 if (websites[i]['_id'] === websiteId) {
                     websites.splice(i, 1);
-                    return;
+                    return true;
                 }
             }
+            return false;
         }
     }
 })();
