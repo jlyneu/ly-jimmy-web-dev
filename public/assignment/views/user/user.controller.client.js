@@ -43,13 +43,34 @@
         // is successfully registered, then navigate to their profile
         // page. Otherwise, display an error message.
         function register(user) {
-            if (user.username != null &&
-                user.password != null &&
-                user.password == user.verifyPassword) {
-                UserService.createUser(user);
-                $location.url("/user/" + user._id);
-            } else {
-                vm.alert = "unable to register user";
+            // temporarily remove any error messages
+            vm.error = "";
+
+            // first check for validation errors
+            if (!user.username) {
+                vm.error = "Username is required";
+            }
+            else if (!user.password) {
+                vm.error = "Password is required";
+            }
+            // make sure passwords match
+            else if (user.password !== user.verifyPassword) {
+                vm.error = "The provided passwords do not match";
+            }
+            // check to see that the username isn't already taken
+            else if (UserService.findUserByUsername(user.username)) {
+                vm.error = user.username + " is already taken"
+            }
+            // try creating user with the UserService. If registration
+            // is successful and a user is returned, then navigate to the
+            // profile page
+            else {
+                var newUser = UserService.createUser(user);
+                if (newUser) {
+                    $location.url("/user/" + newUser._id);
+                } else {
+                    vm.error = "Unable to register user. Please try again later";
+                }
             }
         }
     }
