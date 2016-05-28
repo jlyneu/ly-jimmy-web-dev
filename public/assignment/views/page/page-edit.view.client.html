@@ -12,8 +12,7 @@
                 Edit Page
             </div>
             <p class="navbar-text pull-right">
-                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page"
-                   class="navbar-link"
+                <a class="navbar-link"
                    ng-click="model.updatePage(model.page)">
                     <span class="glyphicon glyphicon-ok">
                     </span>
@@ -25,6 +24,9 @@
 
 
 <div class="container">
+    <div ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <form>
         <div class="form-group">
             <label for="name">Name</label>

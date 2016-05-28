@@ -21,7 +21,7 @@
     }
 
     // controller for the page-new.view.client.html template
-    function NewPageController($routeParams, PageService) {
+    function NewPageController($location, $routeParams, PageService) {
         var vm = this;
 
         // event handler declarations
@@ -34,14 +34,29 @@
         // initialize model.page object
         vm.page = {};
 
+        vm.error = "";
+
         // pass the given page to the PageService to create the new page
         function createPage(page) {
-            PageService.createPage(vm.websiteId, page);
+            vm.error = "";
+
+            if (!page.name) {
+                vm.error = "A page name is required";
+                return;
+            }
+
+            // route the user to the page-list page if page creation is successful
+            var newPage = PageService.createPage(vm.websiteId, page);
+            if (newPage) {
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+            } else {
+                vm.error = "Unable to create the new page. Please try again later";
+            }
         }
     }
 
     // controller for the page-edit.view.client.html template
-    function EditPageController($routeParams, PageService) {
+    function EditPageController($location, $routeParams, PageService) {
         var vm = this;
 
         // event handler declarations
@@ -52,6 +67,8 @@
         vm.userId = $routeParams["uid"];
         vm.websiteId = $routeParams["wid"];
         vm.pageId = $routeParams["pid"];
+
+        vm.error = "";
 
         // initialize the page by fetching the current page
         // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned page
@@ -64,7 +81,20 @@
 
         // pass the given page to the PageService to update the page
         function updatePage(page) {
-            PageService.updatePage(vm.pageId, page);
+            vm.error = "";
+
+            if (!page.name) {
+                vm.error = "A page name is required";
+                return;
+            }
+
+            // route the user to the page-list page if page update is successful
+            var updatedPage = PageService.updatePage(vm.pageId, page);
+            if (updatedPage) {
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+            } else {
+                vm.error = "Unable to update the page. Please try again later";
+            }
         }
 
         // use the PageService to delete the current page
