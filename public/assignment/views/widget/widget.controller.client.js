@@ -9,9 +9,9 @@
     function WidgetListController($routeParams, $sce, WidgetService) {
         var vm = this;
         
-        // function necessary for displaying YouTube videos within iframes
-        // when the url is an Angular.js data-bound value
-        vm.trustSrc = trustSrc;
+        // sanitize functions for html and urls
+        vm.getSafeHtml = getSafeHtml;
+        vm.getSafeUrl = getSafeUrl;
 
         // get various id route parameters from the current url
         vm.userId = $routeParams["uid"];
@@ -23,11 +23,22 @@
             vm.widgets = WidgetService.findWidgetsByPageId(vm.pageId);
         }
         init();
+        
+        // sanitize and return the html from the given HTML widget
+        // using the Strict Contextual Escaping (sce) module
+        function getSafeHtml(widget) {
+            return $sce.trustAsHtml(widget.text);
+        }
 
+        // parse the url from the given YouTube widget for the id,
+        // then return the embed url needed for an iframe to display the video.
         // use the Strict Contextual Escaping (sce) module to
         // allow YouTube url to be displayed in iframe
-        function trustSrc(src) {
-            return $sce.trustAsResourceUrl(src);
+        function getSafeUrl(widget) {
+            var urlParts = widget.url.split("/");
+            var id = urlParts[urlParts.length - 1];
+            var url = "https://www.youtube.com/embed/" + id;
+            return $sce.trustAsResourceUrl(url);
         }
     }
 
