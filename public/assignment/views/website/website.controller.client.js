@@ -20,7 +20,7 @@
     }
 
     // controller for the website-new.view.client.html template
-    function NewWebsiteController($routeParams, WebsiteService) {
+    function NewWebsiteController($location, $routeParams, WebsiteService) {
         var vm = this;
 
         // event handler declarations
@@ -32,9 +32,24 @@
         // initialize model.website object
         vm.website = {};
 
+        vm.error = "";
+
         // pass the given website to the WebsiteService to create the new website
         function createWebsite(website) {
-            WebsiteService.createWebsite(vm.userId, website);
+            vm.error = "";
+
+            if (!website.name) {
+                vm.error = "A website name is required";
+                return;
+            }
+
+            // route the user to the website-list page if website creation is successful
+            var newWebsite = WebsiteService.createWebsite(vm.userId, website);
+            if (newWebsite) {
+                $location.url("/user/" + vm.userId + "/website");
+            } else {
+                vm.error = "Unable to create a new website. Please try again later";
+            }
         }
     }
 
