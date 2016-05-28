@@ -19,11 +19,19 @@
         // based on the provided username and password. If the user exists,
         // then navigate to their profile page. Otherwise, display an error message.
         function login(user) {
-            user = UserService.findUserByCredentials(user.username, user.password);
-            if (user) {
-                $location.url("/user/" + user._id);
-            } else {
-                vm.alert = "unable to login";
+            if (!user.username) {
+                vm.error = "Username is required";
+            }
+            else if (!user.password) {
+                vm.error = "Password is required";
+            }
+            else {
+                user = UserService.findUserByCredentials(user.username, user.password);
+                if (user) {
+                    $location.url("/user/" + user._id);
+                } else {
+                    vm.error = "Unable to login";
+                }
             }
         }
 
@@ -55,7 +63,7 @@
             }
             // make sure passwords match
             else if (user.password !== user.verifyPassword) {
-                vm.error = "The provided passwords do not match";
+                vm.error = "Passwords do not match";
             }
             // check to see that the username isn't already taken
             else if (UserService.findUserByUsername(user.username)) {
