@@ -54,7 +54,7 @@
     }
 
     // controller for the website-edit.view.client.html template
-    function EditWebsiteController($routeParams, WebsiteService) {
+    function EditWebsiteController($location, $routeParams, WebsiteService) {
         var vm = this;
 
         // event handler declarations
@@ -64,6 +64,8 @@
         // get various id route parameters from the current url
         vm.userId = $routeParams["uid"];
         vm.websiteId = $routeParams["wid"];
+
+        vm.error = "";
         
         // initialize the page by fetching the current website
         // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned website
@@ -76,7 +78,20 @@
 
         // pass the given website to the WebsiteService to update the website
         function updateWebsite(website) {
-            WebsiteService.updateWebsite(vm.websiteId, vm.website);
+            vm.error = "";
+
+            if (!website.name) {
+                vm.error = "A website name is required";
+                return;
+            }
+
+            // route the user to the website-list page if website creation is successful
+            var updatedWebsite = WebsiteService.updateWebsite(vm.websiteId, vm.website);
+            if (updatedWebsite) {
+                $location.url("/user/" + vm.userId + "/website");
+            } else {
+                vm.error = "Unable to update the website. Please try again later";
+            }
         }
 
         // use the WebsiteService to delete the current website
