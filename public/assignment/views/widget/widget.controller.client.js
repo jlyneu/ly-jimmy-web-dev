@@ -8,14 +8,15 @@
     // controller for the widget-list.view.client.html template
     function WidgetListController($routeParams, $sce, WidgetService) {
         var vm = this;
+        
+        // function necessary for displaying YouTube videos within iframes
+        // when the url is an Angular.js data-bound value
+        vm.trustSrc = trustSrc;
+
         // get various id route parameters from the current url
         vm.userId = $routeParams["uid"];
         vm.websiteId = $routeParams["wid"];
         vm.pageId = $routeParams["pid"];
-
-        // function necessary for displaying YouTube videos within iframes
-        // when the url is an Angular.js data-bound value
-        vm.trustSrc = trustSrc;
 
         // initialize the page by fetching the pages for the current website
         function init() {
@@ -33,13 +34,14 @@
     // controller for the widget-chooser.view.client.html template
     function NewWidgetController($location, $routeParams, WidgetService) {
         var vm = this;
+
+        // event handler declarations
+        vm.createWidget = createWidget;
+
         // get various id route parameters from the current url
         vm.userId = $routeParams["uid"];
         vm.websiteId = $routeParams["wid"];
         vm.pageId = $routeParams["pid"];
-        
-        // event handler declarations
-        vm.createWidget = createWidget;
 
         // create a widget using the WidgetService with the given
         // widget type so that the edit-widget page will know which
@@ -64,15 +66,16 @@
     // controller for the widget-edit.view.client.html template
     function EditWidgetController($routeParams, WidgetService) {
         var vm = this;
+
+        // event handler declarations
+        vm.updateWidget = updateWidget;
+        vm.deleteWidget = deleteWidget;
+
         // get various id route parameters from the current url
         vm.userId = $routeParams["uid"];
         vm.websiteId = $routeParams["wid"];
         vm.pageId = $routeParams["pid"];
         vm.widgetId = $routeParams["wgid"];
-
-        // event handler declarations
-        vm.updateWidget = updateWidget;
-        vm.deleteWidget = deleteWidget;
 
         // initialize the page by fetching the current widget
         // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned widget

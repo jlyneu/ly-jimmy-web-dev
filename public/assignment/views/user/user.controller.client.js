@@ -57,12 +57,13 @@
     // controller for the profile.view.client.html template
     function ProfileController($routeParams, UserService) {
         var vm = this;
-        // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
 
         // event handler declarations
         vm.update = update;
 
+        // get various id route parameters from the current url
+        vm.userId = $routeParams["uid"];
+        
         // initialize the page by fetching the current user
         // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned user
         // so that modifying form elements won't automatically update the object in the

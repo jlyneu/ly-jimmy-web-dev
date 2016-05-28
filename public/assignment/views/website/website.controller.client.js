@@ -8,6 +8,7 @@
     // controller for the website-list.view.client.html template
     function WebsiteListController($routeParams, WebsiteService) {
         var vm = this;
+        
         // get various id route parameters from the current url
         vm.userId = $routeParams["uid"];
 
@@ -21,11 +22,12 @@
     // controller for the website-new.view.client.html template
     function NewWebsiteController($routeParams, WebsiteService) {
         var vm = this;
-        // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
 
         // event handler declarations
         vm.createWebsite = createWebsite;
+
+        // get various id route parameters from the current url
+        vm.userId = $routeParams["uid"];
 
         // initialize model.website object
         vm.website = {};
@@ -39,13 +41,14 @@
     // controller for the website-edit.view.client.html template
     function EditWebsiteController($routeParams, WebsiteService) {
         var vm = this;
-        // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
-        
+
         // event handler declarations
         vm.updateWebsite = updateWebsite;
         vm.deleteWebsite = deleteWebsite;
+
+        // get various id route parameters from the current url
+        vm.userId = $routeParams["uid"];
+        vm.websiteId = $routeParams["wid"];
         
         // initialize the page by fetching the current website
         // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned website

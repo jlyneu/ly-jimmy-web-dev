@@ -8,6 +8,7 @@
     // controller for the page-list.view.client.html template
     function PageListController($routeParams, PageService) {
         var vm = this;
+
         // get various id route parameters from the current url
         vm.userId = $routeParams["uid"];
         vm.websiteId = $routeParams["wid"];
@@ -22,12 +23,13 @@
     // controller for the page-new.view.client.html template
     function NewPageController($routeParams, PageService) {
         var vm = this;
-        // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
 
         // event handler declarations
         vm.createPage = createPage;
+
+        // get various id route parameters from the current url
+        vm.userId = $routeParams["uid"];
+        vm.websiteId = $routeParams["wid"];
 
         // initialize model.page object
         vm.page = {};
@@ -41,14 +43,15 @@
     // controller for the page-edit.view.client.html template
     function EditPageController($routeParams, PageService) {
         var vm = this;
-        // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
-        vm.pageId = $routeParams["pid"];
 
         // event handler declarations
         vm.updatePage = updatePage;
         vm.deletePage = deletePage;
+
+        // get various id route parameters from the current url
+        vm.userId = $routeParams["uid"];
+        vm.websiteId = $routeParams["wid"];
+        vm.pageId = $routeParams["pid"];
 
         // initialize the page by fetching the current page
         // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned page
