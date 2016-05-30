@@ -10,7 +10,7 @@
         var vm = this;
         
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
+        vm.userId = $routeParams["userId"];
 
         // initialize the page by fetching the websites for the current user
         function init() {
@@ -27,7 +27,7 @@
         vm.createWebsite = createWebsite;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
+        vm.userId = $routeParams["userId"];
 
         // initialize model.website object
         vm.website = {};
@@ -62,8 +62,8 @@
         vm.deleteWebsite = deleteWebsite;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
+        vm.userId = $routeParams["userId"];
+        vm.websiteId = $routeParams["websiteId"];
 
         vm.error = "";
         

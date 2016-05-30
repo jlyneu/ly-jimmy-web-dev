@@ -14,9 +14,9 @@
         vm.getSafeUrl = getSafeUrl;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
-        vm.pageId = $routeParams["pid"];
+        vm.userId = $routeParams["userId"];
+        vm.websiteId = $routeParams["websiteId"];
+        vm.pageId = $routeParams["pageId"];
 
         // initialize the page by fetching the pages for the current website
         function init() {
@@ -50,9 +50,9 @@
         vm.createWidget = createWidget;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
-        vm.pageId = $routeParams["pid"];
+        vm.userId = $routeParams["userId"];
+        vm.websiteId = $routeParams["websiteId"];
+        vm.pageId = $routeParams["pageId"];
 
         vm.error = "";
 
@@ -87,10 +87,10 @@
         vm.deleteWidget = deleteWidget;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
-        vm.pageId = $routeParams["pid"];
-        vm.widgetId = $routeParams["wgid"];
+        vm.userId = $routeParams["userId"];
+        vm.websiteId = $routeParams["websiteId"];
+        vm.pageId = $routeParams["pageId"];
+        vm.widgetId = $routeParams["widgetId"];
 
         vm.error = "";
 

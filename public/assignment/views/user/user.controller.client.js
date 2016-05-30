@@ -98,7 +98,7 @@
         vm.update = update;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
+        vm.userId = $routeParams["userId"];
 
         vm.success = "";
         vm.error = "";

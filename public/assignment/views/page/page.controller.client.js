@@ -10,8 +10,8 @@
         var vm = this;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
+        vm.userId = $routeParams["userId"];
+        vm.websiteId = $routeParams["websiteId"];
 
         // initialize the page by fetching the pages for the current website
         function init() {
@@ -28,8 +28,8 @@
         vm.createPage = createPage;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
+        vm.userId = $routeParams["userId"];
+        vm.websiteId = $routeParams["websiteId"];
 
         // initialize model.page object
         vm.page = {};
@@ -64,9 +64,9 @@
         vm.deletePage = deletePage;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["uid"];
-        vm.websiteId = $routeParams["wid"];
-        vm.pageId = $routeParams["pid"];
+        vm.userId = $routeParams["userId"];
+        vm.websiteId = $routeParams["websiteId"];
+        vm.pageId = $routeParams["pageId"];
 
         vm.error = "";
 
