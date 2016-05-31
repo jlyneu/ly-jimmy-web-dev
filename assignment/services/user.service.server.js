@@ -9,29 +9,86 @@ module.exports = function(app) {
 
     // declare the API
     app.post("/api/user", createUser);
-    //app.get("/api/user", findUserByUsername);
-    app.get("/api/user", findUserByCredentials);
+    app.get("/api/user", getUsers);
     app.get("/api/user/:userId", findUserById);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
 
     function createUser(req, res) {
-
+        var user = req.body;
+        user['_id'] = (new Date()).getTime().toString();
+        users.push(user);
+        res.json(user);
     }
 
-    function findUserByCredentials(req, res) {
-        
+    function getUsers(req, res) {
+        var username = req.query['username'];
+        var password = req.query['password'];
+        if (username && password) {
+            findUserByCredentials(username, password, res);
+        } else if (username) {
+            findUserByUsername(username, res);
+        } else {
+            res.send(users);
+        }
+    }
+
+    function findUserByUsername(username, res) {
+        for (var i in users) {
+            if (users[i]['username'] === username) {
+                res.json(users[i]);
+                return;
+            }
+        }
+        res.json({});
+    }
+
+    function findUserByCredentials(username, password, res) {
+        for (var i in users) {
+            if (users[i]['username'] === username &&
+                users[i]['password'] === password) {
+                res.json(users[i]);
+                return;
+            }
+        }
+        res.json({});
     }
 
     function findUserById(req, res) {
-
+        var userId = req.params['userId'];
+        for (var i in users) {
+            if (users[i]['_id'] === userId) {
+                res.json(users[i]);
+                return;
+            }
+        }
+        res.json({});
     }
 
     function updateUser(req, res) {
-
+        var userId = req.params['userId'];
+        var user = req.body;
+        for (var i in users) {
+            if (users[i]['_id'] === userId) {
+                users[i].email = user.email;
+                users[i].firstName = user.firstName;
+                users[i].lastName = user.lastName;
+                res.json(user);
+                return;
+            }
+        }
+        res.json({});
     }
 
     function deleteUser(req, res) {
-
+        var userId = req.params['userId'];
+        for (var i in users) {
+            if (users[i]['_id'] === userId) {
+                users.splice(i, 1);
+                res.send(true);
+                return;
+            }
+        }
+        res.send(false);
     }
 };
