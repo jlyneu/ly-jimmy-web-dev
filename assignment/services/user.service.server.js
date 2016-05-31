@@ -29,7 +29,7 @@ module.exports = function(app) {
         } else if (username) {
             findUserByUsername(username, res);
         } else {
-            res.send(users);
+            res.json(users);
         }
     }
 
