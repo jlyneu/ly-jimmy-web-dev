@@ -2,7 +2,7 @@
     angular
         .module("WebAppMaker")
         .factory("UserService", UserService);
-    function UserService() {
+    function UserService($http) {
         var users = [
             {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder"  },
             {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley"  },
@@ -22,70 +22,44 @@
         // adds the user parameter instance to the local users array.
         // return the user if creation was successful, otherwise return null.
         function createUser(user) {
-            user['_id'] = (new Date()).getTime().toString();
-            users.push(user);
-            return user;
+            var url = "/api/user";
+            return $http.post(url, user);
         }
 
         // returns the user in the local users array whose _id matches
         // the userId parameter
         function findUserById(userId) {
-            for (var i in users) {
-                if (users[i]['_id'] === userId) {
-                    return users[i];
-                }
-            }
-            return null;
+            var url = "/api/user/" + userId;
+            return $http.get(url);
         }
 
         // returns the user in local users array whose username matches
         // the parameter username
         function findUserByUsername(username) {
-            for (var i in users) {
-                if (users[i]['username'] === username) {
-                    return users[i];
-                }
-            }
-            return null;
+            var url = "/api/user?username=" + username;
+            return $http.get(url);
         }
 
         // returns the user whose username and password match
         // the username and password parameters
         function findUserByCredentials(username, password) {
-            for (var i in users) {
-                if (users[i]['username'] === username &&
-                    users[i]['password'] === password) {
-                    return users[i];
-                }
-            }
-            return null;
+            var url = "/api/user?username=" + username + "&password=" + password;
+            return $http.get(url);
         }
 
         // updates the user in local users array whose _id matches
         // the userId parameter.
         // return the user if update was successful, otherwise return null.
         function updateUser(userId, user) {
-            for (var i in users) {
-                if (users[i]['_id'] === userId) {
-                    users[i].email = user.email;
-                    users[i].firstName = user.firstName;
-                    users[i].lastName = user.lastName;
-                    return user;
-                }
-            }
-            return null;
+            var url = "/api/user/" + userId;
+            return $http.put(url, user);
         }
 
         // removes the user whose _id matches the userId parameter.
         // return true if the deletion was successful, otherwise return false.
         function deleteUser(userId) {
-            for (var i in users) {
-                if (users[i]['_id'] === userId) {
-                    users.splice(i, 1);
-                    return true;
-                }
-            }
-            return false;
+            var url = "/api/user/" + userId;
+            return $http.delete(url);
         }
     }
 })();
