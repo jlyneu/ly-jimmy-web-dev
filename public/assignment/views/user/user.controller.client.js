@@ -31,12 +31,21 @@
                 vm.error = "Password is required";
             }
             else {
-                user = UserService.findUserByCredentials(user.username, user.password);
-                if (user) {
-                    $location.url("/user/" + user._id);
-                } else {
-                    vm.error = "Unable to login";
-                }
+                UserService
+                    .findUserByCredentials(user.username, user.password)
+                    .then(
+                        function(response) {
+                            var existingUser = response.data;
+                            if (!$.isEmptyObject(existingUser)) {
+                                $location.url("/user/" + existingUser._id);
+                            } else {
+                                vm.error = "The provided username and password combination is invalid";
+                            }
+                        },
+                        function(error) {
+                            vm.error = "Unable to login";
+                        }
+                    );
             }
         }
 
@@ -60,7 +69,6 @@
         function register(user) {
             // temporarily remove any error messages
             vm.error = "";
-
             // first check for validation errors
             if (!user.username) {
                 vm.error = "Username is required";
@@ -71,21 +79,36 @@
             // make sure passwords match
             else if (user.password !== user.verifyPassword) {
                 vm.error = "Passwords do not match";
-            }
-            // check to see that the username isn't already taken
-            else if (UserService.findUserByUsername(user.username)) {
-                vm.error = user.username + " is already taken"
-            }
-            // try creating user with the UserService. If registration
-            // is successful and a user is returned, then navigate to the
-            // profile page
-            else {
-                var newUser = UserService.createUser(user);
-                if (newUser) {
-                    $location.url("/user/" + newUser._id);
-                } else {
-                    vm.error = "Unable to register user. Please try again later";
-                }
+            } else {
+                UserService
+                    .findUserByUsername(user.username)
+                    .then(
+                        function (response) {
+                            var existingUser = response.data;
+                            if (!$.isEmptyObject(existingUser)) {
+                                vm.error = user.username + " is already taken";
+                            } else {
+                                UserService
+                                    .createUser(user)
+                                    .then(
+                                        function(response) {
+                                            var newUser = response.data;
+                                            if (!$.isEmptyObject(newUser)) {
+                                                $location.url("/user/" + newUser._id);
+                                            } else {
+                                                vm.error = "Unable to register user. Please try again later";
+                                            }
+                                        },
+                                        function(error) {
+                                            vm.error = "Unable to register user. Please try again later";
+                                        }
+                                    );
+                            }
+                        },
+                        function(error) {
+                            vm.error = "Unable to register user. Please try again later";
+                        }
+                    );
             }
         }
     }
@@ -108,7 +131,21 @@
         // so that modifying form elements won't automatically update the object in the
         // list in the UserService. This won't be necessary once the client is talking to the Node server
         function init() {
-            vm.user = JSON.parse(JSON.stringify(UserService.findUserById(vm.userId)));
+            UserService
+                .findUserById(vm.userId)
+                .then(
+                    function(response) {
+                        var user = response.data;
+                        if (!$.isEmptyObject(user)) {
+                            vm.user = user;
+                        } else {
+                            vm.user = {};
+                        }
+                    },
+                    function(error) {
+                        vm.user = {};
+                    }
+                );
         }
         init();
 
@@ -124,12 +161,21 @@
                 vm.error = "Please provide a valid email address";
                 return;
             }
-            var updatedUser = UserService.updateUser(vm.userId, user);
-            if (updatedUser) {
-                vm.success = "Profile successfully updated";
-            } else {
-                vm.error = "Unable to update profile. Please try again later"
-            }
+            UserService
+                .updateUser(vm.userId, user)
+                .then(
+                    function(response) {
+                        var user = response.data;
+                        if (!$.isEmptyObject(user)) {
+                            vm.success = "Profile successfully updated";
+                        } else {
+                            vm.error = "Unable to update profile. Please try again later";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to update profile. Please try again later";
+                    }
+                );
         }
     }
 })();
