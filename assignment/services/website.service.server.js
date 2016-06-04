@@ -50,7 +50,6 @@ module.exports = function(app) {
     function updateWebsite(req, res) {
         var websiteId = req.params['websiteId'];
         var website = req.body;
-        console.log(website);
 
         for (var i in websites) {
             if (websites[i]['_id'] === websiteId) {
