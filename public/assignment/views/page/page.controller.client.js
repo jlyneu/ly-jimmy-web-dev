@@ -15,7 +15,21 @@
 
         // initialize the page by fetching the pages for the current website
         function init() {
-            vm.pages = PageService.findPagesByWebsiteId(vm.websiteId);
+            PageService
+                .findPagesByWebsiteId(vm.websiteId)
+                .then(
+                    function(response) {
+                        var existingPages = response.data;
+                        if (existingPages) {
+                            vm.pages = existingPages;
+                        } else {
+                            vm.error = "Unable to fetch pages. Please try again later.";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to fetch pages. Please try again later.";
+                    }
+                )
         }
         init();
     }
@@ -46,12 +60,21 @@
             }
 
             // route the user to the page-list page if page creation is successful
-            var newPage = PageService.createPage(vm.websiteId, page);
-            if (newPage) {
-                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
-            } else {
-                vm.error = "Unable to create the new page. Please try again later";
-            }
+            PageService
+                .createPage(vm.websiteId, page)
+                .then(
+                    function(response) {
+                        var newPage = response.data;
+                        if (!$.isEmptyObject(newPage)) {
+                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+                        } else {
+                            vm.error = "Unable to create the new page. Please try again later";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to create the new page. Please try again later";
+                    }
+                );
         }
     }
 
@@ -75,7 +98,21 @@
         // so that modifying form elements won't automatically update the object in the
         // list in the PageService. This won't be necessary once the client is talking to the Node server
         function init() {
-            vm.page = JSON.parse(JSON.stringify(PageService.findPageById(vm.pageId)));
+            PageService
+                .findPageById(vm.pageId)
+                .then(
+                    function(response) {
+                        var existingPage = response.data;
+                        if (!$.isEmptyObject(existingPage)) {
+                            vm.page = existingPage;
+                        } else {
+                            vm.error = "The page could not be fetched. Please try again later.";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "The page could not be fetched. Please try again later.";
+                    }
+                );
         }
         init();
 
@@ -89,17 +126,40 @@
             }
 
             // route the user to the page-list page if page update is successful
-            var updatedPage = PageService.updatePage(vm.pageId, page);
-            if (updatedPage) {
-                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
-            } else {
-                vm.error = "Unable to update the page. Please try again later";
-            }
+            PageService
+                .updatePage(vm.pageId, page)
+                .then(
+                    function(response) {
+                        var existingPage = response.data;
+                        if (!$.isEmptyObject(existingPage)) {
+                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+                        } else {
+                            vm.error = "Unable to update the page. Please try again later";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to update the page. Please try again later";
+                    }
+                );
         }
 
         // use the PageService to delete the current page
         function deletePage() {
-            PageService.deletePage(vm.pageId);
+            PageService
+                .deletePage(vm.pageId)
+                .then(
+                    function(response) {
+                        var isDeleted = response.data;
+                        if (isDeleted) {
+                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+                        } else {
+                            vm.error = "Unable to delete the page. Please try again later";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to delete the page. Please try again later";
+                    }
+                );
         }
     }
 })();
