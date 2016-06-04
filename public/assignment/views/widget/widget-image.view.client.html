@@ -26,7 +26,6 @@
     <div ng-if="model.error" class="alert alert-danger">
         {{model.error}}
     </div>
-    <!--<form>-->
         <div class="form-group">
             <label for="name">Name</label>
             <input ng-model="model.widget.name"
@@ -69,7 +68,8 @@
             <input  name="widgetId"  value="{{model.widget._id}}"   style="display: none"/>
             <button type="submit"    class="btn btn-block btn-primary">Upload Image</button>
         </form>
-    <!--</form>-->
+    <a class="btn btn-success btn-block"
+       href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{model.widgetId}}/search">Search</a>
     <a class="btn btn-danger btn-block"
        ng-click="model.deleteWidget()">Delete</a>
 </div>

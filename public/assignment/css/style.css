@@ -4,7 +4,7 @@ input.form-control {
 
 button.btn {
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 body {
@@ -33,4 +33,16 @@ div.widget-edit {
     position: absolute;
     right: 0;
     top: 0;
+}
+
+div.flickr-row {
+    padding: 0 15px;
+}
+
+div.flickr-img {
+    padding: 0;
+}
+
+div.flickr-img img {
+    width: 100%;
 }
