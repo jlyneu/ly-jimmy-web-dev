@@ -15,6 +15,21 @@
         // initialize the page by fetching the websites for the current user
         function init() {
             vm.websites = WebsiteService.findWebsitesByUser(vm.userId);
+            WebsiteService
+                .findWebsitesByUser(vm.userId)
+                .then(
+                    function(response) {
+                        var existingWebsites = response.data;
+                        if (existingWebsites) {
+                            vm.websites = existingWebsites;
+                        } else {
+                            vm.error = "Your websites could not be fetched from the server. Please try again later.";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Your websites could not be fetched from the server. Please try again later.";
+                    }
+                );
         }
         init();
     }
@@ -44,12 +59,21 @@
             }
 
             // route the user to the website-list page if website creation is successful
-            var newWebsite = WebsiteService.createWebsite(vm.userId, website);
-            if (newWebsite) {
-                $location.url("/user/" + vm.userId + "/website");
-            } else {
-                vm.error = "Unable to create a new website. Please try again later";
-            }
+            WebsiteService
+                .createWebsite(vm.userId, website)
+                .then(
+                    function(response) {
+                        var newWebsite = response.data;
+                        if (!$.isEmptyObject(newWebsite)) {
+                            $location.url("/user/" + vm.userId + "/website");
+                        } else {
+                            vm.error = "Unable to create a new website. Please try again later";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to create a new website. Please try again later";
+                    }
+                );
         }
     }
 
@@ -72,7 +96,19 @@
         // so that modifying form elements won't automatically update the object in the
         // list in the WebsiteService. This won't be necessary once the client is talking to the Node server
         function init() {
-            vm.website = JSON.parse(JSON.stringify(WebsiteService.findWebsiteById(vm.websiteId)));
+            WebsiteService
+                .findWebsiteById(vm.websiteId)
+                .then(
+                    function(response) {
+                        var existingWebsite = response.data;
+                        if (!$.isEmptyObject(existingWebsite)) {
+                            vm.website = existingWebsite;
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Cannot fetch the website at this time. Please try again later.";
+                    }
+                );
         }
         init();
 
@@ -87,16 +123,42 @@
 
             // route the user to the website-list page if website creation is successful
             var updatedWebsite = WebsiteService.updateWebsite(vm.websiteId, vm.website);
-            if (updatedWebsite) {
-                $location.url("/user/" + vm.userId + "/website");
-            } else {
-                vm.error = "Unable to update the website. Please try again later";
-            }
+            WebsiteService
+                .updateWebsite(vm.websiteId, vm.website)
+                .then(
+                    function(response) {
+                        var existingWebsite = response.data;
+                        console.log(existingWebsite);
+                        if (!$.isEmptyObject(existingWebsite)) {
+                            $location.url("/user/" + vm.userId + "/website");
+                        } else {
+                            vm.error = "Unable to update the website. Please try again later";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to update the website. Please try again later";
+                    }
+                );
         }
 
         // use the WebsiteService to delete the current website
         function deleteWebsite() {
-            WebsiteService.deleteWebsite(vm.websiteId);
+            WebsiteService
+                .deleteWebsite(vm.websiteId)
+                .then(
+                    function(response) {
+                        var isDeleted = response.data;
+                        if (isDeleted) {
+                            $location.url("/user/" + vm.userId + "/website");
+                        } else {
+                            vm.error = "Unable to delete the website. Please try again later";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to update the website. Please try again later";
+                    }
+                );
+
         }
     }
 })();
