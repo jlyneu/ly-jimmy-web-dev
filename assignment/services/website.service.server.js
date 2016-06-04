@@ -68,6 +68,7 @@ module.exports = function(app) {
             if (websites[i]['_id'] === websiteId) {
                 websites.splice(i, 1);
                 res.send(true);
+                return;
             }
         }
         res.send(false);

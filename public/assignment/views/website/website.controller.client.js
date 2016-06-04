@@ -128,7 +128,6 @@
                 .then(
                     function(response) {
                         var existingWebsite = response.data;
-                        console.log(existingWebsite);
                         if (!$.isEmptyObject(existingWebsite)) {
                             $location.url("/user/" + vm.userId + "/website");
                         } else {
