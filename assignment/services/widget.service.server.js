@@ -15,27 +15,63 @@ module.exports = function(app) {
     // declare the API
     app.post("/api/page/:pageId/widget", createWidget);
     app.get("/api/page/:pageId/widget", findAllWidgetsForPage);
-    app.get("/api/widget/:wigetId", findWidgetById);
+    app.get("/api/widget/:widgetId", findWidgetById);
     app.put("/api/widget/:widgetId", updateWidget);
     app.delete("/api/widget/:widgetId", deleteWidget);
 
     function createWidget(req, res) {
-
+        var pageId = req.params["pageId"];
+        var widget = req.body;
+        widget["_id"] = (new Date()).getTime().toString();
+        widget["pageId"] = pageId;
+        widgets.push(widget);
+        res.json(widget);
     }
 
     function findAllWidgetsForPage(req, res) {
-
+        var pageId = req.params["pageId"];
+        pageWidgets = [];
+        for (var i in widgets) {
+            if (widgets[i]['pageId'] === pageId) {
+                pageWidgets.push(widgets[i]);
+            }
+        }
+        res.json(pageWidgets);
     }
 
     function findWidgetById(req, res) {
-
+        var widgetId = req.params["widgetId"];
+        for (var i in widgets) {
+            if (widgets[i]['_id'] === widgetId) {
+                res.json(widgets[i]);
+                return;
+            }
+        }
+        res.json({});
     }
 
     function updateWidget(req, res) {
-
+        var widgetId = req.params["widgetId"];
+        var widget = req.body;
+        for (var i in widgets) {
+            if (widgets[i]['_id'] === widgetId) {
+                widgets[i] = widget;
+                res.json(widget);
+                return;
+            }
+        }
+        res.json({});
     }
 
     function deleteWidget(req, res) {
-
+        var widgetId = req.params["widgetId"];
+        for (var i in widgets) {
+            if (widgets[i]['_id'] === widgetId) {
+                widgets.splice(i, 1);
+                res.send(true);
+                return;
+            }
+        }
+        res.send(false);
     }
 };

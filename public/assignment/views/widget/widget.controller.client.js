@@ -20,7 +20,21 @@
 
         // initialize the page by fetching the pages for the current website
         function init() {
-            vm.widgets = WidgetService.findWidgetsByPageId(vm.pageId);
+            WidgetService
+                .findWidgetsByPageId(vm.pageId)
+                .then(
+                    function(response) {
+                        var existingWidgets = response.data;
+                        if (existingWidgets) {
+                            vm.widgets = existingWidgets;
+                        } else {
+                            vm.error = "Could not fetch the widgets. Please try again later.";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Could not fetch the widgets. Please try again later.";
+                    }
+                );
         }
         init();
         
@@ -68,13 +82,21 @@
             var widget = {
                 "widgetType": widgetType
             };
-            widget = WidgetService.createWidget(vm.pageId, widget);
-
-            if (widget) {
-                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget/" + widget['_id']);
-            } else {
-                vm.error = "Unable to create widget. Please try again later";
-            }
+            WidgetService
+                .createWidget(vm.pageId, widget)
+                .then(
+                    function(response) {
+                        var newWidget = response.data;
+                        if (!$.isEmptyObject(newWidget)) {
+                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget/" + newWidget["_id"]);
+                        } else {
+                            vm.error = "Unable to create widget. Please try again later";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to create widget. Please try again later.";
+                    }
+                );
         }
     }
 
@@ -99,7 +121,21 @@
         // so that modifying form elements won't automatically update the object in the
         // list in the WidgetService. This won't be necessary once the client is talking to the Node server
         function init() {
-            vm.widget = JSON.parse(JSON.stringify(WidgetService.findWidgetById(vm.widgetId)));
+            WidgetService
+                .findWidgetById(vm.widgetId)
+                .then(
+                    function(response) {
+                        var existingWidget = response.data;
+                        if (!$.isEmptyObject(existingWidget)) {
+                            vm.widget = existingWidget;
+                        } else {
+                            vm.error = "Could not fetch the widget. Please try again later.";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Could not fetch the widget. Please try again later.";
+                    }
+                );
         }
         init();
 
@@ -127,17 +163,40 @@
                 }
             }
 
-            var updatedWidget = WidgetService.updateWidget(vm.widgetId, widget);
-            if (updatedWidget) {
-                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
-            } else {
-                vm.error = "Unable to update the widget. Please try again later";
-            }
+            WidgetService
+                .updateWidget(vm.widgetId, widget)
+                .then(
+                    function(response) {
+                        var existingWidget = response.data;
+                        if (!$.isEmptyObject(existingWidget)) {
+                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
+                        } else {
+                            vm.error = "Unable to update the widget. Please try again later.";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to update the widget. Please try again later.";
+                    }
+                );
         }
 
         // use the WidgetService to delete the current widget
         function deleteWidget() {
-            WidgetService.deleteWidget(vm.widgetId);
+            WidgetService
+                .deleteWidget(vm.widgetId)
+                .then(
+                    function(response) {
+                        var isDeleted = response.data;
+                        if (isDeleted) {
+                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
+                        } else {
+                            vm.error = "Unable to delete the widget. Please try again later.";
+                        }
+                    },
+                    function(error) {
+                        vm.error = "Unable to delete the widget. Please try again later.";
+                    }
+                );
         }
     }
 })();
