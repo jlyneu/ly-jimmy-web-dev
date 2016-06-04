@@ -1,4 +1,6 @@
 module.exports = function(app) {
+    var multer = require('multer');
+    var upload = multer({ dest: __dirname + '/../../public/uploads' });
 
     var widgets = [
         { "_id": "123", "widgetType": "HEADER", "pageId": "321", "size": 2, "text": "GIZMODO"},
@@ -13,11 +15,37 @@ module.exports = function(app) {
     ];
 
     // declare the API
+    app.post("/api/upload", upload.single("myFile"), uploadImage);
     app.post("/api/page/:pageId/widget", createWidget);
     app.get("/api/page/:pageId/widget", findAllWidgetsForPage);
     app.get("/api/widget/:widgetId", findWidgetById);
     app.put("/api/widget/:widgetId", updateWidget);
     app.delete("/api/widget/:widgetId", deleteWidget);
+
+
+    function uploadImage(req, res) {
+        var userId        = req.body.userId;
+        var websiteId     = req.body.websiteId;
+        var pageId        = req.body.pageId;
+        var widgetId      = req.body.widgetId;
+        var width         = req.body.width;
+        var myFile        = req.file;
+
+        var originalname  = myFile.originalname; // file name on user's computer
+        var filename      = myFile.filename;     // new file name in upload folder
+        var path          = myFile.path;         // full path of uploaded file
+        var destination   = myFile.destination;  // folder where file is saved to
+        var size          = myFile.size;
+        var mimetype      = myFile.mimetype;
+
+        for (var i in widgets) {
+            if (widgets[i]['_id'] === widgetId) {
+                widgets[i].url = "/uploads/" + filename;
+
+            }
+        }
+        res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+    }
 
     function createWidget(req, res) {
         var pageId = req.params["pageId"];
