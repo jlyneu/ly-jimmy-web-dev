@@ -14,6 +14,9 @@
         };
         return api;
 
+        // return a promise for finding Flickr photos related to the provided
+        // search term. if the search was successful, then the promise will resolve
+        // with the relevant photos. otherwise, the promise will resolve with an error.
         function searchPhotos(searchTerm) {
             var url = urlBase.replace("API_KEY", key).replace("TEXT", searchTerm);
             return $http.get(url);
