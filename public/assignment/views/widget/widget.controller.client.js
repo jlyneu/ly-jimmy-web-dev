@@ -22,23 +22,7 @@
         function init() {
             WidgetService
                 .findWidgetsByPageId(vm.pageId)
-                .then(
-                    function(response) {
-                        var existingWidgets = response.data;
-                        if (existingWidgets) {
-                            vm.widgets = existingWidgets;
-                            // make the widgets sortable on the page on drag
-                            $(".container").sortable({
-                                axis: "y"
-                            });
-                        } else {
-                            vm.error = "Could not fetch the widgets. Please try again later.";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Could not fetch the widgets. Please try again later.";
-                    }
-                );
+                .then(findWidgetsByPageIdSuccess, findWidgetsByPageIdError);
         }
         init();
         
@@ -57,6 +41,31 @@
             var id = urlParts[urlParts.length - 1];
             var url = "https://www.youtube.com/embed/" + id;
             return $sce.trustAsResourceUrl(url);
+        }
+
+        // a 200 was returned from the server, so the widgets should have been found.
+        // the existing widgets should be returned from the server. if so, then populate the widget list.
+        // otherwise, something went wrong so display an error.
+        function findWidgetsByPageIdSuccess(response) {
+            var existingWidgets = response.data;
+            if (existingWidgets) {
+                vm.widgets = existingWidgets;
+                // make the widgets sortable on the page on drag
+                $(".container").sortable({
+                    axis: "y"
+                });
+            } else {
+                vm.error = "Could not fetch the widgets. Please try again later.";
+            }
+        }
+
+        // display error message from server if provided
+        function findWidgetsByPageIdError(error) {
+            if (error.data && error.data.message) {
+                vm.error = error.data.message;
+            } else {
+                vm.error = "Could not fetch the widgets. Please try again later.";
+            }
         }
     }
 
@@ -88,19 +97,27 @@
             };
             WidgetService
                 .createWidget(vm.pageId, widget)
-                .then(
-                    function(response) {
-                        var newWidget = response.data;
-                        if (!$.isEmptyObject(newWidget)) {
-                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget/" + newWidget["_id"]);
-                        } else {
-                            vm.error = "Unable to create widget. Please try again later";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Unable to create widget. Please try again later.";
-                    }
-                );
+                .then(createWidgetSuccess, createWidgetError);
+        }
+
+        // a 200 was returned from the server, so widget creation should be successful.
+        // the new widget should be returned from the server. if so, then route to the widget edit page.
+        // otherwise, something went wrong so display an error.
+        function createWidgetSuccess(response) {
+            var newWidget = response.data;
+            if (!$.isEmptyObject(newWidget)) {
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget/" + newWidget["_id"]);
+            } else {
+                vm.error = "Unable to create widget. Please try again later";
+            }
+        }
+
+        function createWidgetError(error) {
+            if (error.data && error.data.message) {
+                vm.error = error.data.message;
+            } else {
+                vm.error = "Unable to create widget. Please try again later.";
+            }
         }
     }
 
@@ -121,25 +138,10 @@
         vm.error = "";
 
         // initialize the page by fetching the current widget
-        // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned widget
-        // so that modifying form elements won't automatically update the object in the
-        // list in the WidgetService. This won't be necessary once the client is talking to the Node server
         function init() {
             WidgetService
                 .findWidgetById(vm.widgetId)
-                .then(
-                    function(response) {
-                        var existingWidget = response.data;
-                        if (!$.isEmptyObject(existingWidget)) {
-                            vm.widget = existingWidget;
-                        } else {
-                            vm.error = "Could not fetch the widget. Please try again later.";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Could not fetch the widget. Please try again later.";
-                    }
-                );
+                .then(findWidgetByIdSuccess, findWidgetsByIdError);
         }
         init();
 
@@ -147,60 +149,100 @@
         function updateWidget(widget) {
             vm.error = "";
 
+            // check validation first
             if (widget.widgetType === "HEADER") {
                 if (!widget.text) {
-                    vm.error = "Header text is required";
+                    vm.error = "Header text is required.";
                     return;
                 } else if (!widget.size) {
-                    vm.error = "Header size is required";
+                    vm.error = "Header size is required.";
                     return;
                 }
             } else if (widget.widgetType === "IMAGE") {
                 if (!widget.url) {
-                    vm.error = "Image URL is required";
+                    vm.error = "Image URL is required.";
                     return;
                 }
             } else if (widget.widgetType === "YOUTUBE") {
                 if (!widget.url) {
-                    vm.error = "YouTube URL is required";
+                    vm.error = "YouTube URL is required.";
                     return;
                 }
             }
 
             WidgetService
                 .updateWidget(vm.widgetId, widget)
-                .then(
-                    function(response) {
-                        var existingWidget = response.data;
-                        if (!$.isEmptyObject(existingWidget)) {
-                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
-                        } else {
-                            vm.error = "Unable to update the widget. Please try again later.";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Unable to update the widget. Please try again later.";
-                    }
-                );
+                .then(updateWidgetSuccess, updateWidgetError);
         }
 
         // use the WidgetService to delete the current widget
         function deleteWidget() {
             WidgetService
                 .deleteWidget(vm.widgetId)
-                .then(
-                    function(response) {
-                        var isDeleted = response.data;
-                        if (isDeleted) {
-                            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
-                        } else {
-                            vm.error = "Unable to delete the widget. Please try again later.";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Unable to delete the widget. Please try again later.";
-                    }
-                );
+                .then(deleteWidgetSuccess, deleteWidgetError);
+        }
+
+        // a 200 was returned from the server, so the widget should have been found.
+        // the existing widget should be returned from the server. if so, then populate the input fields.
+        // otherwise, something went wrong so display an error.
+        function findWidgetByIdSuccess(response) {
+            var existingWidget = response.data;
+            if (!$.isEmptyObject(existingWidget)) {
+                vm.widget = existingWidget;
+            } else {
+                vm.error = "Could not fetch the widget. Please try again later.";
+            }
+        }
+
+        // display error message from server if provided
+        function findWidgetsByIdError(error) {
+            if (error.data && error.data.message) {
+                vm.error = err.data.message;
+            } else {
+                vm.error = "Could not fetch the widget. Please try again later.";
+            }
+        }
+
+        // a 200 was returned from the server, so update should be successful.
+        // the updated widget should be returned from the server. if so, then route to the widget list page.
+        // otherwise, something went wrong so display an error.
+        function updateWidgetSuccess(response) {
+            var existingWidget = response.data;
+            if (!$.isEmptyObject(existingWidget)) {
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
+            } else {
+                vm.error = "Unable to update the widget. Please try again later.";
+            }
+        }
+
+        // display error message from server if provided
+        function updateWidgetError(error) {
+            if (error.data && error.data.message) {
+                vm.error = error.data.message;
+            } else {
+                vm.error = "Unable to update the widget. Please try again later.";
+            }
+        }
+
+        // a 200 was returned from the server, so delete should be successful.
+        // 'true' should be returned from the server. if so, then route to the widget list page.
+        // otherwise, something went wrong so display an error.
+        function deleteWidgetSuccess(response) {
+            var isDeleted = response.data;
+            if (isDeleted) {
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
+            } else {
+                vm.error = "Unable to delete the widget. Please try again later.";
+            }
+        }
+
+        // display error message from server if provided
+        function deleteWidgetError(error) {
+            if (error.data && error.data.message) {
+                vm.error = error.data.message;
+            } else {
+                vm.error = "Unable to delete the widget. Please try again later.";
+            }
         }
     }
 })();

@@ -12,39 +12,41 @@
         };
         return api;
 
-        // adds the widget parameter instance to the local widgets
-        // array. The new widget's pageId is set to the pageId parameter.
-        // Return the widget if it is successfully created. Otherwise return null.
+        // return a promise for creating a widget on the server. if the widget was created
+        // successfully, then the promise will resolve with the new widget.
+        // if the widget was not created, the promise will resolve with an error.
         function createWidget(pageId, widget) {
             var url = "/api/page/" + pageId + "/widget";
             return $http.post(url, widget);
         }
 
-        // retrieves the widgets in local widgets array whose pageId
-        // matches the parameter pageId.
+        // return a promise for finding widgets by the given user id. if the widgets were found,
+        // then the promise will resolve with the existing widgets. if the widgets were not
+        // found, then the promise will resolve with an error.
         function findWidgetsByPageId(pageId) {
             var url = "/api/page/" + pageId + "/widget";
             return $http.get(url);
         }
 
-        // retrieves the page in local pages array whose _id
-        // matches the widgetId parameter
+        // return a promise for finding a widget by the given id. if the widget was found,
+        // then the promise will resolve with the existing widget. if the widget was not
+        // found, then the promise will resolve with an error.
         function findWidgetById(widgetId) {
             var url = "/api/widget/" + widgetId;
             return $http.get(url);
         }
 
-        // updates the widget in local pages array whose _id
-        // matches the widgetId parameter.
-        // Return the updated widget if the update is successful. Return null otherwise.
+        // return a promise for updating the given widget on the server. if the widget was updated
+        // successfully, then the promise will resolve with the updated widget. if the widget was not
+        // updated, then the promise will resolve with an error.
         function updateWidget(widgetId, widget) {
             var url = "/api/widget/" + widgetId;
             return $http.put(url, widget);
         }
 
-        // removes the widget from local widgets array whose _id
-        // matches the widgetId parameter
-        // Return true if the widget is successfully deleted. Return null otherwise.
+        // return a promise for deleting the given widget on the server. if the widget was deleted
+        // successfully, then the promise will resolve with 'true'. if the widget was not
+        // deleted, then the promise will resolve with an error.
         function deleteWidget(widgetId) {
             var url = "/api/widget/" + widgetId;
             return $http.delete(url);

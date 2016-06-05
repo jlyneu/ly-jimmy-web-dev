@@ -91,7 +91,8 @@
             if (error.data && error.data.message) {
                 vm.error = error.data.message;
             } else {
-                vm.error = "Unable to create the new page. Please try again later";            }
+                vm.error = "Unable to create the new page. Please try again later";
+            }
         }
     }
 

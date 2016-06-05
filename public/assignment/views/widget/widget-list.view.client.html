@@ -22,6 +22,9 @@
 
 
 <div class="container">
+    <div ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <div ng-repeat="widget in model.widgets">
         <div class="widget-element">
             <div ng-switch="widget.widgetType">

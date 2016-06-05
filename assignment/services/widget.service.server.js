@@ -53,6 +53,8 @@ module.exports = function(app) {
         res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
     }
 
+    // adds the widget body parameter instance to the local widgets array.
+    // return the widget if creation was successful, otherwise return an error.
     function createWidget(req, res) {
         var pageId = req.params["pageId"];
         var widget = req.body;
@@ -62,6 +64,8 @@ module.exports = function(app) {
         res.json(widget);
     }
 
+    // retrieves the widgets in local widgets array whose pageId
+    // matches the parameter pageId
     function findAllWidgetsForPage(req, res) {
         var pageId = req.params["pageId"];
         pageWidgets = [];
@@ -73,39 +77,87 @@ module.exports = function(app) {
         res.json(pageWidgets);
     }
 
+    // retrieves the widget in local widgets array whose _id matches
+    // the widgetId parameter. return an error if the widget cannot be found.
     function findWidgetById(req, res) {
         var widgetId = req.params["widgetId"];
         for (var i in widgets) {
             if (widgets[i]['_id'] === widgetId) {
+                // the widget was found so return the widget
                 res.json(widgets[i]);
                 return;
             }
         }
-        res.json({});
+        // the widget could not be found so return an error
+        var errorMessage = {
+            message: "Widget with id " + pageId + " was not found."
+        };
+        res.status(404).json(errorMessage);
     }
 
+    // updates the widget in local widgets array whose _id matches
+    // the widgetId parameter
+    // return the updated widget if successful, otherwise return an error
     function updateWidget(req, res) {
         var widgetId = req.params["widgetId"];
         var widget = req.body;
+        var errorMessage = {};
+
+        // widget validation check
+        if (widget.widgetType === "HEADER") {
+            if (!widget.text) {
+                errorMessage.message = "Header text is required.";
+                res.status(400).json(errorMessage);
+                return;
+            } else if (!widget.size) {
+                errorMessage.message = "Header size is required.";
+                res.status(400).json(errorMessage);
+                return;
+            }
+        } else if (widget.widgetType === "IMAGE") {
+            if (!widget.url) {
+                errorMessage.message = "Image URL is required.";
+                res.status(400).json(errorMessage);
+                return;
+            }
+        } else if (widget.widgetType === "YOUTUBE") {
+            if (!widget.url) {
+                errorMessage.message = "YouTube URL is required";
+                res.status(400).json(errorMessage);
+                return;
+            }
+        }
+
         for (var i in widgets) {
             if (widgets[i]['_id'] === widgetId) {
+                // widget was found so update and return the widget
                 widgets[i] = widget;
                 res.json(widget);
                 return;
             }
         }
-        res.json({});
+        // widget was not found so return an error
+        errorMessage.message = "Widget with id " + widgetId + " was not found.";
+        res.status(404).json(errorMessage);
     }
 
+    // removes the widget from local widgets array whose _id matches
+    // the widgetId parameter.
+    // return true if the widget is successfully deleted, otherwise return an error.
     function deleteWidget(req, res) {
         var widgetId = req.params["widgetId"];
         for (var i in widgets) {
             if (widgets[i]['_id'] === widgetId) {
+                // widget was found so delete widget and return true
                 widgets.splice(i, 1);
                 res.send(true);
                 return;
             }
         }
-        res.send(false);
+        // widget was not found so return an error
+        var errorMessage = {
+            message: "Widget with id " + widgetId + " was not found."
+        };
+        res.status(404).send(errorMessage);
     }
 };
