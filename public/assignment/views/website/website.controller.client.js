@@ -17,21 +17,30 @@
             vm.websites = WebsiteService.findWebsitesByUser(vm.userId);
             WebsiteService
                 .findWebsitesByUser(vm.userId)
-                .then(
-                    function(response) {
-                        var existingWebsites = response.data;
-                        if (existingWebsites) {
-                            vm.websites = existingWebsites;
-                        } else {
-                            vm.error = "Your websites could not be fetched from the server. Please try again later.";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Your websites could not be fetched from the server. Please try again later.";
-                    }
-                );
+                .then(findWebsitesByUserSuccess, findWebsitesByUserError);
         }
         init();
+
+        // a 200 was returned from the server, so the websites should have been found.
+        // the existing websites should be returned from the server. if so, then populate the website list.
+        // otherwise, something went wrong so display an error.
+        function findWebsitesByUserSuccess(response) {
+            var existingWebsites = response.data;
+            if (existingWebsites) {
+                vm.websites = existingWebsites;
+            } else {
+                vm.error = "Your websites could not be fetched from the server. Please try again later.";
+            }
+        }
+
+        // display error message from server if provided
+        function findWebsitesByUserError(error) {
+            if (error.data && error.data.message) {
+                vm.error = error.data.message;
+            } else {
+                vm.error = "Your websites could not be fetched from the server. Please try again later.";
+            }
+        }
     }
 
     // controller for the website-new.view.client.html template
@@ -61,19 +70,28 @@
             // route the user to the website-list page if website creation is successful
             WebsiteService
                 .createWebsite(vm.userId, website)
-                .then(
-                    function(response) {
-                        var newWebsite = response.data;
-                        if (!$.isEmptyObject(newWebsite)) {
-                            $location.url("/user/" + vm.userId + "/website");
-                        } else {
-                            vm.error = "Unable to create a new website. Please try again later";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Unable to create a new website. Please try again later";
-                    }
-                );
+                .then(createWebsiteSuccess, createWebsiteError);
+
+            // a 200 was returned from the server, so website creation should be successful.
+            // the new website should be returned from the server. if so, then route to the website list page.
+            // otherwise, something went wrong so display an error.
+            function createWebsiteSuccess(response) {
+                var newWebsite = response.data;
+                if (!$.isEmptyObject(newWebsite)) {
+                    $location.url("/user/" + vm.userId + "/website");
+                } else {
+                    vm.error = "Unable to create a new website. Please try again later";
+                }
+            }
+
+            // display the error message from the server if provided
+            function createWebsiteError(error) {
+                if (error.data && error.data.message) {
+                    vm.error = error.data.message;
+                } else {
+                    vm.error = "Unable to create a new website. Please try again later";
+                }
+            }
         }
     }
 
@@ -92,23 +110,10 @@
         vm.error = "";
         
         // initialize the page by fetching the current website
-        // use JSON.parse(JSON.stringify(...)) to effectively "clone" the returned website
-        // so that modifying form elements won't automatically update the object in the
-        // list in the WebsiteService. This won't be necessary once the client is talking to the Node server
         function init() {
             WebsiteService
                 .findWebsiteById(vm.websiteId)
-                .then(
-                    function(response) {
-                        var existingWebsite = response.data;
-                        if (!$.isEmptyObject(existingWebsite)) {
-                            vm.website = existingWebsite;
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Cannot fetch the website at this time. Please try again later.";
-                    }
-                );
+                .then(findWebsiteByIdSuccess, findWebsiteByIdError);
         }
         init();
 
@@ -122,42 +127,79 @@
             }
 
             // route the user to the website-list page if website creation is successful
-            var updatedWebsite = WebsiteService.updateWebsite(vm.websiteId, vm.website);
             WebsiteService
                 .updateWebsite(vm.websiteId, vm.website)
-                .then(
-                    function(response) {
-                        var existingWebsite = response.data;
-                        if (!$.isEmptyObject(existingWebsite)) {
-                            $location.url("/user/" + vm.userId + "/website");
-                        } else {
-                            vm.error = "Unable to update the website. Please try again later";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Unable to update the website. Please try again later";
-                    }
-                );
+                .then(updateWebsiteSuccess, updateWebsiteError);
         }
 
         // use the WebsiteService to delete the current website
         function deleteWebsite() {
             WebsiteService
                 .deleteWebsite(vm.websiteId)
-                .then(
-                    function(response) {
-                        var isDeleted = response.data;
-                        if (isDeleted) {
-                            $location.url("/user/" + vm.userId + "/website");
-                        } else {
-                            vm.error = "Unable to delete the website. Please try again later";
-                        }
-                    },
-                    function(error) {
-                        vm.error = "Unable to update the website. Please try again later";
-                    }
-                );
+                .then(deleteWebsiteSuccess, deleteWebsiteError);
+        }
 
+        // a 200 was returned from the server, so the website should have been found.
+        // the existing website should be returned from the server. if so, then populate the input fields.
+        // otherwise, something went wrong so display an error.
+        function findWebsiteByIdSuccess(response) {
+            var existingWebsite = response.data;
+            if (!$.isEmptyObject(existingWebsite)) {
+                vm.website = existingWebsite;
+            } else {
+                vm.error = "Unable to fetch website information. Please try again later.";
+            }
+        }
+
+        // display error message from server if provided
+        function findWebsiteByIdError(error) {
+            if (error.data && error.data.message) {
+                vm.error = err.data.message;
+            } else {
+                vm.error = "Unable to fetch website information. Please try again later.";
+            }
+        }
+
+        // a 200 was returned from the server, so update should be successful.
+        // the updated website should be returned from the server. if so, then route to the website list page.
+        // otherwise, something went wrong so display an error.
+        function updateWebsiteSuccess(response) {
+            var existingWebsite = response.data;
+            if (!$.isEmptyObject(existingWebsite)) {
+                $location.url("/user/" + vm.userId + "/website");
+            } else {
+                vm.error = "Unable to update the website. Please try again later";
+            }
+        }
+
+        // display error message from server if provided
+        function updateWebsiteError(error) {
+            if (error.data && error.data.message) {
+                vm.error = error.data.message;
+            } else {
+                vm.error = "Unable to update the website. Please try again later";
+            }
+        }
+
+        // a 200 was returned from the server, so delete should be successful.
+        // 'true' should be returned from the server. if so, then route to the website list page.
+        // otherwise, something went wrong so display an error.
+        function deleteWebsiteSuccess(response) {
+            var isDeleted = response.data;
+            if (isDeleted) {
+                $location.url("/user/" + vm.userId + "/website");
+            } else {
+                vm.error = "Unable to delete the website. Please try again later";
+            }
+        }
+
+        // display error message from server if provided
+        function deleteWebsiteError(error) {
+            if (error.data && error.data.message) {
+                vm.error = error.data.message;
+            } else {
+                vm.error = "Unable to delete the website. Please try again later";
+            }
         }
     }
 })();
