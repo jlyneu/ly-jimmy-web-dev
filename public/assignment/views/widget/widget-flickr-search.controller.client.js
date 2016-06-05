@@ -20,6 +20,12 @@
         // pass the searchTerm from the search input field to the FlickrService
         // to query Flickr images related to the search term
         function searchPhotos(searchTerm) {
+
+            // if search input is empty, don't do a search
+            if (!searchTerm) {
+                return;
+            }
+
             FlickrService
                 .searchPhotos(searchTerm)
                 .then(searchPhotosSuccess, searchPhotosError);
