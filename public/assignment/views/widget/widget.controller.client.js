@@ -28,7 +28,9 @@
                         if (existingWidgets) {
                             vm.widgets = existingWidgets;
                             // make the widgets sortable on the page on drag
-                            $(".container").sortable();
+                            $(".container").sortable({
+                                axis: "y"
+                            });
                         } else {
                             vm.error = "Could not fetch the widgets. Please try again later.";
                         }
