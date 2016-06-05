@@ -13,44 +13,49 @@
         };
         return api;
 
-        // adds the user parameter instance to the local users array.
-        // return the user if creation was successful, otherwise return null.
+        // return a promise for creating a user on the server. if the user was created
+        // successfully, then the promise will resolve with the new user.
+        // if the user was not created, the promise will resolve with an error.
         function createUser(user) {
             var url = "/api/user";
             return $http.post(url, user);
         }
 
-        // returns the user in the local users array whose _id matches
-        // the userId parameter
+        // return a promise for finding a user by the given id. if the user was found,
+        // then the promise will resolve with the existing user. if the user was not
+        // found, then the promise will resolve with an error.
         function findUserById(userId) {
             var url = "/api/user/" + userId;
             return $http.get(url);
         }
 
-        // returns the user in local users array whose username matches
-        // the parameter username
+        // return a promise for finding a user by the given username. if the user was found,
+        // then the promise will resolve with the existing user. if the user was not
+        // found, then the promise will resolve with an error.
         function findUserByUsername(username) {
             var url = "/api/user?username=" + username;
             return $http.get(url);
         }
 
-        // returns the user whose username and password match
-        // the username and password parameters
+        // return a promise for finding a user by the given credentials. if the user was found,
+        // then the promise will resolve with the existing user. if the user was not
+        // found, then the promise will resolve with an error.
         function findUserByCredentials(username, password) {
             var url = "/api/user?username=" + username + "&password=" + password;
             return $http.get(url);
         }
 
-        // updates the user in local users array whose _id matches
-        // the userId parameter.
-        // return the user if update was successful, otherwise return null.
+        // return a promise for updating the given user on the server. if the user was updated
+        // successfully, then the promise will resolve with the updated user. if the user was not
+        // updated, then the promise will resolve with an error.
         function updateUser(userId, user) {
             var url = "/api/user/" + userId;
             return $http.put(url, user);
         }
 
-        // removes the user whose _id matches the userId parameter.
-        // return true if the deletion was successful, otherwise return false.
+        // return a promise for deleting the given user on the server. if the user was deleted
+        // successfully, then the promise will resolve with 'true'. if the user was not
+        // deleted, then the promise will resolve with an error.
         function deleteUser(userId) {
             var url = "/api/user/" + userId;
             return $http.delete(url);

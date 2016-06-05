@@ -14,13 +14,50 @@ module.exports = function(app) {
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
 
+    // adds the user body parameter instance to the local users array.
+    // return the user if creation was successful, otherwise return an error.
     function createUser(req, res) {
         var user = req.body;
+        var errorMessage = {};
+
+        // first check for validation errors
+        if (!user.username) {
+            errorMessage.message = "Username is required";
+            res.status(400).json(errorMessage);
+            return;
+        }
+        else if (!user.password) {
+            errorMessage.message = "Password is required";
+            res.status(400).json(errorMessage);
+            return;
+        }
+        // make sure passwords match
+        else if (user.password !== user.verifyPassword) {
+            errorMessage.message = "Passwords do not match";
+            res.status(400).json(errorMessage);
+            return;
+        }
+
+        // ensure that the username isn't already taken
+        for (var i in users) {
+            if (users[i].username === user.username) {
+                // inform the client that the username has already been taken
+                errorMessage.message = user.username + " is already taken.";
+                res.status(409).json(errorMessage);
+                return;
+            }
+        }
+
+        // create a new id for the new user, add the user to the array, then return the user
         user['_id'] = (new Date()).getTime().toString();
         users.push(user);
         res.json(user);
     }
 
+    // return the list of all users if no query parameters were provided, as discussed in class.
+    // if only a username is provided, return the user with the given username.
+    // if both a username and password are provided, then return the user with the given credentials.
+    // return an error if a user isn't found.
     function getUsers(req, res) {
         var username = req.query['username'];
         var password = req.query['password'];
@@ -33,62 +70,97 @@ module.exports = function(app) {
         }
     }
 
+    // returns the user in local users array whose username matches
+    // the parameter username. return an error if the user cannot be found.
     function findUserByUsername(username, res) {
         for (var i in users) {
             if (users[i]['username'] === username) {
+                // the user was found so return the user
                 res.json(users[i]);
                 return;
             }
         }
-        res.json({});
+        // the user could not be found so return an error
+        var errorMessage = {
+            message: username + " was not found."
+        };
+        res.status(404).json(errorMessage);
     }
 
+    // returns the user whose username and password match
+    // the username and password parameters. return an error
+    // if the user cannot be found.
     function findUserByCredentials(username, password, res) {
         for (var i in users) {
             if (users[i]['username'] === username &&
                 users[i]['password'] === password) {
+                // the user was found so return the user
                 res.json(users[i]);
                 return;
             }
         }
-        res.json({});
+        // the user could not be found so return an error.
+        var errorMessage = {
+            message: "The provided username and password combination is invalid."
+        };
+        res.status(401).json(errorMessage);
     }
 
+    // returns the user in the local users array whose _id matches
+    // the userId path parameter
     function findUserById(req, res) {
         var userId = req.params['userId'];
         for (var i in users) {
             if (users[i]['_id'] === userId) {
+                // user was found so return the user
                 res.json(users[i]);
                 return;
             }
         }
-        res.json({});
+        // user was not found so return an error
+        res.status(404).json("User with id " + userId + " was not found.");
     }
 
+    // updates the user in local users array whose _id matches
+    // the userId parameter.
+    // return the user if update was successful, otherwise return an error.
     function updateUser(req, res) {
         var userId = req.params['userId'];
         var user = req.body;
         for (var i in users) {
             if (users[i]['_id'] === userId) {
+                // update the user's info except for the _id
                 users[i].email = user.email;
                 users[i].firstName = user.firstName;
                 users[i].lastName = user.lastName;
+                // return the user
                 res.json(user);
                 return;
             }
         }
-        res.json({});
+        // user was not found so return an error
+        var errorMessage = {
+            message: "User with id " + userId + " was not found."
+        };
+        res.status(404).json(errorMessage);
     }
 
+    // removes the user whose _id matches the userId parameter.
+    // return true if the deletion was successful, otherwise return an error.
     function deleteUser(req, res) {
         var userId = req.params['userId'];
         for (var i in users) {
             if (users[i]['_id'] === userId) {
+                // user was found so delete user and return true
                 users.splice(i, 1);
                 res.send(true);
                 return;
             }
         }
-        res.send(false);
+        // user was not found so return an error
+        var errorMessage = {
+            message: "User with id " + userId + " was not found."
+        };
+        res.status(404).send(errorMessage);
     }
 };
