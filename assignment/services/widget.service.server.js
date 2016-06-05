@@ -31,6 +31,12 @@ module.exports = function(app) {
         var width         = req.body.width;
         var myFile        = req.file;
 
+        // if file isn't provided, then redirect user back to edit page
+        if (!myFile) {
+            res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+            return;
+        }
+
         var originalname  = myFile.originalname; // file name on user's computer
         var filename      = myFile.filename;     // new file name in upload folder
         var path          = myFile.path;         // full path of uploaded file
