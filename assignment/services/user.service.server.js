@@ -1,4 +1,6 @@
-module.exports = function(app) {
+module.exports = function(app, models) {
+
+    var userModel = models.userModel;
 
     var users = [
         {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder"  },
@@ -38,20 +40,26 @@ module.exports = function(app) {
             return;
         }
 
-        // ensure that the username isn't already taken
-        for (var i in users) {
-            if (users[i].username === user.username) {
-                // inform the client that the username has already been taken
-                errorMessage.message = user.username + " is already taken.";
-                res.status(409).json(errorMessage);
-                return;
+        // try to create the user in the database
+        userModel
+            .createUser(user)
+            .then(createUserSuccess, createUserError);
+
+        // if user creation is successful, then return the new user
+        function createUserSuccess(newUser) {
+            if (newUser) {
+                res.json(newUser);
+            } else {
+                errorMessage.message = "Could not create user. Please try again later.";
+                res.status(500).json(errorMessage);
             }
         }
 
-        // create a new id for the new user, add the user to the array, then return the user
-        user['_id'] = (new Date()).getTime().toString();
-        users.push(user);
-        res.json(user);
+        // if the username is already taken then return an error
+        function createUserError(error) {
+            errorMessage.message = user.username + " is already taken.";
+            res.status(400).json(errorMessage);
+        }
     }
 
     // return the list of all users if no query parameters were provided, as discussed in class.
@@ -66,59 +74,86 @@ module.exports = function(app) {
         } else if (username) {
             findUserByUsername(username, res);
         } else {
-            res.json(users);
+            var errorMessage = {
+                message: "Must provide either a username or both username and password."
+            };
+            res.status(400).json(errorMessage);
         }
     }
 
     // returns the user in local users array whose username matches
     // the parameter username. return an error if the user cannot be found.
     function findUserByUsername(username, res) {
-        for (var i in users) {
-            if (users[i]['username'] === username) {
-                // the user was found so return the user
-                res.json(users[i]);
-                return;
+        var errorMessage = {};
+
+        userModel
+            .findUserByUsername(username)
+            .then(findUserByUsernameSuccess, findUserByUsernameError);
+
+        function findUserByUsernameSuccess(user) {
+            if (!user) {
+                errorMessage.message = username + " was not found.";
+                res.status(404).json(errorMessage);
             }
+            res.json(user);
         }
+
         // the user could not be found so return an error
-        var errorMessage = {
-            message: username + " was not found."
-        };
-        res.status(404).json(errorMessage);
+        function findUserByUsernameError(error) {
+            errorMessage.message = "Could not fetch user data. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 
     // returns the user whose username and password match
     // the username and password parameters. return an error
     // if the user cannot be found.
     function findUserByCredentials(username, password, res) {
-        for (var i in users) {
-            if (users[i]['username'] === username &&
-                users[i]['password'] === password) {
-                // the user was found so return the user
-                res.json(users[i]);
-                return;
+        var errorMessage = {};
+
+        userModel
+            .findUserByCredentials(username, password)
+            .then(findUserByCredentialsSuccess, findUserByCredentialsError);
+
+        function findUserByCredentialsSuccess(user) {
+            if (!user) {
+                errorMessage.message = "The provided username and password combination is invalid.";
+                res.status(401).json(errorMessage);
+            } else {
+                res.json(user);
             }
         }
+
         // the user could not be found so return an error.
-        var errorMessage = {
-            message: "The provided username and password combination is invalid."
-        };
-        res.status(401).json(errorMessage);
+        function findUserByCredentialsError(error) {
+            errorMessage.message = "Could not fetch user data. Please try again later.";
+            res.status(401).json(errorMessage);
+        }
     }
 
     // returns the user in the local users array whose _id matches
     // the userId path parameter
     function findUserById(req, res) {
         var userId = req.params['userId'];
-        for (var i in users) {
-            if (users[i]['_id'] === userId) {
-                // user was found so return the user
-                res.json(users[i]);
-                return;
+        var errorMessage = {};
+
+        userModel
+            .findUserById(userId)
+            .then(findUserByIdSuccess, findUserByIdError);
+
+        function findUserByIdSuccess(user) {
+            if (user) {
+                res.json(user);
+            } else {
+                errorMessage.message = "User with id " + userId + " was not found.";
+                res.status(404).json(errorMessage);
             }
         }
-        // user was not found so return an error
-        res.status(404).json("User with id " + userId + " was not found.");
+
+        function findUserByIdError(error) {
+            errorMessage.message = "Could not fetch user data. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 
     // updates the user in local users array whose _id matches
@@ -127,40 +162,51 @@ module.exports = function(app) {
     function updateUser(req, res) {
         var userId = req.params['userId'];
         var user = req.body;
-        for (var i in users) {
-            if (users[i]['_id'] === userId) {
-                // update the user's info except for the _id
-                users[i].email = user.email;
-                users[i].firstName = user.firstName;
-                users[i].lastName = user.lastName;
-                // return the user
+        var errorMessage = {};
+
+        userModel
+            .updateUser(userId, user)
+            .then(updateUserSuccess, updateUserError);
+
+        function updateUserSuccess(numUpdated) {
+            if (numUpdated) {
                 res.json(user);
-                return;
+            } else {
+                errorMessage.message = "User with id " + userId + " was not found.";
+                res.status(404).json(errorMessage);
             }
         }
+
         // user was not found so return an error
-        var errorMessage = {
-            message: "User with id " + userId + " was not found."
-        };
-        res.status(404).json(errorMessage);
+        function updateUserError(error) {
+            errorMessage.message = "Could not update the user. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 
     // removes the user whose _id matches the userId parameter.
     // return true if the deletion was successful, otherwise return an error.
     function deleteUser(req, res) {
         var userId = req.params['userId'];
-        for (var i in users) {
-            if (users[i]['_id'] === userId) {
-                // user was found so delete user and return true
-                users.splice(i, 1);
+        var errorMessage = {};
+
+        userModel
+            .deleteUser(userId)
+            .then(deleteUserSuccess, deleteUserError);
+
+        function deleteUserSuccess(numDeleted) {
+            if (numDeleted) {
                 res.send(true);
-                return;
+            } else {
+                errorMessage.message = "User with id " + userId + " was not found.";
+                res.status(404).send(errorMessage);
             }
         }
+
         // user was not found so return an error
-        var errorMessage = {
-            message: "User with id " + userId + " was not found."
-        };
-        res.status(404).send(errorMessage);
+        function deleteUserError(error) {
+            errorMessage.message = "Could not delete user. Please try again later.";
+            res.status(500).send(errorMessage);
+        }
     }
 };

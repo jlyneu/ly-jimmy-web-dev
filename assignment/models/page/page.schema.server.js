@@ -2,11 +2,11 @@ var mongoose = require("mongoose");
 
 module.exports = function() {
 
-    var WebsiteSchema = require("../website/website.schema.server.js")();
+    //var WebsiteSchema = require("../website/website.schema.server.js")();
     var WidgetSchema  = require("../widget/widget.schema.server.js")();
 
     var PageSchema = mongoose.Schema({
-        _website: WebsiteSchema,
+    //    _website: WebsiteSchema,
         name: String,
         description: String,
         widgets: [WidgetSchema],
