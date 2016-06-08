@@ -1,20 +1,26 @@
-var mongoose = require("mongoose");
+module.exports = function(mongoose) {
 
-module.exports = function() {
-
-    //var WebsiteSchema = require("../website/website.schema.server.js")();
-    var WidgetSchema  = require("../widget/widget.schema.server.js")();
 
     var PageSchema = mongoose.Schema({
-    //    _website: WebsiteSchema,
-        name: String,
-        description: String,
-        widgets: [WidgetSchema],
+        _website: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Website"
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        title: String,
+        widgets: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Widget"
+        }],
         dateCreated: {
             type: Date,
             default: Date.now
-        }
-    });
+        },
+        dateUpdated: Date
+    }, { collection: "assignment.page" });
 
     return PageSchema;
 };

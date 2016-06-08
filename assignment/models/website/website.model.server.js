@@ -18,7 +18,7 @@ module.exports = function(mongoose) {
         return Website.create(website);
     }
 
-    // Retrieves all website instances for user whose  _id is userId
+    // Retrieves all website instances for user whose _id is userId
     function findAllWebsitesForUser(userId) {
         return Website.find({ _user: userId });
     }

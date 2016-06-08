@@ -70,7 +70,7 @@ module.exports = function(app, models) {
             }
         }
 
-        // if an error occured, then return an error
+        // if an error occurred, then return an error
         function findAllWebsitesForUserError(error) {
             errorMessage.message = "Could not fetch websites. Please try again later.";
             res.status(500).json(errorMessage);
