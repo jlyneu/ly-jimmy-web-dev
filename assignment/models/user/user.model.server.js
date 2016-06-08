@@ -1,5 +1,5 @@
 module.exports = function(mongoose) {
-    var UserSchema = require("./user.schema.server.js")();
+    var UserSchema = require("./user.schema.server.js")(mongoose);
     var User = mongoose.model("User", UserSchema);
 
     var api = {
@@ -45,7 +45,8 @@ module.exports = function(mongoose) {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
-                    phone: user.phone
+                    phone: user.phone,
+                    dateUpdated: Date.now()
                 }
             }
         );
