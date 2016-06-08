@@ -14,7 +14,6 @@ module.exports = function(mongoose) {
 
     // Creates a new page instance for website whose _id is websiteId
     function createPage(websiteId, page) {
-        console.log(page);
         page._website = websiteId;
         return Page.create(page);
     }
