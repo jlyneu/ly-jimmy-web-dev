@@ -1,5 +1,6 @@
 module.exports = function(mongoose) {
-    var WebsiteSchema = require("./website.schema.server.js")();
+
+    var WebsiteSchema = require("./website.schema.server.js")(mongoose);
     var Website = mongoose.model("Website", WebsiteSchema);
 
     var api = {
@@ -13,18 +14,13 @@ module.exports = function(mongoose) {
 
     // Creates a new website instance for user whose _id is userId
     function createWebsiteForUser(userId, website) {
-        return User.findById(userId)
-            .then(
-                function(user) {
-                    user.websites.push(website);
-                    return user.save();
-                }
-            );
+        website._user = userId;
+        return Website.create(website);
     }
 
     // Retrieves all website instances for user whose  _id is userId
     function findAllWebsitesForUser(userId) {
-        return User.findById(userId).select("websites");
+        return Website.find({ _user: userId });
     }
 
     // Retrieves single website instance whose _id is websiteId
@@ -34,36 +30,20 @@ module.exports = function(mongoose) {
 
     // Updates website instance whose _id is websiteId
     function updateWebsite(websiteId, website) {
-        var deferred = q.defer();
-        Website
-            .update(
-                { _id: websiteId },
-                { $set: website },
-                function(err, numUpdated) {
-                    if (!err) {
-                        deferred.resolve(numUpdated);
-                    } else {
-                        deferred.reject(err);
-                    }
+        return Website.update(
+            { _id: websiteId },
+            { $set:
+                {
+                    name: website.name,
+                    description: website.description,
+                    dateUpdated: Date.now()
                 }
-            );
-        return deferred.promise;
+            }
+        );
     }
 
     // Removes website instance whose _id is websiteId
     function deleteWebsite(websiteId) {
-        var deferred = q.defer();
-        Website
-            .remove(
-                { _id: websiteId },
-                function(err, numDeleted) {
-                    if (!err) {
-                        deferred.resolve(numDeleted);
-                    } else {
-                        deferred.reject(err);
-                    }
-                }
-            );
-        return deferred.promise;
+        return Website.remove({ _id: websiteId });
     }
 };

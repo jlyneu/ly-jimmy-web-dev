@@ -1,20 +1,22 @@
-var mongoose = require("mongoose");
-
-module.exports = function() {
-
-    //var UserSchema = require("../user/user.schema.server.js")();
-    var PageSchema = require("../page/page.schema.server.js")();
-
+module.exports = function(mongoose) {
+    
     var WebsiteSchema = mongoose.Schema({
-    //    _user: UserSchema,
+        _user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
         name: String,
         description: String,
-        pages: [PageSchema],
+        pages: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Page"
+        }],
         dateCreated: {
             type: Date,
             default: Date.now
-        }
-    });
+        },
+        dateUpdated: Date
+    }, { collection: "assignment.website" });
 
     return WebsiteSchema;
 };
