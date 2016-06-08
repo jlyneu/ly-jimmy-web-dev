@@ -1,11 +1,6 @@
-var mongoose = require("mongoose");
-var q = require("q");
-
-module.exports = function(db) {
+module.exports = function(mongoose) {
     var WebsiteSchema = require("./website.schema.server.js")();
     var Website = mongoose.model("Website", WebsiteSchema);
-
-    var User = db.userModel.getMongooseModel();
 
     var api = {
         createWebsiteForUser: createWebsiteForUser,

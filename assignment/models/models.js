@@ -1,9 +1,6 @@
-module.exports = function() {
+module.exports = function(mongoose) {
     
-    var mongoose = require("mongoose");
-    mongoose.createConnection("mongodb://127.0.0.1:27017/webAppMaker");
-    
-    var userModel = require("./user/user.model.server.js")();
+    var userModel = require("./user/user.model.server.js")(mongoose);
     var websiteModel;
     var pageModel;
     var widgetModel;

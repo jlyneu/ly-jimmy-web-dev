@@ -1,6 +1,4 @@
-var mongoose = require("mongoose");
-
-module.exports = function(db) {
+module.exports = function(mongoose) {
     var UserSchema = require("./user.schema.server.js")();
     var User = mongoose.model("User", UserSchema);
 
@@ -42,7 +40,14 @@ module.exports = function(db) {
     function updateUser(userId, user) {
         return User.update(
             { _id: userId },
-            { $set: user }
+            { $set:
+                {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    phone: user.phone
+                }
+            }
         );
     }
 
