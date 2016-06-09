@@ -149,13 +149,15 @@
         // pass the given widget to the WidgetService to update the widget
         function updateWidget(widget) {
             vm.error = "";
-
+            
             // check validation first
+            if (!widget.name) {
+                vm.error = "Widget name is required.";
+                return;
+            }
+
             if (widget.widgetType === "HEADER") {
-                if (!widget.name) {
-                    vm.error = "Widget name is required.";
-                    return;
-                } else if (!widget.text) {
+                if (!widget.text) {
                     vm.error = "Header text is required.";
                     return;
                 } else if (!widget.size) {
@@ -163,18 +165,12 @@
                     return;
                 }
             } else if (widget.widgetType === "IMAGE") {
-                if (!widget.name) {
-                    vm.error = "Widget name is required.";
-                    return;
-                } else if (!widget.url) {
+                if (!widget.url) {
                     vm.error = "Image URL is required.";
                     return;
                 }
             } else if (widget.widgetType === "YOUTUBE") {
-                if (!widget.name) {
-                    vm.error = "Widget name is required.";
-                    return;
-                } else if (!widget.url) {
+                if (!widget.url) {
                     vm.error = "YouTube URL is required.";
                     return;
                 }
