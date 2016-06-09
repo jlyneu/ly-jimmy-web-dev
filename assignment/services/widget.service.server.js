@@ -1,18 +1,8 @@
-module.exports = function(app) {
+module.exports = function(app, models) {
+
     var multer = require('multer');
     var upload = multer({ dest: __dirname + '/../../public/uploads' });
-
-    var widgets = [
-        { "_id": "123", "widgetType": "HEADER", "pageId": "321", "size": 2, "text": "GIZMODO"},
-        { "_id": "234", "widgetType": "HEADER", "pageId": "321", "size": 4, "text": "Lorem ipsum"},
-        { "_id": "345", "widgetType": "IMAGE", "pageId": "321", "width": "100%",
-            "url": "http://lorempixel.com/400/200/"},
-        { "_id": "456", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>"},
-        { "_id": "567", "widgetType": "HEADER", "pageId": "321", "size": 4, "text": "Lorem ipsum"},
-        { "_id": "678", "widgetType": "YOUTUBE", "pageId": "321", "width": "100%",
-            "url": "https://youtu.be/AM2Ivdi9c4E" },
-        { "_id": "789", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>"}
-    ];
+    var widgetModel = models.widgetModel;
 
     // declare the API
     app.post("/api/upload", upload.single("myFile"), uploadImage);
@@ -21,7 +11,6 @@ module.exports = function(app) {
     app.get("/api/widget/:widgetId", findWidgetById);
     app.put("/api/widget/:widgetId", updateWidget);
     app.delete("/api/widget/:widgetId", deleteWidget);
-
 
     function uploadImage(req, res) {
         var userId        = req.body.userId;
@@ -58,41 +47,84 @@ module.exports = function(app) {
     function createWidget(req, res) {
         var pageId = req.params["pageId"];
         var widget = req.body;
-        widget["_id"] = (new Date()).getTime().toString();
-        widget["pageId"] = pageId;
-        widgets.push(widget);
-        res.json(widget);
+        var errorMessage = {};
+
+        // try to create the widget in the database
+        widgetModel
+            .createWidget(pageId, widget)
+            .then(createWidgetSuccess, createWidgetError);
+
+        // if the widget creation is successful, then return the new widget
+        function createWidgetSuccess(newWidget) {
+            if (newWidget) {
+                res.json(newWidget);
+            } else {
+                errorMessage.message = "Could not create widget. Please try again later.";
+                res.status(500).json(errorMessage);
+            }
+        }
+
+        // if an error occurred, then return an error
+        function createWidgetError(error) {
+            errorMessage.message = "Could not create widget. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 
     // retrieves the widgets in local widgets array whose pageId
     // matches the parameter pageId
     function findAllWidgetsForPage(req, res) {
         var pageId = req.params["pageId"];
-        pageWidgets = [];
-        for (var i in widgets) {
-            if (widgets[i]['pageId'] === pageId) {
-                pageWidgets.push(widgets[i]);
+        var errorMessage = {};
+
+        // try to find the widgets in the database
+        widgetModel
+            .findAllWidgetsForPage(pageId)
+            .then(findAllWidgetsForPageSuccess, findAllWidgetsForPageError);
+
+        // return the widgets from the model. otherwise, something went wrong
+        function findAllWidgetsForPageSuccess(widgets) {
+            if (widgets) {
+                res.json(widgets);
+            } else {
+                errorMessage.message = "Could not fetch widgets. Please try again later.";
+                res.status(500).json(errorMessage);
             }
         }
-        res.json(pageWidgets);
+
+        // if an error occurred, then return an error
+        function findAllWidgetsForPageError(error) {
+            errorMessage.message = "Could not fetch widgets. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 
     // retrieves the widget in local widgets array whose _id matches
     // the widgetId parameter. return an error if the widget cannot be found.
     function findWidgetById(req, res) {
         var widgetId = req.params["widgetId"];
-        for (var i in widgets) {
-            if (widgets[i]['_id'] === widgetId) {
-                // the widget was found so return the widget
-                res.json(widgets[i]);
-                return;
+        var errorMessage = {};
+
+        // try to find the widget in the database
+        widgetModel
+            .findWidgetById(widgetId)
+            .then(findWidgetByIdSuccess, findWidgetByIdError);
+
+        // return the widget from the model. otherwise, the widget wasn't found
+        function findWidgetByIdSuccess(widget) {
+            if (widget) {
+                res.json(widget);
+            } else {
+                errorMessage.message = "Widget with id " + widgetId + " was not found.";
+                res.status(404).json(errorMessage);
             }
         }
-        // the widget could not be found so return an error
-        var errorMessage = {
-            message: "Widget with id " + pageId + " was not found."
-        };
-        res.status(404).json(errorMessage);
+
+        // if an error occurred, then return an error
+        function findWidgetByIdError(error) {
+            errorMessage.message = "Could not fetch widget. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 
     // updates the widget in local widgets array whose _id matches
@@ -105,7 +137,10 @@ module.exports = function(app) {
 
         // widget validation check
         if (widget.widgetType === "HEADER") {
-            if (!widget.text) {
+            if (!widget.name) {
+                errorMessage.message = "Widget name is required.";
+                res.status(400).json(errorMessage);
+            } else if (!widget.text) {
                 errorMessage.message = "Header text is required.";
                 res.status(400).json(errorMessage);
                 return;
@@ -115,30 +150,45 @@ module.exports = function(app) {
                 return;
             }
         } else if (widget.widgetType === "IMAGE") {
-            if (!widget.url) {
+            if (!widget.name) {
+                errorMessage.message = "Widget name is required.";
+                res.status(400).json(errorMessage);
+            } else if (!widget.url) {
                 errorMessage.message = "Image URL is required.";
                 res.status(400).json(errorMessage);
                 return;
             }
         } else if (widget.widgetType === "YOUTUBE") {
-            if (!widget.url) {
+            if (!widget.name) {
+                errorMessage.message = "Widget name is required.";
+                res.status(400).json(errorMessage);
+            } else if (!widget.url) {
                 errorMessage.message = "YouTube URL is required";
                 res.status(400).json(errorMessage);
                 return;
             }
         }
 
-        for (var i in widgets) {
-            if (widgets[i]['_id'] === widgetId) {
-                // widget was found so update and return the widget
-                widgets[i] = widget;
+        // try to update the widget in the database
+        widgetModel
+            .updateWidget(widgetId, widget)
+            .then(updateWidgetSuccess, updateWidgetError);
+
+        // return the widget if update successful. otherwise the widget wasn't found
+        function updateWidgetSuccess(numUpdated) {
+            if (numUpdated) {
                 res.json(widget);
-                return;
+            } else {
+                errorMessage.message = "Widget with id " + widgetId + " was not found.";
+                res.status(404).json(errorMessage);
             }
         }
-        // widget was not found so return an error
-        errorMessage.message = "Widget with id " + widgetId + " was not found.";
-        res.status(404).json(errorMessage);
+
+        // if an error occurred, then return an error
+        function updateWidgetError(error) {
+            errorMessage.message = "Could not update widget. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 
     // removes the widget from local widgets array whose _id matches
@@ -146,18 +196,27 @@ module.exports = function(app) {
     // return true if the widget is successfully deleted, otherwise return an error.
     function deleteWidget(req, res) {
         var widgetId = req.params["widgetId"];
-        for (var i in widgets) {
-            if (widgets[i]['_id'] === widgetId) {
-                // widget was found so delete widget and return true
-                widgets.splice(i, 1);
+        var errorMessage = {};
+
+        // try to delete the widget from the database
+        widgetModel
+            .deleteWidget(widgetId)
+            .then(deleteWidgetSuccess, deleteWidgetError);
+
+        // if deletion is successful, then return true. otherwise, the widget wasn't found
+        function deleteWidgetSuccess(numDeleted) {
+            if (numDeleted) {
                 res.send(true);
-                return;
+            } else {
+                errorMessage.message = "Widget with id " + widgetId + " was not found.";
+                res.status(404).json(errorMessage);
             }
         }
-        // widget was not found so return an error
-        var errorMessage = {
-            message: "Widget with id " + widgetId + " was not found."
-        };
-        res.status(404).send(errorMessage);
+
+        // if an error occurred, then return an error
+        function deleteWidgetError(error) {
+            errorMessage.message = "Could not delete widget. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 };

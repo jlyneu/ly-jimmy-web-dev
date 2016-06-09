@@ -52,7 +52,8 @@
                 vm.widgets = existingWidgets;
                 // make the widgets sortable on the page on drag
                 $(".container").sortable({
-                    axis: "y"
+                    axis: "y",
+                    handle: ".widget-edit"
                 });
             } else {
                 vm.error = "Could not fetch the widgets. Please try again later.";
@@ -151,7 +152,10 @@
 
             // check validation first
             if (widget.widgetType === "HEADER") {
-                if (!widget.text) {
+                if (!widget.name) {
+                    vm.error = "Widget name is required.";
+                    return;
+                } else if (!widget.text) {
                     vm.error = "Header text is required.";
                     return;
                 } else if (!widget.size) {
@@ -159,12 +163,18 @@
                     return;
                 }
             } else if (widget.widgetType === "IMAGE") {
-                if (!widget.url) {
+                if (!widget.name) {
+                    vm.error = "Widget name is required.";
+                    return;
+                } else if (!widget.url) {
                     vm.error = "Image URL is required.";
                     return;
                 }
             } else if (widget.widgetType === "YOUTUBE") {
-                if (!widget.url) {
+                if (!widget.name) {
+                    vm.error = "Widget name is required.";
+                    return;
+                } else if (!widget.url) {
                     vm.error = "YouTube URL is required.";
                     return;
                 }
