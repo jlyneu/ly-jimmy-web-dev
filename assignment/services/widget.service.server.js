@@ -140,6 +140,7 @@ module.exports = function(app, models) {
             if (!widget.name) {
                 errorMessage.message = "Widget name is required.";
                 res.status(400).json(errorMessage);
+                return;
             } else if (!widget.text) {
                 errorMessage.message = "Header text is required.";
                 res.status(400).json(errorMessage);
@@ -153,6 +154,7 @@ module.exports = function(app, models) {
             if (!widget.name) {
                 errorMessage.message = "Widget name is required.";
                 res.status(400).json(errorMessage);
+                return;
             } else if (!widget.url) {
                 errorMessage.message = "Image URL is required.";
                 res.status(400).json(errorMessage);
@@ -162,6 +164,7 @@ module.exports = function(app, models) {
             if (!widget.name) {
                 errorMessage.message = "Widget name is required.";
                 res.status(400).json(errorMessage);
+                return;
             } else if (!widget.url) {
                 errorMessage.message = "YouTube URL is required";
                 res.status(400).json(errorMessage);
