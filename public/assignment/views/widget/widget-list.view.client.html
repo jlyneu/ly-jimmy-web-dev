@@ -55,14 +55,12 @@
                          class="widget-image"
                          width="{{widget.width}}">
                 </div>
-                <div ng-switch-when="YOUTUBE">
-                    <div class="youtube-wrapper">
-                        <iframe ng-src="{{model.getSafeUrl(widget)}}"
-                                type="text/html"
-                                width="{{widget.width}}"
-                                frameborder="0"
-                                allowfullscreen></iframe>
-                    </div>
+                <div ng-switch-when="YOUTUBE" class="youtube-widget">
+                    <iframe ng-src="{{model.getSafeUrl(widget)}}"
+                            type="text/html"
+                            width="{{widget.width}}"
+                            frameborder="0"
+                            allowfullscreen></iframe>
                 </div>
                 <div ng-switch-when="HTML" ng-bind-html="model.getSafeHtml(widget)">
                 </div>
