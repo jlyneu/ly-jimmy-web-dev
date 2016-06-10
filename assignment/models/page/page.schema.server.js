@@ -19,7 +19,10 @@ module.exports = function(mongoose) {
             type: Date,
             default: Date.now
         },
-        dateUpdated: Date
+        dateUpdated: {
+            type: Date,
+            default: Date.now
+        }
     }, { collection: "assignment.page" });
 
     return PageSchema;
