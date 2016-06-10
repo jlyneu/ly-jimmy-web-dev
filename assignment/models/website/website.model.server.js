@@ -9,7 +9,9 @@ module.exports = function(mongoose, userModel) {
         findAllWebsitesForUser: findAllWebsitesForUser,
         findWebsiteById: findWebsiteById,
         updateWebsite: updateWebsite,
-        deleteWebsite: deleteWebsite
+        deleteWebsite: deleteWebsite,
+        pushPage: pushPage,
+        pullPage: pullPage
     };
     return api;
 
@@ -29,7 +31,7 @@ module.exports = function(mongoose, userModel) {
 
         return deferred.promise;
 
-        // if the website creation is successful, then push the user id onto the user's websites array
+        // if the website creation is successful, then push the website id onto the user's websites array
         function pushWebsiteForUser(website) {
             newWebsite = website;
             return userModel.pushWebsite(userId, newWebsite._id);
@@ -79,6 +81,11 @@ module.exports = function(mongoose, userModel) {
         var errorMessage = {};
         var numDeleted;
         var websiteObj;
+
+        // find the website by id to determine the parent user, then
+        // remove the website from the database, then remove the website
+        // id from the user's websites array, then resolve the promise with
+        // the number of websites deleted
         Website
             .findById(websiteId)
             .then(removeWebsite,rejectError)
@@ -121,5 +128,29 @@ module.exports = function(mongoose, userModel) {
         function rejectError(err) {
             deferred.reject(err);
         }
+    }
+
+    // Add the given pageId to the list of page ids for the website with the given websiteId
+    function pushPage(websiteId, pageId) {
+        return Website.update(
+            { _id: websiteId },
+            { $pushAll:
+                {
+                    pages: [pageId]
+                }
+            }
+        );
+    }
+
+    // Remove the given pageId from the list of page ids for the website with the given websiteId
+    function pullPage(websiteId, pageId) {
+        return Website.update(
+            { _id: websiteId },
+            { $pullAll:
+                {
+                    pages: [pageId]
+                }
+            }
+        );
     }
 };

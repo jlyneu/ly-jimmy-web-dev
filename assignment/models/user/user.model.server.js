@@ -59,6 +59,7 @@ module.exports = function(mongoose) {
         return User.remove({ _id: userId });
     }
 
+    // Add the given websiteId to the list of website ids for the user with the given userId
     function pushWebsite(userId, websiteId) {
         return User.update(
             { _id: userId },
@@ -70,6 +71,7 @@ module.exports = function(mongoose) {
         );
     }
 
+    // Remove the given websiteId from the list of website ids for the user with the given userId
     function pullWebsite(userId, websiteId) {
         return User.update(
             { _id: userId },

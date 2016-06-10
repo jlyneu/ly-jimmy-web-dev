@@ -6,6 +6,7 @@ module.exports = function(app, models) {
 
     // declare the API
     app.post("/api/upload", upload.single("myFile"), uploadImage);
+    app.put("/api/page/:pageId/widget", reorderWidget);
     app.post("/api/page/:pageId/widget", createWidget);
     app.get("/api/page/:pageId/widget", findAllWidgetsForPage);
     app.get("/api/widget/:widgetId", findWidgetById);
@@ -40,6 +41,14 @@ module.exports = function(app, models) {
             }
         }
         res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+    }
+
+    function reorderWidget(req, res) {
+        var pageId = req.params["pageId"];
+        var start = req.query["start"];
+        var end = req.query["end"];
+
+        console.log([start, end]);
     }
 
     // adds the widget body parameter instance to the local widgets array.
