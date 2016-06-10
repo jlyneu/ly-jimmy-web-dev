@@ -49,6 +49,7 @@ module.exports = function(app, models) {
         var end = req.query["end"];
 
         console.log([start, end]);
+        res.status(200).send();
     }
 
     // adds the widget body parameter instance to the local widgets array.

@@ -9,7 +9,9 @@ module.exports = function(mongoose, websiteModel) {
         findAllPagesForWebsite: findAllPagesForWebsite,
         findPageById: findPageById,
         updatePage: updatePage,
-        deletePage: deletePage
+        deletePage: deletePage,
+        pushWidget: pushWidget,
+        pullWidget: pullWidget
     };
     return api;
 
@@ -125,5 +127,29 @@ module.exports = function(mongoose, websiteModel) {
         function rejectError(err) {
             deferred.reject(err);
         }
+    }
+
+    // Add the given widgetId to the list of widget ids for the page with the given pageId
+    function pushWidget(pageId, widgetId) {
+        return Page.update(
+            { _id: pageId },
+            { $pushAll:
+                {
+                    widgets: [widgetId]
+                }
+            }
+        );
+    }
+
+    // Remove the given widgetId from the list of widget ids for the page with the given pageId
+    function pullWidget(pageId, widgetId) {
+        return Page.update(
+            { _id: pageId },
+            { $pullAll:
+                {
+                    widgets: [widgetId]
+                }
+            }
+        );
     }
 };
