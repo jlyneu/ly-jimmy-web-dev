@@ -9,9 +9,9 @@
     function WidgetListController($routeParams, $sce, WidgetService) {
         var vm = this;
         
-        // sanitize functions for html and urls
         vm.getSafeHtml = getSafeHtml;
         vm.getSafeUrl = getSafeUrl;
+        vm.reorderWidget = reorderWidget;
 
         // get various id route parameters from the current url
         vm.userId = $routeParams["userId"];
@@ -43,6 +43,11 @@
             return $sce.trustAsResourceUrl(url);
         }
 
+        function reorderWidget(start, end) {
+            WidgetService
+                .reorderWidget(vm.pageId, start, end);
+        }
+
         // a 200 was returned from the server, so the widgets should have been found.
         // the existing widgets should be returned from the server. if so, then populate the widget list.
         // otherwise, something went wrong so display an error.
@@ -51,10 +56,10 @@
             if (existingWidgets) {
                 vm.widgets = existingWidgets;
                 // make the widgets sortable on the page on drag
-                $(".container").sortable({
-                    axis: "y",
-                    handle: ".widget-edit"
-                });
+                // $(".container").sortable({
+                //     axis: "y",
+                //     handle: ".widget-edit"
+                // });
             } else {
                 vm.error = "Could not fetch the widgets. Please try again later.";
             }
@@ -149,7 +154,7 @@
         // pass the given widget to the WidgetService to update the widget
         function updateWidget(widget) {
             vm.error = "";
-            
+
             // check validation first
             if (!widget.name) {
                 vm.error = "Widget name is required.";

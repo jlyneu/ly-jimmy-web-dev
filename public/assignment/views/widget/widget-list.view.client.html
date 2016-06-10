@@ -21,7 +21,7 @@
 </nav>
 
 
-<div class="container">
+<div wam-sortable callback="model.reorderWidget(start, end)" class="container">
     <div ng-if="model.error" class="alert alert-danger">
         {{model.error}}
     </div>
