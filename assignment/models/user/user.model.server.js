@@ -9,6 +9,8 @@ module.exports = function(mongoose) {
         findUserByCredentials: findUserByCredentials,
         updateUser: updateUser,
         deleteUser: deleteUser,
+        pushWebsite: pushWebsite,
+        pullWebsite: pullWebsite
     };
     return api;
 
@@ -55,5 +57,27 @@ module.exports = function(mongoose) {
     // Removes user instance whose _id is equal to parameter userId
     function deleteUser(userId) {
         return User.remove({ _id: userId });
+    }
+
+    function pushWebsite(userId, websiteId) {
+        return User.update(
+            { _id: userId },
+            { $pushAll:
+                {
+                    websites: [websiteId]
+                }
+            }
+        );
+    }
+
+    function pullWebsite(userId, websiteId) {
+        return User.update(
+            { _id: userId },
+            { $pullAll:
+                {
+                    websites: [websiteId]
+                }
+            }
+        );
     }
 };

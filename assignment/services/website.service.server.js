@@ -37,6 +37,8 @@ module.exports = function(app, models) {
             if (newWebsite) {
                 res.json(newWebsite);
             } else {
+                console.log(newWebsite + "!");
+                console.log("no newWebsite returned");
                 errorMessage.message = "Could not create website. Please try again later.";
                 res.status(500).json(errorMessage);
             }
@@ -44,6 +46,8 @@ module.exports = function(app, models) {
 
         // if an error occurred, then return an error
         function createWebsiteForUserError(error) {
+            console.log("error in server");
+            console.log(error);
             errorMessage.message = "Could not create website. Please try again later.";
             res.status(500).json(errorMessage);
         }

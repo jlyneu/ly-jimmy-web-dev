@@ -1,5 +1,6 @@
-module.exports = function(mongoose) {
+module.exports = function(mongoose, userModel) {
 
+    var q = require("q");
     var WebsiteSchema = require("./website.schema.server.js")(mongoose);
     var Website = mongoose.model("Website", WebsiteSchema);
 
@@ -15,7 +16,36 @@ module.exports = function(mongoose) {
     // Creates a new website instance for user whose _id is userId
     function createWebsiteForUser(userId, website) {
         website._user = userId;
-        return Website.create(website);
+        // use q to decide what to resolve from the returned promise and when to reject
+        var deferred = q.defer();
+        var newWebsite;
+
+        // create the website in the db, push the website id to the user's websites array,
+        // then resolve the promise with the newly created website
+        Website
+            .create(website)
+            .then(pushWebsiteForUser,rejectError)
+            .then(resolvePromise,rejectError);
+
+        return deferred.promise;
+
+        // if the website creation is successful, then push the user id onto the user's websites array
+        function pushWebsiteForUser(website) {
+            newWebsite = website;
+            return userModel.pushWebsite(userId, newWebsite._id);
+        }
+
+        // if the website id is successfully pushed onto the user's websites array then resolve the promise
+        // with the newly created website
+        function resolvePromise(numUpdated) {
+            deferred.resolve(newWebsite);
+        }
+
+        // an error occurred so reject the promise
+        function rejectError(err) {
+            deferred.reject(err);
+        }
+
     }
 
     // Retrieves all website instances for user whose _id is userId
@@ -44,6 +74,52 @@ module.exports = function(mongoose) {
 
     // Removes website instance whose _id is websiteId
     function deleteWebsite(websiteId) {
-        return Website.remove({ _id: websiteId });
+        // use q to decide what to resolve from the returned promise and when to reject
+        var deferred = q.defer();
+        var errorMessage = {};
+        var numDeleted;
+        var websiteObj;
+        Website
+            .findById(websiteId)
+            .then(removeWebsite,rejectError)
+            .then(pullWebsiteFromUser,rejectError)
+            .then(resolvePromise,rejectError);
+
+        return deferred.promise;
+
+        // if the website is successfully found, then remove the website from the db
+        function removeWebsite(website) {
+            if (website) {
+                websiteObj = website;
+                return Website.remove({ _id: websiteId });
+            } else {
+                errorMessage.message = "Could not find website with id" + websiteId;
+                throw new Error(errorMessage);
+            }
+        }
+
+        // if the website is successfully removed from the db, then remove the website id from the
+        // user's array of website ids
+        function pullWebsiteFromUser(deleted) {
+            // make sure a website was actually found and deleted
+            if (deleted) {
+                numDeleted = deleted;
+                return userModel.pullWebsite(websiteObj._user, websiteId);
+            } else {
+                errorMessage.message = "Could not find website with id" + websiteId;
+                throw new Error(errorMessage);
+            }
+        }
+
+        // if the website id is successfully removed from the user array of website ids, then resolve
+        // the promise with the number of websites deleted.
+        function resolvePromise(numUpdated) {
+            deferred.resolve(numDeleted);
+        }
+
+        // an error occurred so reject the promise
+        function rejectError(err) {
+            deferred.reject(err);
+        }
     }
 };
