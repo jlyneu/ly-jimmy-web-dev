@@ -43,9 +43,22 @@
             return $sce.trustAsResourceUrl(url);
         }
 
+        // send a request to the server to save the new widget ordering
+        // to the database
         function reorderWidget(start, end) {
             WidgetService
-                .reorderWidget(vm.pageId, start, end);
+                .reorderWidget(vm.pageId, start, end)
+                .then(reorderWidgetSuccess, reorderWidgetError);
+
+            function reorderWidgetSuccess(success) {
+                if (!success) {
+                    vm.error = "Could not save new widget order. Please try again later.";
+                }
+            }
+
+            function reorderWidgetError(error) {
+                vm.error = "Could not save new widget order. Please try again later.";
+            }
         }
 
         // a 200 was returned from the server, so the widgets should have been found.

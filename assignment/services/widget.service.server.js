@@ -2,6 +2,7 @@ module.exports = function(app, models) {
 
     var multer = require('multer');
     var upload = multer({ dest: __dirname + '/../../public/uploads' });
+    var pageModel = models.pageModel;
     var widgetModel = models.widgetModel;
 
     // declare the API
@@ -13,6 +14,9 @@ module.exports = function(app, models) {
     app.put("/api/widget/:widgetId", updateWidget);
     app.delete("/api/widget/:widgetId", deleteWidget);
 
+    // upload the image in the body of the request to the server, update the image
+    // widget to use the url to the image, then redirect the user to the widget edit
+    // page for the image widget
     function uploadImage(req, res) {
         var userId        = req.body.userId;
         var websiteId     = req.body.websiteId;
@@ -43,13 +47,32 @@ module.exports = function(app, models) {
         res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
     }
 
+    // move the widget for the page with the given pageId from position 'start'
+    // in the list to position 'end'
     function reorderWidget(req, res) {
         var pageId = req.params["pageId"];
         var start = req.query["start"];
         var end = req.query["end"];
+        var errorMessage = {};
+        pageModel
+            .reorderWidget(pageId, start, end)
+            .then(reorderWidgetSuccess, reorderWidgetError);
 
-        console.log([start, end]);
-        res.status(200).send();
+        // if success is true, then widgets were reordered. Otherwise, something went wrong.
+        function reorderWidgetSuccess(success) {
+            if (success) {
+                res.json(true);
+            } else {
+                errorMessage.message = "Could not reorder widgets. Please try again later.";
+                res.status(500).json(errorMessage);
+            }
+        }
+
+        // an error occurred while reordering widgets so return an error
+        function reorderWidgetError(error) {
+            errorMessage.message = "Could not reorder widgets. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
     }
 
     // adds the widget body parameter instance to the local widgets array.

@@ -49,7 +49,21 @@ module.exports = function(mongoose, pageModel) {
 
     // Retrieves all widget instances for page whose _id is pageId
     function findAllWidgetsForPage(pageId) {
-        return Widget.find({ _page: pageId });
+        var deferred = q.defer();
+        pageModel
+            .findPageById(pageId)
+            .populate("widgets")
+            .exec(resolvePromise);
+
+        return deferred.promise;
+
+        function resolvePromise(err, page) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(page.widgets);
+            }
+        }
     }
 
     // Retrieves single widget instance whose _id is widgetId

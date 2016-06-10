@@ -11,7 +11,8 @@ module.exports = function(mongoose, websiteModel) {
         updatePage: updatePage,
         deletePage: deletePage,
         pushWidget: pushWidget,
-        pullWidget: pullWidget
+        pullWidget: pullWidget,
+        reorderWidget: reorderWidget
     };
     return api;
 
@@ -151,5 +152,31 @@ module.exports = function(mongoose, websiteModel) {
                 }
             }
         );
+    }
+
+    // splice out the widget with index start and splice the widget back into index end
+    function reorderWidget(pageId, start, end) {
+        var deferred = q.defer();
+        var errorMessage = {};
+        Page
+            .findById(pageId)
+            .then(findByIdSuccess,findByIdError);
+
+        return deferred.promise;
+
+        // if the page is found, then splice out the widget then splice it back
+        // into the new position. then save the page
+        function findByIdSuccess(page) {
+            var widgets = page.widgets;
+            widgets.splice(end, 0, widgets.splice(start, 1));
+            page.save();
+            deferred.resolve(true);
+        }
+
+        // the page could not be found so return an error
+        function findByIdError(error) {
+            errorMessage.message = "Could not find page with id" + pageId;
+            deferred.reject(errorMessage);
+        }
     }
 };
