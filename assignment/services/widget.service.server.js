@@ -27,7 +27,7 @@ module.exports = function(app, models) {
 
         // if file isn't provided, then redirect user back to edit page
         if (!myFile) {
-            res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+            redirectToWidgetEdit();
             return;
         }
 
@@ -38,13 +38,33 @@ module.exports = function(app, models) {
         var size          = myFile.size;
         var mimetype      = myFile.mimetype;
 
-        for (var i in widgets) {
-            if (widgets[i]['_id'] === widgetId) {
-                widgets[i].url = "/uploads/" + filename;
+        // find the widget by the given widgetId. If successful, try to update the url of the widget with
+        // the path to the newly uploaded file on the server. If successful then update the widget in the
+        // database. Make sure the user is redirected to the widget edit page
+        widgetModel
+            .findWidgetById(widgetId)
+            .then(findWidgetByIdSuccess, redirectToWidgetEdit);
 
+        // try to update the image widget url and save to the database. then redirect the user to the
+        // edit widget page
+        function findWidgetByIdSuccess(widget) {
+            if (widget) {
+                // update the url of the image widget to be the path to the new uploaded file on the server
+                widget.url = "/uploads/" + filename;
+                // update the widget in the db then redirect the user to the edit widget page
+                widgetModel
+                    .updateWidget(widgetId, widget)
+                    .then(redirectToWidgetEdit, redirectToWidgetEdit);
+            } else {
+                // the widget wasn't found so just redirect the user back to the edit widget page
+                redirectToWidgetEdit();
             }
         }
-        res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+
+        // redirect the user to the edit widget page
+        function redirectToWidgetEdit() {
+            res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+        }
     }
 
     // move the widget for the page with the given pageId from position 'start'
