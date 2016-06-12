@@ -37,9 +37,28 @@
         // use the Strict Contextual Escaping (sce) module to
         // allow YouTube url to be displayed in iframe
         function getSafeUrl(widget) {
-            var urlParts = widget.url.split("/");
-            var id = urlParts[urlParts.length - 1];
-            var url = "https://www.youtube.com/embed/" + id;
+            var url;
+
+            if (widget.url.includes("youtube")) {
+                // then url should be in the format: https://www.youtube.com/watch?v={id}
+                // get the string of query parameters
+                var queryParamString = widget.url.substring("https://www.youtube.com/watch?".length, widget.url.length);
+                var queryParams = queryParamString.split("&");
+                // loop through the query parameters until the v parameter is found
+                for (var i in queryParams) {
+                    var keyValue = queryParams[i].split("=");
+                    if (keyValue[0] === "v") {
+                        // use the value as the id for the embed url
+                        url = "https://www.youtube.com/embed/" + keyValue[1];
+                        break;
+                    }
+                }
+            } else {
+                // then url should be in the format: https://youtu.be/{id}
+                var urlParts = widget.url.split("/");
+                var id = urlParts[urlParts.length - 1];
+                url = "https://www.youtube.com/embed/" + id;
+            }
             return $sce.trustAsResourceUrl(url);
         }
 
