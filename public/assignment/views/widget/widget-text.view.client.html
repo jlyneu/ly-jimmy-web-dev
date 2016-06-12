@@ -1,0 +1,77 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-inner">
+            <p class="navbar-text pull-left">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget" class="navbar-link">
+                    <span class="glyphicon glyphicon-chevron-left">
+                    </span>
+                </a>
+            </p>
+            <div class="navbar-brand pull-left">
+                Widget Edit
+            </div>
+            <p class="navbar-text pull-right">
+                <a class="navbar-link"
+                   ng-click="model.updateWidget(model.widget)">
+                    <span class="glyphicon glyphicon-ok">
+                    </span>
+                </a>
+            </p>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name"
+               ng-model="model.widget.name"
+               class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="text">Text</label>
+        <input id="text"
+               ng-model="model.widget.text"
+               class="form-control"/>
+
+    </div>
+    <div class="form-group">
+        <label for="rows">Rows</label>
+        <input id="rows"
+               ng-model="model.widget.rows"
+               class="form-control"
+               type="number"/>
+    </div>
+    <div class="form-group">
+        <label for="placeholder">Placeholder</label>
+        <input id="placeholder"
+               ng-model="model.widget.placeholder"
+               class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="formatted">Formatted</label>
+        <input id="formatted"
+               ng-model="model.widget.formatted"
+               type="checkbox"
+               class="form-control"/>
+    </div>
+
+    <a class="btn btn-danger btn-block"
+       ng-click="model.deleteWidget()">Delete</a>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <div class="row navbar-inner navbar-center-vert">
+            <div class="col-xs-3 text-center pull-right">
+                <a href="#/user/{{model.userId}}">
+                    <span class="glyphicon glyphicon-user"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
