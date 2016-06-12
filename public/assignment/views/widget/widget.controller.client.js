@@ -206,6 +206,11 @@
                     vm.error = "YouTube URL is required.";
                     return;
                 }
+            } else if (widget.widgetType === "TEXT") {
+                if ($("#rows").hasClass("ng-invalid-min")) {
+                    vm.error = "Rows must be a non-negative number.";
+                    return;
+                }
             }
 
             WidgetService
