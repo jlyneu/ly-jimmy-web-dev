@@ -14,7 +14,6 @@
 
         // initialize the page by fetching the websites for the current user
         function init() {
-            vm.websites = WebsiteService.findWebsitesByUser(vm.userId);
             WebsiteService
                 .findWebsitesByUser(vm.userId)
                 .then(findWebsitesByUserSuccess, findWebsitesByUserError);
