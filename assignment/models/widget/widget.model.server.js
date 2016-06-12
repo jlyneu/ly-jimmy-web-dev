@@ -80,9 +80,29 @@ module.exports = function(mongoose, pageModel) {
         // do update the dateUpdated time
         widget.dateUpdated = Date.now();
 
+        // originally had `$set: widget` after deleting widget._id, but the remote mongo instance was
+        // throwing the error `Mod on _id not allowed`, so here we are explicitly setting fields.
+        // the `|| null` is there since Mongoose cannot cast undefined to number types, etc.
         return Widget.update(
             { _id: widgetId },
-            { $set: widget }
+            { $set:
+                {
+                    name: widget.name || null,
+                    text: widget.text || null,
+                    placeholder: widget.placeholder || null,
+                    description: widget.description || null,
+                    url: widget.url || null,
+                    width: widget.width || null,
+                    height: widget.height || null,
+                    rows: widget.rows || null,
+                    size: widget.size || null,
+                    class: widget.class || null,
+                    icon: widget.icon || null,
+                    deletable: widget.deletable || null,
+                    formatted: widget.formatted || null,
+                    dateUpdated: widget.dateUpdated || null
+                }
+            }
         );
     }
 
