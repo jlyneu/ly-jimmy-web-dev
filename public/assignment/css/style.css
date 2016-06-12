@@ -2,6 +2,10 @@ input.form-control {
     margin-bottom: 5px;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 button.btn {
     margin-top: 10px;
     margin-bottom: 5px;
@@ -12,8 +16,12 @@ body {
     padding-bottom: 60px;
 }
 
-a:hover {
-    text-decoration: none;
+input[type=checkbox].checkbox-input {
+    margin-left: 5px;
+}
+
+.checkbox-label {
+    vertical-align: center;
 }
 
 .navbar-center-vert {
@@ -45,6 +53,10 @@ div.flickr-img {
 
 div.flickr-img img {
     width: 100%;
+}
+
+.widget-element textarea {
+    margin-bottom: 5px;
 }
 
 .youtube-widget {

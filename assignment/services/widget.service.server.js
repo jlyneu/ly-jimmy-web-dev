@@ -170,11 +170,7 @@ module.exports = function(app, models) {
 
         // widget validation check
         if (widget.widgetType === "HEADER") {
-            if (!widget.name) {
-                errorMessage.message = "Widget name is required.";
-                res.status(400).json(errorMessage);
-                return;
-            } else if (!widget.text) {
+            if (!widget.text) {
                 errorMessage.message = "Header text is required.";
                 res.status(400).json(errorMessage);
                 return;
@@ -184,21 +180,13 @@ module.exports = function(app, models) {
                 return;
             }
         } else if (widget.widgetType === "IMAGE") {
-            if (!widget.name) {
-                errorMessage.message = "Widget name is required.";
-                res.status(400).json(errorMessage);
-                return;
-            } else if (!widget.url) {
+            if (!widget.url) {
                 errorMessage.message = "Image URL is required.";
                 res.status(400).json(errorMessage);
                 return;
             }
         } else if (widget.widgetType === "YOUTUBE") {
-            if (!widget.name) {
-                errorMessage.message = "Widget name is required.";
-                res.status(400).json(errorMessage);
-                return;
-            } else if (!widget.url) {
+            if (!widget.url) {
                 errorMessage.message = "YouTube URL is required";
                 res.status(400).json(errorMessage);
                 return;
