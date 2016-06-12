@@ -25,8 +25,6 @@ module.exports = function(app, models) {
         var width         = req.body.width;
         var myFile        = req.file;
 
-        console.log("myFile");
-        console.log(myFile);
         // if file isn't provided, then redirect user back to edit page
         if (!myFile) {
             redirectToWidgetEdit();
@@ -40,9 +38,6 @@ module.exports = function(app, models) {
         var size          = myFile.size;
         var mimetype      = myFile.mimetype;
 
-        console.log("widgetId");
-        console.log(widgetId);
-
         // find the widget by the given widgetId. If successful, try to update the url of the widget with
         // the path to the newly uploaded file on the server. If successful then update the widget in the
         // database. Make sure the user is redirected to the widget edit page
@@ -53,16 +48,13 @@ module.exports = function(app, models) {
         // try to update the image widget url and save to the database. then redirect the user to the
         // edit widget page
         function findWidgetByIdSuccess(widget) {
-            console.log("widget");
-            console.log(widget);
             if (widget) {
-                console.log(filename);
                 // update the url of the image widget to be the path to the new uploaded file on the server
                 widget.url = "/uploads/" + filename;
                 // update the widget in the db then redirect the user to the edit widget page
                 widgetModel
                     .updateWidget(widgetId, widget)
-                    .then(updateWidgetSuccess, updateWidgetError);
+                    .then(redirectToWidgetEdit, redirectToWidgetEdit);
             } else {
                 // the widget wasn't found so just redirect the user back to the edit widget page
                 redirectToWidgetEdit();
@@ -72,16 +64,6 @@ module.exports = function(app, models) {
         // redirect the user to the edit widget page
         function redirectToWidgetEdit() {
             res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
-        }
-
-        function updateWidgetSuccess(numUpdated) {
-            console.log(numUpdated);
-            redirectToWidgetEdit();
-        }
-
-        function updateWidgetError(error) {
-            console.log(error);
-            redirectToWidgetEdit();
         }
     }
 
