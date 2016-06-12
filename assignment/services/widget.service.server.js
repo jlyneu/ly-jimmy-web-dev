@@ -62,7 +62,7 @@ module.exports = function(app, models) {
                 // update the widget in the db then redirect the user to the edit widget page
                 widgetModel
                     .updateWidget(widgetId, widget)
-                    .then(redirectToWidgetEdit, redirectToWidgetEdit);
+                    .then(updateWidgetSuccess, updateWidgetError);
             } else {
                 // the widget wasn't found so just redirect the user back to the edit widget page
                 redirectToWidgetEdit();
@@ -72,6 +72,16 @@ module.exports = function(app, models) {
         // redirect the user to the edit widget page
         function redirectToWidgetEdit() {
             res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+        }
+
+        function updateWidgetSuccess(numUpdated) {
+            console.log(numUpdated);
+            redirectToWidgetEdit();
+        }
+
+        function updateWidgetError(error) {
+            console.log(error);
+            redirectToWidgetEdit();
         }
     }
 
