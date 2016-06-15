@@ -1,13 +1,63 @@
 module.exports = function(app, models) {
 
+    var passport = require("passport");
+    var LocalStrategy = require("passport-local").Strategy;
+    var FacebookStrategy = require("passport-facebook").Strategy;
+    var bcrypt = require("bcrypt-nodejs");
+
     // declare the API
+    app.post("/api/login", passport.authenticate("local"), login);
+    app.post("/api/logout", logout);
+    app.post("/api/register", register);
+    app.get("/api/loggedin", loggedin);
     app.post("/api/user", createUser);
     app.get("/api/user", getUsers);
     app.get("/api/user/:userId", findUserById);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
-    
+    app.get("/auth/facebook", passport.authenticate("facebook", { scope: "email" }));
+    app.get("/auth/facebook/callback",
+        passport.authenticate("facebook", {
+            successRedirect: "/#/user",
+            failureRedirect: "/#/login"
+        }));
+
     var userModel = models.userModel;
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+    passport.use("local", new LocalStrategy(localStrategy));
+    var facebookConfig = {
+        clientID: process.env.FACEBOOK_CLIENT_ID,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL: process.env.FACEBOOK_CALLBACK_URL
+    };
+    passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+
+
+    function localStrategy(username, password, done) {
+        userModel
+            .findUserByUsername(username)
+            .then(findUserByCredentialsSuccess, findUserByCredentialsError);
+
+        function findUserByCredentialsSuccess(user) {
+            if (user && bcrypt.compareSync(password, user.password)) {
+                return done(null, user);
+            } else {
+                return done(null, false);
+            }
+        }
+
+        function findUserByCredentialsError(error) {
+            if (error) {
+                return done(error);
+            }
+        }
+    }
+
+    function facebookStrategy(token, refreshToken, profile, done) {
+        userModel
+            .findUserByFacebookId(profile.id);
+    }
 
     // adds the user body parameter instance to the local users array.
     // return the user if creation was successful, otherwise return an error.
@@ -201,5 +251,63 @@ module.exports = function(app, models) {
             errorMessage.message = "Could not delete user. Please try again later.";
             res.status(500).send(errorMessage);
         }
+    }
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        userModel
+            .findUserById(user._id)
+            .then(findUserByIdSuccess, findUserByIdError);
+
+        function findUserByIdSuccess(user) {
+            done(null, user);
+        }
+
+        function findUserByIdError(error) {
+            done(error, null);
+        }
+    }
+    
+    function login(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+    function logout(req, res) {
+        req.logout();
+        res.send(200);
+    }
+
+    function register(req, res) {
+        var user = req.body;
+        var errorMessage = {};
+        user.password = bcrypt.hashSync(user.password);
+        userModel
+            .createUser(user)
+            .then(createUserSuccess, createUserError);
+
+        function createUserSuccess(user) {
+            if (user) {
+                req.login(user, function(err) {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        res.json(user);
+                    }
+                });
+            }
+        }
+
+        function createUserError(error) {
+            errorMessage.message = user.username + " is already taken.";
+            res.status(400).json(errorMessage);
+        }
+    }
+
+    function loggedin(req, res) {
+        res.send(req.isAuthenticated() ? req.user : "0");
     }
 };

@@ -10,7 +10,8 @@ module.exports = function(mongoose) {
         updateUser: updateUser,
         deleteUser: deleteUser,
         pushWebsite: pushWebsite,
-        pullWebsite: pullWebsite
+        pullWebsite: pullWebsite,
+        findUserByFacebookId: findUserByFacebookId
     };
     return api;
 
@@ -81,5 +82,9 @@ module.exports = function(mongoose) {
                 }
             }
         );
+    }
+    
+    function findUserByFacebookId(facebookId) {
+        return User.findOne({ "facebook.id": facebookId });
     }
 };

@@ -25,6 +25,10 @@ module.exports = function(mongoose) {
         dateUpdated: {
             type: Date,
             default: Date.now
+        },
+        facebook: {
+            id: String,
+            token: String
         }
     }, { collection: "assignment.user" });
 
