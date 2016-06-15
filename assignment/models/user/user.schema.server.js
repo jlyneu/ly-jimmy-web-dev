@@ -6,10 +6,7 @@ module.exports = function(mongoose) {
             required: true,
             unique: true
         },
-        password: {
-            type: String,
-            required: true
-        },
+        password: String,
         firstName: String,
         lastName: String,
         email: String,

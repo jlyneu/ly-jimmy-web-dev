@@ -16,11 +16,23 @@ module.exports = function(app, models) {
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
     app.get("/auth/facebook", passport.authenticate("facebook", { scope: "email" }));
-    app.get("/auth/facebook/callback",
-        passport.authenticate("facebook", {
-            successRedirect: "/#/user",
-            failureRedirect: "/#/login"
-        }));
+    app.get("/auth/facebook/callback", function(req, res, next) {
+        passport.authenticate("facebook", function(err, user, info) {
+            if (err) {
+                return res.redirect("/assignment/#/login");
+            } else if (user) {
+                req.login(user, function(err) {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        return res.redirect("/assignment/#/user/" + user._id);
+                    }
+                });
+            } else {
+                return res.redirect("/assignment/#/login");
+            }
+        })(req, res, next);
+    });
 
     var userModel = models.userModel;
     passport.serializeUser(serializeUser);
@@ -56,7 +68,49 @@ module.exports = function(app, models) {
 
     function facebookStrategy(token, refreshToken, profile, done) {
         userModel
-            .findUserByFacebookId(profile.id);
+            .findUserByFacebookId(profile.id)
+            .then(findUserByFacebookIdSuccess, findUserByFacebookIdError);
+
+        function findUserByFacebookIdSuccess(user) {
+            if (user) {
+                return done(null, user);
+            } else {
+                var username = profile.displayName.replace(/ /g, '-');
+                var bothNames = profile.displayName.split(" ");
+                var firstName = bothNames[0];
+                var lastName = bothNames[bothNames.length - 1];
+                var email;
+                if (profile.emails) {
+                    email = profile.emails[0].value;
+                } else {
+                    email = "";
+                }
+                var newUser = {
+                    username: username,
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    facebook: {
+                        id: profile.id,
+                        token: token
+                    }
+                };
+                userModel.createUser(newUser)
+                    .then(createUserSuccess, createUserError);
+            }
+        }
+
+        function findUserByFacebookIdError(error) {
+            return done(error);
+        }
+
+        function createUserSuccess(user) {
+            return done(null, user);
+        }
+
+        function createUserError(error) {
+            return done(error);
+        }
     }
 
     // adds the user body parameter instance to the local users array.
