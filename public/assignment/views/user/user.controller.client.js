@@ -129,7 +129,7 @@
         vm.logout = logout;
 
         // get various id route parameters from the current url
-        vm.userId = $routeParams["userId"];
+        vm.userId = $rootScope.currentUser._id;
 
         vm.success = "";
         vm.error = "";
@@ -157,8 +157,56 @@
             UserService
                 .updateUser(vm.userId, user)
                 .then(updateUserSuccess, updateUserError);
+
+            // a 200 was returned from the server, so the user should have been found.
+            // the existing user should be returned from the server. if so, then populate the input fields.
+            // otherwise, something went wrong so display an error.
+            function findUserByIdSuccess(response) {
+                var user = response.data;
+                if (!$.isEmptyObject(user)) {
+                    vm.user = user;
+                } else {
+                    vm.error = "Unable to fetch profile information. Please try again later.";
+                }
+            }
+
+            // if the server sends a 404, there is no user with given userId, so route to login page.
+            // otherwise display error message from server if provided
+            function findUserByIdError(error) {
+                if (error.status === 404) {
+                    $location.url("/");
+                } else if (error.data && error.data.message) {
+                    vm.error = error.data.message;
+                } else {
+                    vm.error = "Unable to fetch profile information. Please try again later.";
+                }
+            }
+
+            // a 200 was returned from the server, so update should be successful.
+            // the updated user should be returned from the server. if so, then populate the display a success message.
+            // otherwise, something went wrong so display an error.
+            function updateUserSuccess(response) {
+                var user = response.data;
+                if (!$.isEmptyObject(user)) {
+                    vm.success = "Profile successfully updated.";
+                } else {
+                    vm.error = "Unable to update profile. Please try again later.";
+                }
+            }
+
+            // display error message from server if provided
+            function updateUserError(error) {
+                if (error.data && error.data.message) {
+                    vm.error = error.data.message;
+                } else {
+                    vm.error = "Unable to update profile. Please try again later.";
+                }
+            }
         }
 
+        // make a request to the server to logout the current user. if successful,
+        // route the user to the login page. also clear the current user from the rootScope.
+        // otherwise, an error occurred so display an error.
         function logout() {
             UserService
                 .logout()
@@ -171,51 +219,6 @@
 
             function logoutError(error) {
                 vm.error = "Could not logout. Please try again later.";
-            }
-        }
-
-        // a 200 was returned from the server, so the user should have been found.
-        // the existing user should be returned from the server. if so, then populate the input fields.
-        // otherwise, something went wrong so display an error.
-        function findUserByIdSuccess(response) {
-            var user = response.data;
-            if (!$.isEmptyObject(user)) {
-                vm.user = user;
-            } else {
-                vm.error = "Unable to fetch profile information. Please try again later.";
-            }
-        }
-
-        // if the server sends a 404, there is no user with given userId, so route to login page.
-        // otherwise display error message from server if provided
-        function findUserByIdError(error) {
-            if (error.status === 404) {
-                $location.url("/");
-            } else if (error.data && error.data.message) {
-                vm.error = error.data.message;
-            } else {
-                vm.error = "Unable to fetch profile information. Please try again later.";
-            }
-        }
-
-        // a 200 was returned from the server, so update should be successful.
-        // the updated user should be returned from the server. if so, then populate the display a success message.
-        // otherwise, something went wrong so display an error.
-        function updateUserSuccess(response) {
-            var user = response.data;
-            if (!$.isEmptyObject(user)) {
-                vm.success = "Profile successfully updated.";
-            } else {
-                vm.error = "Unable to update profile. Please try again later.";
-            }
-        }
-
-        // display error message from server if provided
-        function updateUserError(error) {
-            if (error.data && error.data.message) {
-                vm.error = error.data.message;
-            } else {
-                vm.error = "Unable to update profile. Please try again later.";
             }
         }
     }

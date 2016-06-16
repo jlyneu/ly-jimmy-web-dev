@@ -4,17 +4,42 @@
         .factory("UserService", UserService);
     function UserService($http) {
         var api = {
+            "login"                 : login,
+            "logout"                : logout,
+            "register"              : register,
             "createUser"            : createUser,
             "findUserById"          : findUserById,
             "findUserByUsername"    : findUserByUsername,
             "findUserByCredentials" : findUserByCredentials,
             "updateUser"            : updateUser,
-            "deleteUser"            : deleteUser,
-            "login"                 : login,
-            "logout"                : logout,
-            "register"              : register
+            "deleteUser"            : deleteUser
         };
         return api;
+
+        // return a promise for logging in a user on the server. if the user was
+        // logged in successfully, then the promise will resolve with the user object.
+        // if the user was not logged in, the promise will resolve with an error.
+        function login(user) {
+            var url = "/api/login";
+            return $http.post(url, user);
+        }
+
+        // return a promise for logging out a user on the server. if the user was
+        // logged out successfully, then the promise will resolve with a 200 status
+        // and an empty object. if the user was not logged out properly, then the
+        // promise will resolve with an error.
+        function logout() {
+            var url = "/api/logout";
+            return $http.post(url);
+        }
+
+        // return a promise for creating a user on the server. if the user was created
+        // successfully, then the promise will resolve with the new user.
+        // if the user was not created, the promise will resolve with an error.
+        function register(user) {
+            var url = "/api/register";
+            return $http.post(url, user);
+        }
 
         // return a promise for creating a user on the server. if the user was created
         // successfully, then the promise will resolve with the new user.
@@ -62,21 +87,6 @@
         function deleteUser(userId) {
             var url = "/api/user/" + userId;
             return $http.delete(url);
-        }
-
-        function login(user) {
-            var url = "/api/login";
-            return $http.post(url, user);
-        }
-
-        function logout() {
-            var url = "/api/logout";
-            return $http.post(url);
-        }
-
-        function register(user) {
-            var url = "/api/register";
-            return $http.post(url, user);
         }
     }
 })();

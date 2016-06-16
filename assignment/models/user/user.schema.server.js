@@ -15,6 +15,10 @@ module.exports = function(mongoose) {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Website"
         }],
+        facebook: {
+            id: String,
+            token: String
+        },
         dateCreated: {
             type: Date,
             default: Date.now
@@ -22,10 +26,6 @@ module.exports = function(mongoose) {
         dateUpdated: {
             type: Date,
             default: Date.now
-        },
-        facebook: {
-            id: String,
-            token: String
         }
     }, { collection: "assignment.user" });
 

@@ -31,6 +31,11 @@
                 templateUrl: "/assignment/views/user/register.view.client.html",
                 controller: "RegisterController",
                 controllerAs: "model"
+            }).when("/user", {
+                templateUrl: "/assignment/views/user/profile.view.client.html",
+                controller: "ProfileController",
+                controllerAs: "model",
+                resolve: {loggedin: checkLoggedin}
             }).when("/user/:userId", {
                 templateUrl: "/assignment/views/user/profile.view.client.html",
                 controller: "ProfileController",

@@ -1,9 +1,7 @@
-module.exports = function(app, models) {
+var multer = require('multer');
+var upload = multer({ dest: __dirname + '/../../public/uploads' });
 
-    var multer = require('multer');
-    var upload = multer({ dest: __dirname + '/../../public/uploads' });
-    var pageModel = models.pageModel;
-    var widgetModel = models.widgetModel;
+module.exports = function(app, models) {
 
     // declare the API
     app.post("/api/upload", upload.single("myFile"), uploadImage);
@@ -13,6 +11,10 @@ module.exports = function(app, models) {
     app.get("/api/widget/:widgetId", findWidgetById);
     app.put("/api/widget/:widgetId", updateWidget);
     app.delete("/api/widget/:widgetId", deleteWidget);
+
+    // models that provide API for CRUD operations
+    var pageModel = models.pageModel;
+    var widgetModel = models.widgetModel;
 
     // upload the image in the body of the request to the server, update the image
     // widget to use the url to the image, then redirect the user to the widget edit

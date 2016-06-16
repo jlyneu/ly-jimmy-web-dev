@@ -1,56 +1,78 @@
+var passport = require("passport");
+var LocalStrategy = require("passport-local").Strategy;
+var FacebookStrategy = require("passport-facebook").Strategy;
+var bcrypt = require("bcrypt-nodejs");
+
 module.exports = function(app, models) {
 
-    var passport = require("passport");
-    var LocalStrategy = require("passport-local").Strategy;
-    var FacebookStrategy = require("passport-facebook").Strategy;
-    var bcrypt = require("bcrypt-nodejs");
-
     // declare the API
+
+    // Use management
     app.post("/api/login", passport.authenticate("local"), login);
     app.post("/api/logout", logout);
     app.post("/api/register", register);
     app.get("/api/loggedin", loggedin);
+    app.get("/auth/facebook", passport.authenticate("facebook", { scope: "email" }));
+    app.get("/auth/facebook/callback", passport.authenticate('facebook', {
+        successRedirect: '/assignment/#/user',
+        failureRedirect: '/assignment/#/login'
+    }));
+
+    // CRUD operations
     app.post("/api/user", createUser);
     app.get("/api/user", getUsers);
     app.get("/api/user/:userId", findUserById);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
-    app.get("/auth/facebook", passport.authenticate("facebook", { scope: "email" }));
-    app.get("/auth/facebook/callback", function(req, res, next) {
-        passport.authenticate("facebook", function(err, user, info) {
-            if (err) {
-                return res.redirect("/assignment/#/login");
-            } else if (user) {
-                req.login(user, function(err) {
-                    if (err) {
-                        res.status(400).send(err);
-                    } else {
-                        return res.redirect("/assignment/#/user/" + user._id);
-                    }
-                });
-            } else {
-                return res.redirect("/assignment/#/login");
-            }
-        })(req, res, next);
-    });
 
+    // user model to provide CRUD api
     var userModel = models.userModel;
+    
+    // configure passport for authentication locally and with Facebook
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
+    
     passport.use("local", new LocalStrategy(localStrategy));
+
     var facebookConfig = {
         clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
         callbackURL: process.env.FACEBOOK_CALLBACK_URL
     };
+    
     passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
 
+    // provide the user object to store an encrypted representation of the user in a cookie
+    function serializeUser(user, done) {
+        done(null, user);
+    }
 
+    // retrieve the currently logged in user from the encrypted cookie created in serializeUser.
+    // if the user cannot be found by the id stored in the cookie, then return an error
+    function deserializeUser(user, done) {
+        userModel
+            .findUserById(user._id)
+            .then(findUserByIdSuccess, findUserByIdError);
+
+        function findUserByIdSuccess(user) {
+            done(null, user);
+        }
+
+        function findUserByIdError(error) {
+            done(error, null);
+        }
+    }
+
+    // when the user chooses to login via their username and password for this site, lookup the user
+    // by their username then determine if the password the user provided is correct. If the user
+    // cannot be found by the username or if an error occurs, then return an error.
     function localStrategy(username, password, done) {
         userModel
             .findUserByUsername(username)
             .then(findUserByCredentialsSuccess, findUserByCredentialsError);
 
+        // the query was successful. if a user is returned and the provided password matches the
+        // password in the database (after encryption), then return the user. Otherwise, return false.
         function findUserByCredentialsSuccess(user) {
             if (user && bcrypt.compareSync(password, user.password)) {
                 return done(null, user);
@@ -59,6 +81,7 @@ module.exports = function(app, models) {
             }
         }
 
+        // the query threw an error so return an error.
         function findUserByCredentialsError(error) {
             if (error) {
                 return done(error);
@@ -66,19 +89,28 @@ module.exports = function(app, models) {
         }
     }
 
+    // when the user chooses to login via Facebook and Facebook has sent a POST request callback with token
+    // and profile, etc. see if the user is already registered with a Facebook id. if so, then simply
+    // return the user. otherwise, the user has never logged in with Facebook before so create a new
+    // user and store the Facebook id and token. Facebook also sends a displayName, which should also be stored
+    // in the database.
     function facebookStrategy(token, refreshToken, profile, done) {
         userModel
             .findUserByFacebookId(profile.id)
-            .then(findUserByFacebookIdSuccess, findUserByFacebookIdError);
+            .then(findUserByFacebookIdSuccess, handleError);
 
+        // the database query was successful. check if a user was returned, meaning the Facebook id was a match.
+        // if so, return the user. otherwise, create a new user using the profile information from Facebook.
         function findUserByFacebookIdSuccess(user) {
             if (user) {
                 return done(null, user);
             } else {
-                var username = profile.displayName.replace(/ /g, '-');
+                // use firstNamelastName as the username and also parse the names from profile.displayName
+                var username = profile.displayName.replace(/ /g, '');
                 var bothNames = profile.displayName.split(" ");
                 var firstName = bothNames[0];
                 var lastName = bothNames[bothNames.length - 1];
+                // if Facebook provided any emails, then save one in the database
                 var email;
                 if (profile.emails) {
                     email = profile.emails[0].value;
@@ -95,25 +127,101 @@ module.exports = function(app, models) {
                         token: token
                     }
                 };
+                // try to create the new user in the database
                 userModel.createUser(newUser)
-                    .then(createUserSuccess, createUserError);
+                    .then(createUserSuccess, handleError);
             }
         }
 
-        function findUserByFacebookIdError(error) {
-            return done(error);
-        }
-
+        // the user was successfully created, so return the user
         function createUserSuccess(user) {
             return done(null, user);
         }
 
-        function createUserError(error) {
+        // an error occurred, so return an error
+        function handleError(error) {
             return done(error);
         }
     }
 
-    // adds the user body parameter instance to the local users array.
+    // Implement the API
+
+    // the passport authenticate middleware has already authenticated and found the user in the database,
+    // storing the user in the request. simply return the user in the request
+    function login(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+    // use the request's logout function to invalidate the currently logged in user
+    function logout(req, res) {
+        req.logout();
+        res.status(200).json({});
+    }
+
+    // validate the user and try to insert the user into the database if there are no
+    // validation errors. if the user is created successfully, then log the user in
+    // using the request's login function. once the user is logged in, return the user.
+    // otherwise, return an error.
+    function register(req, res) {
+        var user = req.body;
+        var errorMessage = {};
+
+        // first check for validation errors
+        if (!user.username) {
+            errorMessage.message = "Username is required";
+            res.status(400).json(errorMessage);
+            return;
+        }
+        else if (!user.password) {
+            errorMessage.message = "Password is required";
+            res.status(400).json(errorMessage);
+            return;
+        }
+        // make sure passwords match
+        else if (user.password !== user.verifyPassword) {
+            errorMessage.message = "Passwords do not match";
+            res.status(400).json(errorMessage);
+            return;
+        }
+
+        // encrypt the password to be stored in the database
+        user.password = bcrypt.hashSync(user.password);
+        // try to create the user
+        userModel
+            .createUser(user)
+            .then(createUserSuccess, createUserError);
+
+        // check to see if a user was created and returned. if so, login the user and return the user.
+        // otherwise, return an error
+        function createUserSuccess(user) {
+            if (user) {
+                req.login(user, function(err) {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        res.json(user);
+                    }
+                });
+            } else {
+                errorMessage.message = "Could not create the user. Please try again later.";
+                res.status(500).send(errorMessage);
+            }
+        }
+
+        // user creation failed, most likely due to the username not being unique. return an error
+        function createUserError(error) {
+            errorMessage.message = user.username + " is already taken.";
+            res.status(400).json(errorMessage);
+        }
+    }
+
+    // if the user is currently logged in, then return the user. otherwise return a falsy value ("0")
+    function loggedin(req, res) {
+        res.send(req.isAuthenticated() ? req.user : "0");
+    }
+
+    // adds the user body parameter instance to the database.
     // return the user if creation was successful, otherwise return an error.
     function createUser(req, res) {
         var user = req.body;
@@ -305,63 +413,5 @@ module.exports = function(app, models) {
             errorMessage.message = "Could not delete user. Please try again later.";
             res.status(500).send(errorMessage);
         }
-    }
-
-    function serializeUser(user, done) {
-        done(null, user);
-    }
-
-    function deserializeUser(user, done) {
-        userModel
-            .findUserById(user._id)
-            .then(findUserByIdSuccess, findUserByIdError);
-
-        function findUserByIdSuccess(user) {
-            done(null, user);
-        }
-
-        function findUserByIdError(error) {
-            done(error, null);
-        }
-    }
-    
-    function login(req, res) {
-        var user = req.user;
-        res.json(user);
-    }
-
-    function logout(req, res) {
-        req.logout();
-        res.send(200);
-    }
-
-    function register(req, res) {
-        var user = req.body;
-        var errorMessage = {};
-        user.password = bcrypt.hashSync(user.password);
-        userModel
-            .createUser(user)
-            .then(createUserSuccess, createUserError);
-
-        function createUserSuccess(user) {
-            if (user) {
-                req.login(user, function(err) {
-                    if (err) {
-                        res.status(400).send(err);
-                    } else {
-                        res.json(user);
-                    }
-                });
-            }
-        }
-
-        function createUserError(error) {
-            errorMessage.message = user.username + " is already taken.";
-            res.status(400).json(errorMessage);
-        }
-    }
-
-    function loggedin(req, res) {
-        res.send(req.isAuthenticated() ? req.user : "0");
     }
 };

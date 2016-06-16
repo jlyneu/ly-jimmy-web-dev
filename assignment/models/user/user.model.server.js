@@ -5,13 +5,13 @@ module.exports = function(mongoose) {
     var api = {
         createUser: createUser,
         findUserById: findUserById,
+        findUserByFacebookId: findUserByFacebookId,
         findUserByUsername: findUserByUsername,
         findUserByCredentials: findUserByCredentials,
         updateUser: updateUser,
         deleteUser: deleteUser,
         pushWebsite: pushWebsite,
-        pullWebsite: pullWebsite,
-        findUserByFacebookId: findUserByFacebookId
+        pullWebsite: pullWebsite
     };
     return api;
 
@@ -23,6 +23,11 @@ module.exports = function(mongoose) {
     // retrieve a user instance whose _id is equal to parameter userId
     function findUserById(userId) {
         return User.findById(userId);
+    }
+
+    // retrieve a user instance whose facebook.id is equal to parameter facebookId
+    function findUserByFacebookId(facebookId) {
+        return User.findOne({ "facebook.id": facebookId });
     }
 
     // retrieve a user instance whose username is equal to parameter username
@@ -82,9 +87,5 @@ module.exports = function(mongoose) {
                 }
             }
         );
-    }
-    
-    function findUserByFacebookId(facebookId) {
-        return User.findOne({ "facebook.id": facebookId });
     }
 };
