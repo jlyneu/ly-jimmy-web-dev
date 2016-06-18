@@ -3,21 +3,6 @@
         .module("WebAppMaker")
         .config(Config);
     function Config($routeProvider) {
-        var checkLoggedin = function($q, $http, $timeout, $location, $rootScope) {
-            var deferred = $q.defer();
-            $http.get("/api/loggedin").success(function(user) {
-                $rootScope.errorMessage = null;
-                if (user !== "0") {
-                    $rootScope.currentUser = user;
-                    deferred.resolve();
-                } else {
-                    deferred.reject();
-                    $location.url("/");
-                }
-            });
-            return deferred.promise;
-        };
-
         $routeProvider
             .when("/login", {
                 templateUrl: "/assignment/views/user/login.view.client.html",
@@ -85,6 +70,23 @@
                 redirectTo: "/"
             });
 
-
+        // make a call to the server to determine whether or not the user
+        // is currently logged in
+        function checkLoggedin($q, $http, $timeout, $location, $rootScope) {
+            var deferred = $q.defer();
+            $http.get("/api/loggedin").success(function(user) {
+                $rootScope.errorMessage = null;
+                // if "0" didn't come back, then the user is indeed logged in so
+                // cache the user in the rootScope
+                if (user !== "0") {
+                    $rootScope.currentUser = user;
+                    deferred.resolve();
+                } else {
+                    deferred.reject();
+                    $location.url("/");
+                }
+            });
+            return deferred.promise;
+        }
     }
 })();

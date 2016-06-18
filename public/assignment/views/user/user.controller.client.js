@@ -139,24 +139,6 @@
             UserService
                 .findUserById(vm.userId)
                 .then(findUserByIdSuccess, findUserByIdError);
-        }
-        init();
-
-        // pass the given user to the UserService to update the user.
-        // If the user is successfully updated, then display a success message.
-        // Otherwise, display an error message.
-        function update(user) {
-            // temporarily remove success and error messages
-            vm.success = "";
-            vm.error = "";
-            // check for valid email based on Angular's default email validation
-            if ($('input[type="email"]').hasClass('ng-invalid-email')) {
-                vm.error = "Please provide a valid email address";
-                return;
-            }
-            UserService
-                .updateUser(vm.userId, user)
-                .then(updateUserSuccess, updateUserError);
 
             // a 200 was returned from the server, so the user should have been found.
             // the existing user should be returned from the server. if so, then populate the input fields.
@@ -181,6 +163,24 @@
                     vm.error = "Unable to fetch profile information. Please try again later.";
                 }
             }
+        }
+        init();
+
+        // pass the given user to the UserService to update the user.
+        // If the user is successfully updated, then display a success message.
+        // Otherwise, display an error message.
+        function update(user) {
+            // temporarily remove success and error messages
+            vm.success = "";
+            vm.error = "";
+            // check for valid email based on Angular's default email validation
+            if ($('input[type="email"]').hasClass('ng-invalid-email')) {
+                vm.error = "Please provide a valid email address";
+                return;
+            }
+            UserService
+                .updateUser(vm.userId, user)
+                .then(updateUserSuccess, updateUserError);
 
             // a 200 was returned from the server, so update should be successful.
             // the updated user should be returned from the server. if so, then populate the display a success message.
