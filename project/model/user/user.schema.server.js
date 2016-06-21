@@ -10,6 +10,14 @@ module.exports = function(mongoose) {
         lastName: String,
         email: String,
         phone: String,
+        savedShelters: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Shelter"
+        }],
+        savedPets: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Pet"
+        }]
         dateCreated: {
             type: Date,
             default: Date.now
@@ -18,7 +26,7 @@ module.exports = function(mongoose) {
             type: Date,
             default: Date.now
         }
-    }, { collection: "project.pet" });
+    }, { collection: "project.user" });
 
     return UserSchema;
 };
