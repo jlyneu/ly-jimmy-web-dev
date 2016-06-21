@@ -17,7 +17,11 @@ module.exports = function(mongoose) {
         savedPets: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Pet"
-        }]
+        }],
+        google: {
+            id: String,
+            token: String
+        },
         dateCreated: {
             type: Date,
             default: Date.now
