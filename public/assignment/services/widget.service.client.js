@@ -8,7 +8,8 @@
             "findWidgetsByPageId" : findWidgetsByPageId,
             "findWidgetById"      : findWidgetById,
             "updateWidget"        : updateWidget,
-            "deleteWidget"        : deleteWidget
+            "deleteWidget"        : deleteWidget,
+            "reorderWidget"       : reorderWidget
         };
         return api;
 
@@ -50,6 +51,14 @@
         function deleteWidget(widgetId) {
             var url = "/api/widget/" + widgetId;
             return $http.delete(url);
+        }
+
+        // return a promise for reordering a widget for a page. if the widget was reordered
+        // successfully, then the promise will resolve with 'true'. if the widget was not
+        // reordered, then the promise will resolve with an error.
+        function reorderWidget(pageId, start, end) {
+            var url = "/api/page/" + pageId + "/widget?start=" + start + "&end=" + end;
+            return $http.put(url);
         }
     }
 })();

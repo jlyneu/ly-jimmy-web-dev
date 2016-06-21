@@ -9,9 +9,9 @@
     function WidgetListController($routeParams, $sce, WidgetService) {
         var vm = this;
         
-        // sanitize functions for html and urls
         vm.getSafeHtml = getSafeHtml;
         vm.getSafeUrl = getSafeUrl;
+        vm.reorderWidget = reorderWidget;
 
         // get various id route parameters from the current url
         vm.userId = $routeParams["userId"];
@@ -37,10 +37,47 @@
         // use the Strict Contextual Escaping (sce) module to
         // allow YouTube url to be displayed in iframe
         function getSafeUrl(widget) {
-            var urlParts = widget.url.split("/");
-            var id = urlParts[urlParts.length - 1];
-            var url = "https://www.youtube.com/embed/" + id;
+            var url;
+
+            if (widget.url.includes("youtube")) {
+                // then url should be in the format: https://www.youtube.com/watch?v={id}
+                // get the string of query parameters
+                var queryParamString = widget.url.substring("https://www.youtube.com/watch?".length, widget.url.length);
+                var queryParams = queryParamString.split("&");
+                // loop through the query parameters until the v parameter is found
+                for (var i in queryParams) {
+                    var keyValue = queryParams[i].split("=");
+                    if (keyValue[0] === "v") {
+                        // use the value as the id for the embed url
+                        url = "https://www.youtube.com/embed/" + keyValue[1];
+                        break;
+                    }
+                }
+            } else {
+                // then url should be in the format: https://youtu.be/{id}
+                var urlParts = widget.url.split("/");
+                var id = urlParts[urlParts.length - 1];
+                url = "https://www.youtube.com/embed/" + id;
+            }
             return $sce.trustAsResourceUrl(url);
+        }
+
+        // send a request to the server to save the new widget ordering
+        // to the database
+        function reorderWidget(start, end) {
+            WidgetService
+                .reorderWidget(vm.pageId, start, end)
+                .then(reorderWidgetSuccess, reorderWidgetError);
+
+            function reorderWidgetSuccess(success) {
+                if (!success) {
+                    vm.error = "Could not save new widget order. Please try again later.";
+                }
+            }
+
+            function reorderWidgetError(error) {
+                vm.error = "Could not save new widget order. Please try again later.";
+            }
         }
 
         // a 200 was returned from the server, so the widgets should have been found.
@@ -50,10 +87,6 @@
             var existingWidgets = response.data;
             if (existingWidgets) {
                 vm.widgets = existingWidgets;
-                // make the widgets sortable on the page on drag
-                $(".container").sortable({
-                    axis: "y"
-                });
             } else {
                 vm.error = "Could not fetch the widgets. Please try again later.";
             }
@@ -150,6 +183,11 @@
             vm.error = "";
 
             // check validation first
+            if (!widget.name) {
+                vm.error = "Widget name is required.";
+                return;
+            }
+
             if (widget.widgetType === "HEADER") {
                 if (!widget.text) {
                     vm.error = "Header text is required.";
@@ -166,6 +204,11 @@
             } else if (widget.widgetType === "YOUTUBE") {
                 if (!widget.url) {
                     vm.error = "YouTube URL is required.";
+                    return;
+                }
+            } else if (widget.widgetType === "TEXT") {
+                if ($("#rows").hasClass("ng-invalid-min")) {
+                    vm.error = "Rows must be a non-negative number.";
                     return;
                 }
             }

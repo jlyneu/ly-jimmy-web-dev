@@ -25,32 +25,42 @@
     <div ng-if="model.error" class="alert alert-danger">
         {{model.error}}
     </div>
-    <form>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input ng-model="model.widget.name"
-                   type="text"
-                   class="form-control"
-                   id="name"
-                   placeholder="Header Name">
-        </div>
-        <div class="form-group">
-            <label for="text">Text</label>
-            <input ng-model="model.widget.text"
-                   type="text"
-                   class="form-control"
-                   id="text"
-                   placeholder="Header Text">
-        </div>
-        <div class="form-group">
-            <label for="size">Size</label>
-            <select ng-model="model.widget.size"
-                    id="size"
-                    class="form-control"
-                    ng-options="val for val in [1,2,3,4,5,6]">
-            </select>
-        </div>
-    </form>
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name"
+               ng-model="model.widget.name"
+               class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="text">Text</label>
+        <input id="text"
+               ng-model="model.widget.text"
+               class="form-control"/>
+
+    </div>
+    <div class="form-group">
+        <label for="rows">Rows</label>
+        <input id="rows"
+               ng-model="model.widget.rows"
+               class="form-control"
+               type="number"
+               min="0"/>
+    </div>
+    <div class="form-group">
+        <label for="placeholder">Placeholder</label>
+        <input id="placeholder"
+               ng-model="model.widget.placeholder"
+               class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="formatted" class="checkbox-label">Formatted</label>
+        <input id="formatted"
+               ng-model="model.widget.formatted"
+               type="checkbox"
+               class="checkbox-input"/>
+    </div>
+
     <a class="btn btn-danger btn-block"
        ng-click="model.deleteWidget()">Delete</a>
 </div>

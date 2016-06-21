@@ -1,22 +1,22 @@
-var mongoose = require("mongoose");
+module.exports = function(mongoose) {
 
-module.exports = function() {
-
-    var PageSchema = require("../page/page.schema.server.js")();
 
     var WidgetSchema = mongoose.Schema({
-        _page: PageSchema,
-        type: {
+        _page: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Page"
+        },
+        widgetType: {
             type: String,
-            enum: ["HEADING", "IMAGE", "YOUTUBE", "HTML", "INPUT"]
+            enum: ["HEADER", "IMAGE", "YOUTUBE", "HTML", "TEXT"]
         },
         name: String,
         text: String,
         placeholder: String,
         description: String,
         url: String,
-        width: Number,
-        height: Number,
+        width: String,
+        height: String,
         rows: Number,
         size: Number,
         class: String,
@@ -26,8 +26,12 @@ module.exports = function() {
         dateCreated: {
             type: Date,
             default: Date.now
+        },
+        dateUpdated: {
+            type: Date,
+            default: Date.now
         }
-    });
+    }, { collection: "assignment.widget" });
 
     return WidgetSchema;
 };
