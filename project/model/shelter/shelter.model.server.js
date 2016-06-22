@@ -1,4 +1,4 @@
-module.exports = function(mongoose, userModel) {
+module.exports = function(mongoose) {
 
     var q = require("q");
     var ShelterSchema = require("./shelter.schema.server.js")(mongoose);
