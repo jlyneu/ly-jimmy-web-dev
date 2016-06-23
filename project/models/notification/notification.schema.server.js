@@ -3,7 +3,7 @@ module.exports = function(mongoose) {
     var NotificationSchema = mongoose.Schema({
         _user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            ref: "PetUser",
             required: true
         },
         _messagethread: {

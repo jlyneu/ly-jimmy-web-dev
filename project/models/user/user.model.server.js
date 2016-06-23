@@ -2,12 +2,14 @@ module.exports = function(mongoose) {
 
     var q = require("q");
     var UserSchema = require("./user.schema.server.js")(mongoose);
-    var User = mongoose.model("User", UserSchema);
+    // need to use PetUser model since User is already used for the assignment:
+    // OverwriteModelError: Cannot overwrite `User` model once compiled.
+    var User = mongoose.model("PetUser", UserSchema);
 
     var api = {
         createUser: createUser,
         findUserById: findUserById,
-        findUserByFacebookId: findUserByFacebookId,
+        findUserByGoogleId: findUserByGoogleId,
         findUserByUsername: findUserByUsername,
         findUserByCredentials: findUserByCredentials,
         updateUser: updateUser,

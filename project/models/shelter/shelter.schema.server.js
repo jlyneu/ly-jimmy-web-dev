@@ -3,7 +3,7 @@ module.exports = function(mongoose) {
     var ShelterSchema = mongoose.Schema({
         users: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "PetUser"
         }],
         name: {
             type: String,
