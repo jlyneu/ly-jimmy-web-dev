@@ -10,7 +10,7 @@
             controllerAs: "model"
         }).when("/login", {
             templateUrl: "/project/views/login/login.view.client.html",
-            controller: "LoginController",
+            con1troller: "LoginController",
             controllerAs: "model"
         }).when("/register", {
             templateUrl: "/project/views/register/register.view.client.html",
@@ -65,11 +65,11 @@
             controller: "PetNewController",
             controllerAs: "model"
         }).when("/shelter/:shelterId/pet/:petId", {
-            templateUrl: "/project/views/shelter/shelter-edit.view.client.html",
+            templateUrl: "/project/views/pet/pet-edit.view.client.html",
             controller: "PetDetailController",
             controllerAs: "model"
         }).when("/shelter/:shelterId/pet/:petId/edit", {
-            templateUrl: "/project/views/shelter/shelter-edit.view.client.html",
+            templateUrl: "/project/views/pet/pet-edit.view.client.html",
             controller: "PetEditController",
             controllerAs: "model"
         }).otherwise({
