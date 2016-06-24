@@ -1,0 +1,50 @@
+@container-width: 970px;
+
+@background-blue: #113F52;
+@card-blue: #477487;
+//@header-blue: #6F93A2;
+@header-text-blue: #6F93A2;
+@header-blue: #FFFFFF;
+@text-white: #FFFFFF;
+
+body {
+  background-color: @background-blue;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.ps {
+  &-main {
+    &-container {
+      max-width: @container-width;
+      margin: auto;
+    }
+  }
+  &-header {
+    background-color: @header-blue;
+    color: @header-text-blue;
+  }
+  &-home {
+    &-heading {
+      display: block;
+      font-size: 30px;
+      color: white;
+      width: 100%;
+    }
+    &-random {
+      &-container {
+        display: block;
+        height: 300px;
+        width: 100%;
+      }
+      &-panel {
+        width: 300px;
+        height: 300px;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
