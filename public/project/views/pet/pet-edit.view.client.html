@@ -1,1 +1,41 @@
 <ps-header user="model.user"></ps-header>
+<div class="container">
+    <h1>Edit pet</h1>
+    <label>Animal type</label>
+    <input ng-model="model.pet.animal"
+           type="text"
+           class="form-control"/>
+    <label>Breed</label>
+    <input ng-model="model.pet.breed"
+           type="text"
+           class="form-control"/>
+    <label>Name</label>
+    <input ng-model="model.pet.name"
+           type="text"
+           class="form-control"/>
+    <label>Description</label>
+    <textarea ng-model="model.pet.description"
+              rows="3"
+              class="form-control"></textarea>
+    <label>Size</label>
+    <input ng-model="model.pet.size"
+           type="text"
+           class="form-control"/>
+    <label>Sex</label>
+    <input ng-model="model.pet.sex"
+           type="text"
+           class="form-control"/>
+    <label>Options</label>
+    <input ng-model="model.pet.options"
+           type="text"
+           class="form-control"/>
+    <label>Photo URL</label>
+    <input ng-model="model.pet.photoUrl"
+           type="text"
+           class="form-control"/>
+    <div ng-click="model.updatePet(model.pet)"
+         class="btn btn-block btn-primary">Save</div>
+    <a href="#/shelter/{{model.shelterId}}/pet/{{model.petId}}">
+        <div class="btn btn-block btn-danger">Cancel</div>
+    </a>
+</div>

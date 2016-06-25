@@ -3,7 +3,7 @@
         .module("PetShelter")
         .controller("PetDetailController", PetDetailController);
 
-    // controller for the pet-list.view.client.html template
+    // controller for the pet-detail.view.client.html template
     function PetDetailController($rootScope, $routeParams, ShelterService, PetService) {
         var vm = this;
 
