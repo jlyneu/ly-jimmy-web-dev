@@ -1,8 +1,12 @@
+var request = require("request");
+var util = require("../utils/petfinder.util.server.js")();
+
 module.exports = function(app, models) {
 
     // declare the API
     app.post("/api/petshelter/shelter/:shelterId/pet", createPet);
     app.get("/api/petshelter/shelter/:shelterId/pet", findAllPetsForShelter);
+    app.get("/api/petshelter/pet", findPet);
     app.get("/api/petshelter/pet/:petId", findPetById);
     app.put("/api/petshelter/pet/:petId", updatePet);
     app.delete("/api/petshelter/pet/:petId", deletePet);
@@ -74,6 +78,55 @@ module.exports = function(app, models) {
         function findAllPetsForShelterError(error) {
             errorMessage.message = "Could not fetch pets. Please try again later.";
             res.status(500).json(errorMessage);
+        }
+    }
+
+    function findPet(req, res) {
+        var errorMessage = {};
+        var url = "http://api.petfinder.com/pet.find?key=" + process.env.PETFINDER_KEY;
+        if (req.query.location) {
+            url += "&location=" + req.query.location;
+        } else {
+            errorMessage.message = "Location is required for finding a pet.";
+            res.status(400).json(errorMessage);
+            return;
+        }
+        if (req.query.type) {
+            url += "&type=" + req.query.type;
+        }
+        if (req.query.breed) {
+            url += "&breed=" + req.query.breed;
+        }
+        if (req.query.size) {
+            url += "&size=" + req.query.size;
+        }
+        if (req.query.sex) {
+            url += "&sex=" + req.query.sex;
+        }
+        if (req.query.age) {
+            url += "&age=" + req.query.age;
+        }
+        url += "&format=json";
+        request(url, requestCallback);
+
+        function requestCallback(error, response, body) {
+            // decode certain special characters in response from petfinder
+            var data = JSON.parse(decodeURIComponent(escape(body)));
+            if (!error && response.statusCode == 200) {
+                if (!data.petfinder.header.message) {
+                    var pets = data.petfinder.pets.pet;
+                    var cleanPetList = [];
+                    for (var i = 0; i < pets.length; i++) {
+                        cleanPetList.push(util.cleanPetObj(pets[i]));
+                    }
+                    return res.json(cleanPetList);
+                } else {
+                    errorMessage.message = data.petfinder.header.status.message.$t;
+                    return res.status(400).json(errorMessage);
+                }
+            } else {
+                return res.status(500).json(error);
+            }
         }
     }
 

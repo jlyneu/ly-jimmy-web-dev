@@ -1,4 +1,19 @@
 <ps-header></ps-header>
 <div class="container">
     <h1>Search</h1>
+    <label>Location (required)</label>
+    <input ng-model="model.query.location" class="form-control"/>
+    <label>Animal Type</label>
+    <input ng-model="model.query.type" class="form-control"/>
+    <label>Breed</label>
+    <input ng-model="model.query.breed" class="form-control"/>
+    <label>Size</label>
+    <input ng-model="model.query.size" class="form-control"/>
+    <label>Sex</label>
+    <input ng-model="model.query.sex" class="form-control"/>
+    <label>Age</label>
+    <input ng-model="model.query.age" class="form-control"/>
+    <div ng-click="model.search(model.query)" class="btn btn-block btn-primary">Go!</div>
+    <div>Search Results</div>
+    <div></div>
 </div>

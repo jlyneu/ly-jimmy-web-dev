@@ -6,6 +6,7 @@
         var api = {
             "createPet"           : createPet,
             "findPetsByShelterId" : findPetsByShelterId,
+            "findPet"             : findPet,
             "findPetById"         : findPetById,
             "updatePet"           : updatePet,
             "deletePet"           : deletePet
@@ -25,6 +26,30 @@
         // found, then the promise will resolve with an error.
         function findPetsByShelterId(shelterId) {
             var url = "/api/petshelter/shelter/" + shelterId + "/pet";
+            return $http.get(url);
+        }
+
+        // return a promise for finding pets by the given query. if the search was successful,
+        // then the promise will resolve with the list of pets. if the search was not successful,
+        // then the promise will resolve with an error.
+        function findPet(query) {
+            var url = "/api/petshelter/pet?";
+            url += "location=" + query.location;
+            if (query.type) {
+                url += "&type=" + query.type;
+            }
+            if (query.breed) {
+                url += "&breed=" + query.breed;
+            }
+            if (query.size) {
+                url += "&size=" + query.size;
+            }
+            if (query.sex) {
+                url += "&sex=" + query.sex;
+            }
+            if (query.age) {
+                url += "&age=" + query.age;
+            }
             return $http.get(url);
         }
 
