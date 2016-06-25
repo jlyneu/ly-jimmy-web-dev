@@ -4,7 +4,9 @@
         .controller("HomeController", HomeController);
 
     // controller for the home.view.client.html template
-    function HomeController() {
+    function HomeController($rootScope) {
         var vm = this;
+
+        vm.user = $rootScope.currentUser;
     }
 })();

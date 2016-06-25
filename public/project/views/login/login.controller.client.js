@@ -10,6 +10,7 @@
         // event handler declarations
         vm.login = login;
 
+        vm.currentUser = $rootScope.currentUser;
         // initialize model.user object
         vm.user = {};
 

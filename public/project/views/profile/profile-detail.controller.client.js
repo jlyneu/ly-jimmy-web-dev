@@ -4,7 +4,7 @@
         .controller("ProfileDetailController", ProfileDetailController);
 
     // controller for the profile-detail.view.client.html template
-    function ProfileDetailController($rootScope, $location) {
+    function ProfileDetailController($rootScope, $location, UserService) {
         var vm = this;
 
         vm.logout = logout;

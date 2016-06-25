@@ -9,6 +9,8 @@
 
         vm.register = register;
 
+        vm.currentUser = $rootScope.currentUser;
+
         function register(user) {
             UserService
                 .register(user)
