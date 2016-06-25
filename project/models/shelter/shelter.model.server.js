@@ -23,7 +23,7 @@ module.exports = function(mongoose) {
 
     // Retrieves all shelter instances for user whose _id is userId
     function findAllSheltersForUser(userId) {
-        return Shelter.find({ _user: userId });
+        return Shelter.find({ users: userId });
     }
 
     // Retrieves single shelter instance whose _id is shelterId

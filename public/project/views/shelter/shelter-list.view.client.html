@@ -2,7 +2,7 @@
 <div class="container">
     <ps-profile-menu></ps-profile-menu>
     <div ng-repeat="shelter in model.shelters">
-        {{shelter.name}}
+        <a href="#/shelter/{{shelter._id}}"><div class="btn btn-block btn-success">{{shelter.name}}</div></a>
     </div>
     <a href="#/shelter/new">
         <div class="btn btn-block btn-primary" ng-if="model.noShelters">Register a new shelter</div>
