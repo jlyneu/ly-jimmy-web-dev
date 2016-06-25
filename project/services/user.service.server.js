@@ -1,6 +1,6 @@
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
-var GoogleStrategy = require("passport-google").Strategy;
+var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 var bcrypt = require("bcrypt-nodejs");
 
 module.exports = function(app, models) {
@@ -8,14 +8,14 @@ module.exports = function(app, models) {
     // declare the API
 
     // Use management
-    app.post("/api/petshelter/login", passport.authenticate("local"), login);
+    app.post("/api/petshelter/login", passport.authenticate("local-petfinder"), login);
     app.post("/api/petshelter/logout", logout);
     app.post("/api/petshelter/register", register);
     app.get("/api/petshelter/loggedin", loggedin);
-    app.get("/auth/google", passport.authenticate("google", { scope: "email" }));
+    app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
     app.get("/auth/google/callback", passport.authenticate('google', {
-        successRedirect: '/assignment/#/user',
-        failureRedirect: '/assignment/#/login'
+        successRedirect: '/project/#/profile',
+        failureRedirect: '/project/#/login'
     }));
 
     // CRUD operations
@@ -32,7 +32,7 @@ module.exports = function(app, models) {
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
-    passport.use("local", new LocalStrategy(localStrategy));
+    passport.use("local-petfinder", new LocalStrategy(localStrategy));
 
     var googleConfig = {
         clientID: process.env.GOOGLE_CLIENT_ID,
@@ -105,11 +105,10 @@ module.exports = function(app, models) {
             if (user) {
                 return done(null, user);
             } else {
-                // use firstNamelastName as the username and also parse the names from profile.displayName
-                var username = profile.displayName.replace(/ /g, '');
-                var bothNames = profile.displayName.split(" ");
-                var firstName = bothNames[0];
-                var lastName = bothNames[bothNames.length - 1];
+                // use the user's name and google id as the username to better ensure uniqueness
+                var username = profile.displayName.replace(/ /g, '') + profile.id;
+                var firstName = profile.name.givenName;
+                var lastName = profile.name.familyName;
                 // if Google provided any emails, then save one in the database
                 var email;
                 if (profile.emails) {

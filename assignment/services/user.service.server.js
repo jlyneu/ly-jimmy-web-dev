@@ -1,4 +1,4 @@
-var passport = require("passport");
+// var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 var FacebookStrategy = require("passport-facebook").Strategy;
 var bcrypt = require("bcrypt-nodejs");
@@ -8,15 +8,15 @@ module.exports = function(app, models) {
     // declare the API
 
     // Use management
-    app.post("/api/login", passport.authenticate("local"), login);
+    // app.post("/api/login", passport.authenticate("local"), login);
     app.post("/api/logout", logout);
     app.post("/api/register", register);
     app.get("/api/loggedin", loggedin);
-    app.get("/auth/facebook", passport.authenticate("facebook", { scope: "email" }));
-    app.get("/auth/facebook/callback", passport.authenticate('facebook', {
-        successRedirect: '/assignment/#/user',
-        failureRedirect: '/assignment/#/login'
-    }));
+    // app.get("/auth/facebook", passport.authenticate("facebook", { scope: "email" }));
+    // app.get("/auth/facebook/callback", passport.authenticate('facebook', {
+    //     successRedirect: '/assignment/#/user',
+    //     failureRedirect: '/assignment/#/login'
+    // }));
 
     // CRUD operations
     app.post("/api/user", createUser);
@@ -29,10 +29,10 @@ module.exports = function(app, models) {
     var userModel = models.userModel;
     
     // configure passport for authentication locally and with Facebook
-    passport.serializeUser(serializeUser);
-    passport.deserializeUser(deserializeUser);
-    
-    passport.use("local", new LocalStrategy(localStrategy));
+    // passport.serializeUser(serializeUser);
+    // passport.deserializeUser(deserializeUser);
+    //
+    // passport.use("local", new LocalStrategy(localStrategy));
 
     var facebookConfig = {
         clientID: process.env.FACEBOOK_CLIENT_ID,
@@ -40,7 +40,7 @@ module.exports = function(app, models) {
         callbackURL: process.env.FACEBOOK_CALLBACK_URL
     };
     
-    passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+    // passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
 
     // provide the user object to store an encrypted representation of the user in a cookie
     function serializeUser(user, done) {
