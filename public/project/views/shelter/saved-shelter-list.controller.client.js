@@ -17,7 +17,7 @@
 
             function findUserByIdSuccess(response) {
                 var user = response.data;
-                vm.savedShelterss = user.savedShelters;
+                vm.savedShelters = user.savedShelters;
             }
 
             function findUserByIdError(error) {

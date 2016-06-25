@@ -14,5 +14,7 @@
     <a ng-if="model.isOwner" href="#/shelter/{{model.shelterId}}/pet/new">
         <div class="btn btn-block btn-primary">Add a pet</div>
     </a>
+    <div ng-click="model.saveShelter()"
+         class="btn btn-block btn-primary">{{model.isSavedDisplay}}</div>
 
 </div>

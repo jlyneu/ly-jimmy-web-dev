@@ -12,15 +12,19 @@
         vm.shelterId = $routeParams["shelterId"];
         vm.petId = $routeParams["petId"];
         vm.user = $rootScope.currentUser;
+        vm.isSaved = false;
+        vm.isSavedDisplay = "Not Saved";
 
         function init() {
-            // determine if the user has saved this pet or not
-            vm.isSaved = false;
-            vm.isSavedDisplay = "Not Saved";
-            for (var i = 0; i < vm.user.savedPets.length; i++) {
-                if (vm.user.savedPets[i] === vm.petId) {
-                    vm.isSaved = true;
-                    vm.isSavedDisplay = "Saved";
+            if (vm.user) {
+                // determine if the user has saved this pet or not
+                vm.isSaved = false;
+                vm.isSavedDisplay = "Not Saved";
+                for (var i = 0; i < vm.user.savedPets.length; i++) {
+                    if (vm.user.savedPets[i]._id === vm.petId) {
+                        vm.isSaved = true;
+                        vm.isSavedDisplay = "Saved";
+                    }
                 }
             }
 
@@ -42,9 +46,11 @@
 
             function findShelterByIdSuccess(response) {
                 vm.shelter = response.data;
-                for (var i = 0; i < vm.shelter.users.length; i++) {
-                    if (vm.shelter.users[i] === vm.user._id) {
-                        vm.isOwner = true;
+                if (vm.user) {
+                    for (var i = 0; i < vm.shelter.users.length; i++) {
+                        if (vm.shelter.users[i] === vm.user._id) {
+                            vm.isOwner = true;
+                        }
                     }
                 }
             }
@@ -61,6 +67,8 @@
                 .then(savePetSuccess, savePetError);
 
             function savePetSuccess(response) {
+                vm.user = response.data;
+                $rootScope.currentUser = response.data;
                 vm.isSaved = !vm.isSaved;
                 if (vm.isSaved) {
                     vm.isSavedDisplay = "Saved";

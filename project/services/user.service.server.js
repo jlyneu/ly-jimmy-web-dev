@@ -23,6 +23,7 @@ module.exports = function(app, models) {
     app.get("/api/petshelter/user", getUsers);
     app.get("/api/petshelter/user/:userId", findUserById);
     app.put("/api/petshelter/user/:userId", updateUser);
+    app.put("/api/petshelter/user/:userId/shelter/:shelterId", saveShelter);
     app.put("/api/petshelter/user/:userId/pet/:petId", savePet);
     app.delete("/api/petshelter/user/:userId", deleteUser);
 
@@ -389,6 +390,42 @@ module.exports = function(app, models) {
         }
     }
 
+    function saveShelter(req, res) {
+        var userId = req.params['userId'];
+        var shelterId = req.params['shelterId'];
+        var isSaved = req.body.isSaved;
+        var errorMessage = {};
+
+        if (isSaved) {
+            userModel
+                .pullShelter(userId, shelterId)
+                .then(saveShelterSuccess, saveShelterError);
+        } else {
+            userModel
+                .pushShelter(userId, shelterId)
+                .then(saveShelterSuccess, saveShelterError);
+        }
+
+        function saveShelterSuccess(response) {
+            userModel
+                .findUserById(userId)
+                .then(findUserByIdSuccess, findUserByIdError);        }
+
+        function saveShelterError(error) {
+            errorMessage.message = "Could not update saved shelters at this time. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
+
+        function findUserByIdSuccess(user) {
+            res.json(user);
+        }
+
+        function findUserByIdError(error) {
+            errorMessage.message = "Could not update saved shelters at this time. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
+    }
+
     function savePet(req, res) {
         var userId = req.params['userId'];
         var petId = req.params['petId'];
@@ -406,10 +443,21 @@ module.exports = function(app, models) {
         }
 
         function savePetSuccess(response) {
-            res.json({});
+            userModel
+                .findUserById(userId)
+                .then(findUserByIdSuccess, findUserByIdError);
         }
 
         function savePetError(error) {
+            errorMessage.message = "Could not update saved pets at this time. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
+
+        function findUserByIdSuccess(user) {
+            res.json(user);
+        }
+
+        function findUserByIdError(error) {
             errorMessage.message = "Could not update saved pets at this time. Please try again later.";
             res.status(500).json(errorMessage);
         }

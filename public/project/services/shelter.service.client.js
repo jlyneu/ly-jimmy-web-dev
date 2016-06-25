@@ -8,6 +8,7 @@
             "findSheltersByUserId" : findSheltersByUserId,
             "findShelterById"         : findShelterById,
             "updateShelter"           : updateShelter,
+            "saveShelter"             : saveShelter,
             "deleteShelter"           : deleteShelter
         };
         return api;
@@ -42,6 +43,11 @@
         function updateShelter(shelterId, shelter) {
             var url = "/api/petshelter/shelter/" + shelterId;
             return $http.put(url, shelter);
+        }
+
+        function saveShelter(userId, shelterId, isSaved) {
+            var url = "/api/petshelter/user/" + userId + "/shelter/" + shelterId;
+            return $http.put(url, { isSaved: isSaved });
         }
 
         // return a promise for deleting the given shelter on the server. if the shelter was deleted
