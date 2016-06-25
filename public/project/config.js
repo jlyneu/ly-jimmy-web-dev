@@ -10,7 +10,7 @@
             controllerAs: "model"
         }).when("/login", {
             templateUrl: "/project/views/login/login.view.client.html",
-            con1troller: "LoginController",
+            controller: "LoginController",
             controllerAs: "model"
         }).when("/register", {
             templateUrl: "/project/views/register/register.view.client.html",

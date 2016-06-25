@@ -9,6 +9,7 @@
 
 body {
   background-color: @background-blue;
+  color: white;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -22,6 +23,11 @@ body {
   &-header {
     background-color: @header-blue;
     color: @header-text-blue;
+
+    &-logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
   }
   &-home {
     &-heading {
@@ -29,6 +35,13 @@ body {
       font-size: 30px;
       color: white;
       width: 100%;
+    }
+    &-link {
+      color: white;
+      &:hover {
+        color: white;
+        text-decoration: none;
+      }
     }
     &-random {
       &-container {

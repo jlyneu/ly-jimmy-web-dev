@@ -5,7 +5,7 @@
 
     function psHeader() {
         return {
-            templateUrl: "/project/directives/header.html"
+            templateUrl: "/project/directives/header.directive.client.html"
         };
     }
 })();

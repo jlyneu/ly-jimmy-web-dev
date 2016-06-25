@@ -1,5 +1,6 @@
 body {
   background-color: #113F52;
+  color: white;
   font-family: 'Open Sans', sans-serif;
 }
 .ps-main-container {
@@ -10,11 +11,22 @@ body {
   background-color: #FFFFFF;
   color: #6F93A2;
 }
+.ps-header-logo {
+  font-size: 20px;
+  font-weight: bold;
+}
 .ps-home-heading {
   display: block;
   font-size: 30px;
   color: white;
   width: 100%;
+}
+.ps-home-link {
+  color: white;
+}
+.ps-home-link:hover {
+  color: white;
+  text-decoration: none;
 }
 .ps-home-random-container {
   display: block;
