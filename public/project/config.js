@@ -85,7 +85,7 @@
             controllerAs: "model",
             resolve: { loggedin: checkLoggedin }
         }).when("/shelter/:shelterId/pet/:petId", {
-            templateUrl: "/project/views/pet/pet-edit.view.client.html",
+            templateUrl: "/project/views/pet/pet-detail.view.client.html",
             controller: "PetDetailController",
             controllerAs: "model",
             resolve: { loggedin: resolveUser }
