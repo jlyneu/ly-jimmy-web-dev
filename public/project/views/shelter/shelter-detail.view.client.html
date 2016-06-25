@@ -3,6 +3,14 @@
     {{model.shelter.name}}
     <a href="#/shelter/{{model.shelterId}}/edit"
        ng-if="model.isOwner">
-        <div class="btn btn-block btn-primary">Edit</div>
+        <div class="btn btn-block btn-primary">Edit Shelter</div>
     </a>
+    <div>Pets at this shelter</div>
+    <div ng-repeat="pet in model.pets">
+        {{pet.name}}
+    </div>
+    <a ng-if="model.isOwner" href="#/shelter/{{shelterId}}/pet/new">
+        <div class="btn btn-block btn-primary">Add a pet</div>
+    </a>
+
 </div>
