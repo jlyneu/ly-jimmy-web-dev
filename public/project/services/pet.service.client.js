@@ -35,8 +35,8 @@
         function findPet(query) {
             var url = "/api/petshelter/pet?";
             url += "location=" + query.location;
-            if (query.type) {
-                url += "&type=" + query.type;
+            if (query.animal) {
+                url += "&animal=" + query.animal;
             }
             if (query.breed) {
                 url += "&breed=" + query.breed;

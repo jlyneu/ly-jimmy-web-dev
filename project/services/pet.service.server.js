@@ -107,22 +107,24 @@ module.exports = function(app, models) {
             url += "&age=" + req.query.age;
         }
         url += "&format=json";
+        console.log(url);
         request(url, requestCallback);
 
         function requestCallback(error, response, body) {
             // decode certain special characters in response from petfinder
             var data = JSON.parse(decodeURIComponent(escape(body)));
             if (!error && response.statusCode == 200) {
-                if (!data.petfinder.header.message) {
+                if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
+                    errorMessage.message = data.petfinder.header.status.message.$t;
+                    return res.status(400).json(errorMessage);
+                }
+                else {
                     var pets = data.petfinder.pets.pet;
                     var cleanPetList = [];
                     for (var i = 0; i < pets.length; i++) {
                         cleanPetList.push(util.cleanPetObj(pets[i]));
                     }
                     return res.json(cleanPetList);
-                } else {
-                    errorMessage.message = data.petfinder.header.status.message.$t;
-                    return res.status(400).json(errorMessage);
                 }
             } else {
                 return res.status(500).json(error);
