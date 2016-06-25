@@ -23,6 +23,7 @@ module.exports = function(app, models) {
     app.get("/api/petshelter/user", getUsers);
     app.get("/api/petshelter/user/:userId", findUserById);
     app.put("/api/petshelter/user/:userId", updateUser);
+    app.put("/api/petshelter/user/:userId/pet/:petId", savePet);
     app.delete("/api/petshelter/user/:userId", deleteUser);
 
     // user model to provide CRUD api
@@ -384,6 +385,32 @@ module.exports = function(app, models) {
         // user was not found so return an error
         function updateUserError(error) {
             errorMessage.message = "Could not update the user. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
+    }
+
+    function savePet(req, res) {
+        var userId = req.params['userId'];
+        var petId = req.params['petId'];
+        var isSaved = req.body.isSaved;
+        var errorMessage = {};
+
+        if (isSaved) {
+            userModel
+                .pullPet(userId, petId)
+                .then(savePetSuccess, savePetError);
+        } else {
+            userModel
+                .pushPet(userId, petId)
+                .then(savePetSuccess, savePetError);
+        }
+
+        function savePetSuccess(response) {
+            res.json({});
+        }
+
+        function savePetError(error) {
+            errorMessage.message = "Could not update saved pets at this time. Please try again later.";
             res.status(500).json(errorMessage);
         }
     }

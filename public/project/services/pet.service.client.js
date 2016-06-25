@@ -9,6 +9,7 @@
             "findPet"             : findPet,
             "findPetById"         : findPetById,
             "updatePet"           : updatePet,
+            "savePet"             : savePet,
             "deletePet"           : deletePet
         };
         return api;
@@ -67,6 +68,11 @@
         function updatePet(petId, pet) {
             var url = "/api/petshelter/pet/" + petId;
             return $http.put(url, pet);
+        }
+
+        function savePet(userId, petId, isSaved) {
+            var url = "/api/petshelter/user/" + userId + "/pet/" + petId;
+            return $http.put(url, { isSaved: isSaved });
         }
 
         // return a promise for deleting the given pet on the server. if the pet was deleted

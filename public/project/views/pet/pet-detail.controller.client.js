@@ -4,18 +4,29 @@
         .controller("PetDetailController", PetDetailController);
 
     // controller for the pet-detail.view.client.html template
-    function PetDetailController($rootScope, $routeParams, ShelterService, PetService) {
+    function PetDetailController($scope, $rootScope, $routeParams, ShelterService, PetService) {
         var vm = this;
+
+        vm.savePet = savePet;
 
         vm.shelterId = $routeParams["shelterId"];
         vm.petId = $routeParams["petId"];
         vm.user = $rootScope.currentUser;
 
         function init() {
+            // determine if the user has saved this pet or not
+            vm.isSaved = false;
+            vm.isSavedDisplay = "Not Saved";
+            for (var i = 0; i < vm.user.savedPets.length; i++) {
+                if (vm.user.savedPets[i] === vm.petId) {
+                    vm.isSaved = true;
+                    vm.isSavedDisplay = "Saved";
+                }
+            }
+
             PetService
                 .findPetById(vm.petId)
                 .then(findPetByIdSuccess, findPetByIdError);
-
 
             function findPetByIdSuccess(response) {
                 vm.pet = response.data;
@@ -43,5 +54,24 @@
             }
         }
         init();
+        
+        function savePet() {
+            PetService
+                .savePet(vm.user._id, vm.petId, vm.isSaved)
+                .then(savePetSuccess, savePetError);
+
+            function savePetSuccess(response) {
+                vm.isSaved = !vm.isSaved;
+                if (vm.isSaved) {
+                    vm.isSavedDisplay = "Saved";
+                } else {
+                    vm.isSavedDisplay = "Not Saved";
+                }
+            }
+
+            function savePetError(error) {
+
+            }
+        }
     }
 })();

@@ -5,5 +5,7 @@
        ng-if="model.isOwner">
         <div class="btn btn-block btn-primary">Edit Pet</div>
     </a>
+    <div ng-click="model.savePet()"
+         class="btn btn-block btn-primary">{{model.isSavedDisplay}}</div>
 
 </div>

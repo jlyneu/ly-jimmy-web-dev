@@ -7,7 +7,9 @@
     </a>
     <div>Pets at this shelter</div>
     <div ng-repeat="pet in model.pets">
-        {{pet.name}}
+        <a href="#/shelter/{{model.shelterId}}/pet/{{pet._id}}">
+            <div class="btn btn-block btn-success">{{pet.name}}</div>
+        </a>
     </div>
     <a ng-if="model.isOwner" href="#/shelter/{{model.shelterId}}/pet/new">
         <div class="btn btn-block btn-primary">Add a pet</div>

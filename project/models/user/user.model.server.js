@@ -23,12 +23,28 @@ module.exports = function(mongoose) {
 
     // create a new user instance
     function createUser(user) {
+        user.savedShelters = [];
+        user.savedPets = [];
         return User.create(user);
     }
 
     // retrieve a user instance whose _id is equal to parameter userId
     function findUserById(userId) {
-        return User.findById(userId);
+        var deferred = q.defer();
+
+        User
+            .findById(userId)
+            .populate('savedShelters')
+            .populate('savedPets')
+            .exec(function(error, user) {
+                if (error) {
+                    deferred.reject(error);
+                } else {
+                    deferred.resolve(user);
+                }
+            });
+
+        return deferred.promise;
     }
 
     // retrieve a user instance whose google.id is equal to parameter googleId
@@ -77,7 +93,7 @@ module.exports = function(mongoose) {
             { _id: userId },
             { $pushAll:
                 {
-                    shelters: [shelterId]
+                    savedShelters: [shelterId]
                 }
             }
         );
@@ -89,7 +105,7 @@ module.exports = function(mongoose) {
             { _id: userId },
             { $pullAll:
                 {
-                    shelters: [shelterId]
+                    savedShelters: [shelterId]
                 }
             }
         );
@@ -101,7 +117,7 @@ module.exports = function(mongoose) {
             { _id: userId },
             { $pushAll:
                 {
-                    pets: [petId]
+                    savedPets: [petId]
                 }
             }
         );
@@ -113,7 +129,7 @@ module.exports = function(mongoose) {
             { _id: userId },
             { $pullAll:
                 {
-                    pets: [petId]
+                    savedPets: [petId]
                 }
             }
         );
