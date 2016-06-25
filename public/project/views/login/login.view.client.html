@@ -2,9 +2,15 @@
 <div class="container">
     <h1>Login</h1>
     <label>Username</label>
-    <input class="form-control" ng-model="model.user.username" autocapitalize="off" autocorrect="off"/>
+    <input type="text"
+           class="form-control"
+           ng-model="model.user.username"
+           autocapitalize="off"
+           autocorrect="off"/>
     <label>Password</label>
-    <input class="form-control" ng-model="model.user.password"/>
+    <input type="password"
+           class="form-control"
+           ng-model="model.user.password"/>
     <div class="btn btn-block btn-primary" ng-click="model.login(model.user)">Login</div>
     <a href="/auth/google" class="btn btn-danger btn-block">
         <span class="fa fa-google-plus"></span>

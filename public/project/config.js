@@ -17,8 +17,13 @@
             controller: "RegisterController",
             controllerAs: "model"
         }).when("/profile", {
-            templateUrl: "/project/views/profile/profile.view.client.html",
-            controller: "ProfileController",
+            templateUrl: "/project/views/profile/profile-detail.view.client.html",
+            controller: "ProfileDetailController",
+            controllerAs: "model",
+            resolve: { loggedin: checkLoggedin }
+        }).when("/profile/edit", {
+            templateUrl: "/project/views/profile/profile-edit.view.client.html",
+            controller: "ProfileEditController",
             controllerAs: "model",
             resolve: { loggedin: checkLoggedin }
         }).when("/profile/message", {

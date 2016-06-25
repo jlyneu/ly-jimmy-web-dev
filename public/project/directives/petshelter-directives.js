@@ -6,6 +6,9 @@
 
     function psHeader() {
         return {
+            scope: {
+                "user": "="
+            },
             templateUrl: "/project/directives/header.directive.client.html"
         };
     }

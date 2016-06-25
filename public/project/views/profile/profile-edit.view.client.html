@@ -1,0 +1,30 @@
+<ps-header></ps-header>
+<div class="container">
+    <ps-profile-menu></ps-profile-menu>
+    <h1>Edit Your Info</h1>
+    <label>First Name</label>
+    <input type="text"
+           ng-model="model.user.firstName"
+           class="form-control"
+           autocapitalize="off"
+           autocorrect="off"/>
+    <label>Last Name</label>
+    <input type="text"
+           ng-model="model.user.lastName"
+           class="form-control"
+           autocapitalize="off"
+           autocorrect="off"/>
+    <label>Email</label>
+    <input type="email"
+           ng-model="model.user.email"
+           class="form-control"/>
+    <label>Phone</label>
+    <input type="text"
+           ng-model="model.user.phone"
+           class="form-control"/>
+    <div ng-click="model.update(model.user)"
+         class="btn btn-block btn-primary">Save</div>
+    <a href="#/profile">
+        <div class="btn btn-block btn-danger">Cancel</div>
+    </a>
+</div>
