@@ -1,1 +1,8 @@
 <ps-header user="model.user"></ps-header>
+<div class="container">
+    {{model.shelter.name}}
+    <a href="#/shelter/{{model.shelterId}}/edit"
+       ng-if="model.isOwner">
+        <div class="btn btn-block btn-primary">Edit</div>
+    </a>
+</div>
