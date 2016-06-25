@@ -15,5 +15,7 @@
     <input ng-model="model.query.age" class="form-control"/>
     <div ng-click="model.search(model.query)" class="btn btn-block btn-primary">Go!</div>
     <div>Search Results</div>
-    <div></div>
+    <div ng-repeat="pet in model.pets">
+        <div>{{pet.name}}</div>
+    </div>
 </div>

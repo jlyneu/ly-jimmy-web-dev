@@ -10,7 +10,16 @@
         vm.search = search;
         
         function search(query) {
-            PetService.findPet(query);
+            PetService.findPet(query)
+                .then(findPetSuccess, findPetError);
+
+            function findPetSuccess(response) {
+                vm.pets = response.data;
+            }
+
+            function findPetError(error) {
+
+            }
         }
     }
 })();
