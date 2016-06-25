@@ -16,7 +16,7 @@ module.exports = function() {
         cleanPetObj.name = rawPetObj.name.$t;
         cleanPetObj.sex = rawPetObj.sex.$t;
         cleanPetObj.description = rawPetObj.description.$t;
-        cleanPetObj.type = rawPetObj.animal.$t;
+        cleanPetObj.animal = rawPetObj.animal.$t;
         cleanPetObj.breeds = [];
         for (var i = 0; i < rawPetObj.breeds.breed.length; i++) {
             cleanPetObj.breeds.push(rawPetObj.breeds.breed[i].$t);

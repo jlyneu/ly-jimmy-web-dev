@@ -91,8 +91,8 @@ module.exports = function(app, models) {
             res.status(400).json(errorMessage);
             return;
         }
-        if (req.query.type) {
-            url += "&type=" + req.query.type;
+        if (req.query.animal) {
+            url += "&animal=" + req.query.animal;
         }
         if (req.query.breed) {
             url += "&breed=" + req.query.breed;
