@@ -1,11 +1,11 @@
 module.exports = function(app, models) {
 
     // declare the API
-    app.post("/api/user/:userId/notification", createNotification);
-    app.get("/api/user/:userId/notification", findAllNotificationsForUser);
-    app.get("/api/notification/:notificationId", findNotificationById);
-    app.put("/api/notification/:notificationId", updateNotification);
-    app.delete("/api/notification/:notificationId", deleteNotification);
+    app.post("/api/petfinder/user/:userId/notification", createNotification);
+    app.get("/api/petfinder/user/:userId/notification", findAllNotificationsForUser);
+    app.get("/api/petfinder/notification/:notificationId", findNotificationById);
+    app.put("/api/petfinder/notification/:notificationId", updateNotification);
+    app.delete("/api/petfinder/notification/:notificationId", deleteNotification);
 
     var notificationModel = models.notificationModel;
 

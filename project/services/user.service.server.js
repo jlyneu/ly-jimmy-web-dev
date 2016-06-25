@@ -8,10 +8,10 @@ module.exports = function(app, models) {
     // declare the API
 
     // Use management
-    app.post("/api/login", passport.authenticate("local"), login);
-    app.post("/api/logout", logout);
-    app.post("/api/register", register);
-    app.get("/api/loggedin", loggedin);
+    app.post("/api/petshelter/login", passport.authenticate("local"), login);
+    app.post("/api/petshelter/logout", logout);
+    app.post("/api/petshelter/register", register);
+    app.get("/api/petshelter/loggedin", loggedin);
     app.get("/auth/google", passport.authenticate("google", { scope: "email" }));
     app.get("/auth/google/callback", passport.authenticate('google', {
         successRedirect: '/assignment/#/user',
@@ -19,11 +19,11 @@ module.exports = function(app, models) {
     }));
 
     // CRUD operations
-    app.post("/api/user", createUser);
-    app.get("/api/user", getUsers);
-    app.get("/api/user/:userId", findUserById);
-    app.put("/api/user/:userId", updateUser);
-    app.delete("/api/user/:userId", deleteUser);
+    app.post("/api/petshelter/user", createUser);
+    app.get("/api/petshelter/user", getUsers);
+    app.get("/api/petshelter/user/:userId", findUserById);
+    app.put("/api/petshelter/user/:userId", updateUser);
+    app.delete("/api/petshelter/user/:userId", deleteUser);
 
     // user model to provide CRUD api
     var userModel = models.userModel;

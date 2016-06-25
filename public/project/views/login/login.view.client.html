@@ -2,9 +2,10 @@
 <div class="container">
     <h1>Login</h1>
     <label>Username</label>
-    <input class="form-control"/>
+    <input class="form-control" ng-model="model.user.username" autocapitalize="off" autocorrect="off"/>
     <label>Password</label>
-    <input class="form-control"/>
+    <input class="form-control" ng-model="model.user.password"/>
+    <div ng-click="model.login(model.user)">Login</div>
     <div>
         Don't have an account yet? <a href="#/register">Sign up for an account</a>
     </div>

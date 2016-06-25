@@ -1,11 +1,11 @@
 module.exports = function(app, models) {
 
     // declare the API
-    app.post("/api/user/:userId/shelter", createShelter);
-    app.get("/api/user/:userId/shelter", findAllSheltersForUser);
-    app.get("/api/shelter/:shelterId", findShelterById);
-    app.put("/api/shelter/:shelterId", updateShelter);
-    app.delete("/api/shelter/:shelterId", deleteShelter);
+    app.post("/api/petshelter/user/:userId/shelter", createShelter);
+    app.get("/api/petshelter/user/:userId/shelter", findAllSheltersForUser);
+    app.get("/api/petshelter/shelter/:shelterId", findShelterById);
+    app.put("/api/petshelter/shelter/:shelterId", updateShelter);
+    app.delete("/api/petshelter/shelter/:shelterId", deleteShelter);
 
     var shelterModel = models.shelterModel;
 

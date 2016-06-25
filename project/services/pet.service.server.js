@@ -1,11 +1,11 @@
 module.exports = function(app, models) {
 
     // declare the API
-    app.post("/api/shelter/:shelterId/pet", createPet);
-    app.get("/api/shelter/:shelterId/pet", findAllPetsForShelter);
-    app.get("/api/pet/:petId", findPetById);
-    app.put("/api/pet/:petId", updatePet);
-    app.delete("/api/pet/:petId", deletePet);
+    app.post("/api/petshelter/shelter/:shelterId/pet", createPet);
+    app.get("/api/petshelter/shelter/:shelterId/pet", findAllPetsForShelter);
+    app.get("/api/petshelter/pet/:petId", findPetById);
+    app.put("/api/petshelter/pet/:petId", updatePet);
+    app.delete("/api/petshelter/pet/:petId", deletePet);
 
     var petModel = models.petModel;
 

@@ -16,7 +16,7 @@
         // successfully, then the promise will resolve with the new message.
         // if the message was not created, the promise will resolve with an error.
         function createMessage(messagethreadId, message) {
-            var url = "/api/messagethread/" + messagethreadId + "/message";
+            var url = "/api/petshelter/messagethread/" + messagethreadId + "/message";
             return $http.post(url, message);
         }
 
@@ -24,7 +24,7 @@
         // then the promise will resolve with the existing messages. if the messages were not
         // found, then the promise will resolve with an error.
         function findMessagesByMessagethreadId(messagethreadId) {
-            var url = "/api/messagethread/" + messagethreadId + "/message";
+            var url = "/api/petshelter/messagethread/" + messagethreadId + "/message";
             return $http.get(url);
         }
 
@@ -32,7 +32,7 @@
         // then the promise will resolve with the existing message. if the message was not
         // found, then the promise will resolve with an error.
         function findMessageById(messageId) {
-            var url = "/api/message/" + messageId;
+            var url = "/api/petshelter/message/" + messageId;
             return $http.get(url);
         }
 
@@ -40,7 +40,7 @@
         // successfully, then the promise will resolve with the updated message. if the message was not
         // updated, then the promise will resolve with an error.
         function updateMessage(messageId, message) {
-            var url = "/api/message/" + messageId;
+            var url = "/api/petshelter/message/" + messageId;
             return $http.put(url, message);
         }
 
@@ -48,7 +48,7 @@
         // successfully, then the promise will resolve with 'true'. if the message was not
         // deleted, then the promise will resolve with an error.
         function deleteMessage(messageId) {
-            var url = "/api/message/" + messageId;
+            var url = "/api/petshelter/message/" + messageId;
             return $http.delete(url);
         }
     }

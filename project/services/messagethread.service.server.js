@@ -1,11 +1,11 @@
 module.exports = function(app, models) {
 
     // declare the API
-    app.post("/api/user/:userId/messagethread", createMessagethread);
-    app.get("/api/user/:userId/messagethread", findAllMessagethreadsForUser);
-    app.get("/api/messagethread/:messagethreadId", findMessagethreadById);
-    app.put("/api/messagethread/:messagethreadId", updateMessagethread);
-    app.delete("/api/messagethread/:messagethreadId", deleteMessagethread);
+    app.post("/api/petshelter/user/:userId/messagethread", createMessagethread);
+    app.get("/api/petshelter/user/:userId/messagethread", findAllMessagethreadsForUser);
+    app.get("/api/petshelter/messagethread/:messagethreadId", findMessagethreadById);
+    app.put("/api/petshelter/messagethread/:messagethreadId", updateMessagethread);
+    app.delete("/api/petshelter/messagethread/:messagethreadId", deleteMessagethread);
 
     var messagethreadModel = models.messagethreadModel;
 

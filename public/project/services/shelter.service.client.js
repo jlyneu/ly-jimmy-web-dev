@@ -16,7 +16,7 @@
         // successfully, then the promise will resolve with the new shelter.
         // if the shelter was not created, the promise will resolve with an error.
         function createShelter(userId, shelter) {
-            var url = "/api/user/" + userId + "/shelter";
+            var url = "/api/petshelter/petfinder/user/" + userId + "/shelter";
             return $http.post(url, shelter);
         }
 
@@ -24,7 +24,7 @@
         // then the promise will resolve with the existing shelters. if the shelters were not
         // found, then the promise will resolve with an error.
         function findSheltersByUserId(userId) {
-            var url = "/api/user/" + userId + "/shelter";
+            var url = "/api/petshelter/petfinder/user/" + userId + "/shelter";
             return $http.get(url);
         }
 
@@ -32,7 +32,7 @@
         // then the promise will resolve with the existing shelter. if the shelter was not
         // found, then the promise will resolve with an error.
         function findShelterById(shelterId) {
-            var url = "/api/shelter/" + shelterId;
+            var url = "/api/petshelter/petfinder/shelter/" + shelterId;
             return $http.get(url);
         }
 
@@ -40,7 +40,7 @@
         // successfully, then the promise will resolve with the updated shelter. if the shelter was not
         // updated, then the promise will resolve with an error.
         function updateShelter(shelterId, shelter) {
-            var url = "/api/shelter/" + shelterId;
+            var url = "/api/petshelter/petfinder/shelter/" + shelterId;
             return $http.put(url, shelter);
         }
 
@@ -48,7 +48,7 @@
         // successfully, then the promise will resolve with 'true'. if the shelter was not
         // deleted, then the promise will resolve with an error.
         function deleteShelter(shelterId) {
-            var url = "/api/shelter/" + shelterId;
+            var url = "/api/petshelter/petfinder/shelter/" + shelterId;
             return $http.delete(url);
         }
     }
