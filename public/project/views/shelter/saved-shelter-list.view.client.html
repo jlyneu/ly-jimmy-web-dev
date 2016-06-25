@@ -3,6 +3,8 @@
     <ps-profile-menu></ps-profile-menu>
     <h1>Saved Shelters</h1>
     <div ng-repeat="shelter in model.savedShelters">
-        {{shelter.name}}
+        <a href="#/shelter/{{shelter._id}}">
+            <div class="btn btn-block btn-success">{{shelter.name}}</div>
+        </a>
     </div>
 </div>

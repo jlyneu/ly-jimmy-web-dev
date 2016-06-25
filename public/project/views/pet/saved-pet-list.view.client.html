@@ -4,5 +4,8 @@
     <h1>Saved Pets</h1>
     <div ng-repeat="pet in model.savedPets">
         {{pet.name}}
+        <a href="#/shelter/{{model.shelterId}}/pet/{{pet._id}}">
+            <div class="btn btn-block btn-success">{{pet.name}}</div>
+        </a>
     </div>
 </div>
