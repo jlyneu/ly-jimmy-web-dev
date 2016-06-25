@@ -7,21 +7,24 @@
     function ShelterListController($rootScope, ShelterService) {
         var vm = this;
 
-        vm.findSheltersByUserId = findSheltersByUserId;
-
         vm.user = $rootScope.currentUser;
 
-        function findSheltersByUserId(query) {
-            ShelterService.findSheltersByUserId(query)
+        function init() {
+            ShelterService
+                .findSheltersByUserId(vm.user._id)
                 .then(findSheltersByUserIdSuccess, findSheltersByUserIdError);
 
             function findSheltersByUserIdSuccess(response) {
                 vm.shelters = response.data;
+                if (vm.shelters.length === 0) {
+                    vm.noShelters = true;
+                }
             }
 
             function findSheltersByUserIdError(error) {
 
             }
         }
+        init();
     }
 })();

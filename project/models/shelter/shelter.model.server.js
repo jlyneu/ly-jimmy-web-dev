@@ -16,7 +16,7 @@ module.exports = function(mongoose) {
     return api;
 
     // create a new shelter instance whose users array contains the given userId
-    function createShelterForUser(shelter, userId) {
+    function createShelterForUser(userId, shelter) {
         shelter.users = [userId];
         return Shelter.create(shelter);
     }

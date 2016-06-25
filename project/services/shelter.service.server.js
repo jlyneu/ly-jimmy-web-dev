@@ -29,11 +29,11 @@ module.exports = function(app, models) {
 
         // try to create the shelter in the database
         shelterModel
-            .createShelter(userId, shelter)
-            .then(createShelterSuccess, createShelterError);
+            .createShelterForUser(userId, shelter)
+            .then(createShelterForUserSuccess, createShelterForUserError);
 
         // if the shelter creation is successful, then return the new shelter
-        function createShelterSuccess(newShelter) {
+        function createShelterForUserSuccess(newShelter) {
             if (newShelter) {
                 res.json(newShelter);
             } else {
@@ -43,7 +43,8 @@ module.exports = function(app, models) {
         }
 
         // if an error occurred, then return an error
-        function createShelterError(error) {
+        function createShelterForUserError(error) {
+            console.log(error);
             errorMessage.message = "Could not create shelter. Please try again later.";
             res.status(500).json(errorMessage);
         }

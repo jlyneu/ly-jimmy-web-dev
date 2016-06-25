@@ -1,5 +1,10 @@
 <ps-header user="model.user"></ps-header>
 <div class="container">
     <ps-profile-menu></ps-profile-menu>
-
+    <div ng-repeat="shelter in model.shelters">
+        {{shelter.name}}
+    </div>
+    <a href="#/shelter/new">
+        <div class="btn btn-block btn-primary" ng-if="model.noShelters">Register a new shelter</div>
+    </a>
 </div>
