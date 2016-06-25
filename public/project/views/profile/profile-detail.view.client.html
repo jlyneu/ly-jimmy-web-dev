@@ -7,5 +7,6 @@
     <p>Email: {{model.user.email}}</p>
     <p>Phone: {{model.user.phone}}</p>
     <a href="#/profile/edit"><div class="btn btn-block btn-primary">Edit</div></a>
-    <a href="#/profile/edit"><div class="btn btn-block btn-danger">Log out</div></a>
+    <div ng-click="model.logout()"
+         class="btn btn-block btn-danger">Log out</div>
 </div>
