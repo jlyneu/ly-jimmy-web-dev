@@ -44,7 +44,7 @@
                 var existingUser = response.data;
                 if (!$.isEmptyObject(existingUser)) {
                     $rootScope.currentUser = existingUser;
-                    $location.url("/user/" + existingUser._id);
+                    $location.url("/profile");
                 } else {
                     vm.error = "Unable to login. Please try again later.";
                 }

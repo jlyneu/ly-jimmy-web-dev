@@ -16,7 +16,7 @@
         // successfully, then the promise will resolve with the new notification.
         // if the notification was not created, the promise will resolve with an error.
         function createNotification(userId, notification) {
-            var url = "/api/petshelter/petfinder/user/" + userId + "/notification";
+            var url = "/api/petshelter/user/" + userId + "/notification";
             return $http.post(url, notification);
         }
 
@@ -24,7 +24,7 @@
         // then the promise will resolve with the existing notifications. if the notifications were not
         // found, then the promise will resolve with an error.
         function findNotificationsByUserId(userId) {
-            var url = "/api/petshelter/petfinder/user/" + userId + "/notification";
+            var url = "/api/petshelter/user/" + userId + "/notification";
             return $http.get(url);
         }
 
@@ -32,7 +32,7 @@
         // then the promise will resolve with the existing notification. if the notification was not
         // found, then the promise will resolve with an error.
         function findNotificationById(notificationId) {
-            var url = "/api/petshelter/petfinder/notification/" + notificationId;
+            var url = "/api/petshelter/notification/" + notificationId;
             return $http.get(url);
         }
 
@@ -40,7 +40,7 @@
         // successfully, then the promise will resolve with the updated notification. if the notification was not
         // updated, then the promise will resolve with an error.
         function updateNotification(notificationId, notification) {
-            var url = "/api/petshelter/petfinder/notification/" + notificationId;
+            var url = "/api/petshelter/notification/" + notificationId;
             return $http.put(url, notification);
         }
 
@@ -48,7 +48,7 @@
         // successfully, then the promise will resolve with 'true'. if the notification was not
         // deleted, then the promise will resolve with an error.
         function deleteNotification(notificationId) {
-            var url = "/api/petshelter/petfinder/notification/" + notificationId;
+            var url = "/api/petshelter/notification/" + notificationId;
             return $http.delete(url);
         }
     }

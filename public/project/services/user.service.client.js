@@ -20,7 +20,7 @@
         // logged in successfully, then the promise will resolve with the user object.
         // if the user was not logged in, the promise will resolve with an error.
         function login(user) {
-            var url = "/api/petshelter/petfinder/login";
+            var url = "/api/petshelter/login";
             return $http.post(url, user);
         }
 
@@ -29,7 +29,7 @@
         // and an empty object. if the user was not logged out properly, then the
         // promise will resolve with an error.
         function logout() {
-            var url = "/api/petshelter/petfinder/logout";
+            var url = "/api/petshelter/logout";
             return $http.post(url);
         }
 
@@ -37,7 +37,7 @@
         // successfully, then the promise will resolve with the new user.
         // if the user was not created, the promise will resolve with an error.
         function register(user) {
-            var url = "/api/petshelter/petfinder/register";
+            var url = "/api/petshelter/register";
             return $http.post(url, user);
         }
 
@@ -45,7 +45,7 @@
         // successfully, then the promise will resolve with the new user.
         // if the user was not created, the promise will resolve with an error.
         function createUser(user) {
-            var url = "/api/petshelter/petfinder/user";
+            var url = "/api/petshelter/user";
             return $http.post(url, user);
         }
 
@@ -53,7 +53,7 @@
         // then the promise will resolve with the existing user. if the user was not
         // found, then the promise will resolve with an error.
         function findUserById(userId) {
-            var url = "/api/petshelter/petfinder/user/" + userId;
+            var url = "/api/petshelter/user/" + userId;
             return $http.get(url);
         }
 
@@ -61,7 +61,7 @@
         // then the promise will resolve with the existing user. if the user was not
         // found, then the promise will resolve with an error.
         function findUserByUsername(username) {
-            var url = "/api/petshelter/petfinder/user?username=" + username;
+            var url = "/api/petshelter/user?username=" + username;
             return $http.get(url);
         }
 
@@ -69,7 +69,7 @@
         // then the promise will resolve with the existing user. if the user was not
         // found, then the promise will resolve with an error.
         function findUserByCredentials(username, password) {
-            var url = "/api/petshelter/petfinder/user?username=" + username + "&password=" + password;
+            var url = "/api/petshelter/user?username=" + username + "&password=" + password;
             return $http.get(url);
         }
 
@@ -77,7 +77,7 @@
         // successfully, then the promise will resolve with the updated user. if the user was not
         // updated, then the promise will resolve with an error.
         function updateUser(userId, user) {
-            var url = "/api/petshelter/petfinder/user/" + userId;
+            var url = "/api/petshelter/user/" + userId;
             return $http.put(url, user);
         }
 
@@ -85,7 +85,7 @@
         // successfully, then the promise will resolve with 'true'. if the user was not
         // deleted, then the promise will resolve with an error.
         function deleteUser(userId) {
-            var url = "/api/petshelter/petfinder/user/" + userId;
+            var url = "/api/petshelter/user/" + userId;
             return $http.delete(url);
         }
     }

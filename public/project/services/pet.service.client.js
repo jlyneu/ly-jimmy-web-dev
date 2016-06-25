@@ -16,7 +16,7 @@
         // successfully, then the promise will resolve with the new pet.
         // if the pet was not created, the promise will resolve with an error.
         function createPet(shelterId, pet) {
-            var url = "/api/petshelter/petfinder/shelter/" + shelterId + "/pet";
+            var url = "/api/petshelter/shelter/" + shelterId + "/pet";
             return $http.post(url, pet);
         }
 
@@ -24,7 +24,7 @@
         // then the promise will resolve with the existing pets. if the pets were not
         // found, then the promise will resolve with an error.
         function findPetsByShelterId(shelterId) {
-            var url = "/api/petshelter/petfinder/shelter/" + shelterId + "/pet";
+            var url = "/api/petshelter/shelter/" + shelterId + "/pet";
             return $http.get(url);
         }
 
@@ -32,7 +32,7 @@
         // then the promise will resolve with the existing pet. if the pet was not
         // found, then the promise will resolve with an error.
         function findPetById(petId) {
-            var url = "/api/petshelter/petfinder/pet/" + petId;
+            var url = "/api/petshelter/pet/" + petId;
             return $http.get(url);
         }
 
@@ -40,7 +40,7 @@
         // successfully, then the promise will resolve with the updated pet. if the pet was not
         // updated, then the promise will resolve with an error.
         function updatePet(petId, pet) {
-            var url = "/api/petshelter/petfinder/pet/" + petId;
+            var url = "/api/petshelter/pet/" + petId;
             return $http.put(url, pet);
         }
 
@@ -48,7 +48,7 @@
         // successfully, then the promise will resolve with 'true'. if the pet was not
         // deleted, then the promise will resolve with an error.
         function deletePet(petId) {
-            var url = "/api/petshelter/petfinder/pet/" + petId;
+            var url = "/api/petshelter/pet/" + petId;
             return $http.delete(url);
         }
     }
