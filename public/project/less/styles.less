@@ -6,13 +6,32 @@
 @header-text-gray: #777777;
 @text-white: #FFFFFF;
 
+@background-green: #074028;
+@card-green: #5EA989;
+@text-white: #BAF0D9;
+
+@background-gray: #F2F2F2;
+@text-black: #111111;
+
+@screen-sm-max: 768px;
+
 body {
-  background-color: @background-blue;
-  color: white;
+  background-color: @background-gray;
+  color: @text-black;
   font-family: 'Open Sans', sans-serif;
 }
 
 .ps {
+  &-card {
+    background-color: @card-green;
+    max-width: 970px;
+    margin: 30px auto;
+    padding: 30px;
+    @media(max-width: @screen-sm-max) {
+      margin: 15px;
+    }
+
+  }
   &-main {
     &-container {
       max-width: @container-width;
@@ -51,7 +70,7 @@ body {
     &-heading {
       display: block;
       font-size: 30px;
-      color: white;
+      color: @background-green;
       width: 100%;
     }
     &-link {

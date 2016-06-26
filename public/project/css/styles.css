@@ -1,7 +1,18 @@
 body {
-  background-color: #113F52;
-  color: white;
+  background-color: #F2F2F2;
+  color: #111111;
   font-family: 'Open Sans', sans-serif;
+}
+.ps-card {
+  background-color: #5EA989;
+  max-width: 970px;
+  margin: 30px auto;
+  padding: 30px;
+}
+@media (max-width: 768px) {
+  .ps-card {
+    margin: 15px;
+  }
 }
 .ps-main-container {
   max-width: 970px;
@@ -36,7 +47,7 @@ body {
 .ps-home-heading {
   display: block;
   font-size: 30px;
-  color: white;
+  color: #074028;
   width: 100%;
 }
 .ps-home-link {
