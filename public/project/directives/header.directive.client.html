@@ -1,12 +1,18 @@
-<nav class="navbar navbar-default navbar-static-top ps-header">
-    <div class="container">
-        <div class="navbar-header">
-            <ul class="nav navbar-nav">
-                <li class="ps-header-logo"><a href="#/">PetShelter</a></li>
-                <li class="pull-right" ng-if="!user"><a href="#/login">Sign in</a></li>
-                <li class="pull-right" ng-if="user"><a href="#/profile">{{user.firstName}}</a></li>
-                <li class="pull-right"><a href="#/search">Search</a></li>
-            </ul>
-        </div>
+<div class="ps-header">
+    <div class="ps-header-container">
+        <a href="#/">
+            <div class="ps-header-logo">PetShelter</div>
+        </a>
+        <a ng-if="!user"
+           href="#/login">
+            <div class="ps-header-link pull-right">Sign in</div>
+        </a>
+        <a ng-if="user"
+           href="#/profile">
+            <div class="ps-header-link pull-right">{{user.firstName}}</div>
+        </a>
+        <a href="#/search">
+            <div class="ps-header-link pull-right">Search</div>
+        </a>
     </div>
-</nav>
+</div>

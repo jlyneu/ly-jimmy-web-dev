@@ -8,12 +8,30 @@ body {
   margin: auto;
 }
 .ps-header {
-  background-color: #FFFFFF;
-  color: #6F93A2;
+  background-color: white;
+  color: #777777;
+}
+.ps-header-container {
+  max-width: 970px;
+  margin: auto;
+}
+.ps-header-link {
+  color: #777777;
+  display: inline-block;
+  height: 30px;
+  margin: 7px;
+  padding: 5px 10px;
+  vertical-align: middle;
 }
 .ps-header-logo {
+  color: #777777;
+  display: inline-block;
   font-size: 20px;
   font-weight: bold;
+  height: 30px;
+  padding: 0 10px;
+  margin: 8px;
+  vertical-align: middle;
 }
 .ps-home-heading {
   display: block;

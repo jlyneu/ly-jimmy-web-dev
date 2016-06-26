@@ -2,9 +2,8 @@
 
 @background-blue: #113F52;
 @card-blue: #477487;
-//@header-blue: #6F93A2;
 @header-text-blue: #6F93A2;
-@header-blue: #FFFFFF;
+@header-text-gray: #777777;
 @text-white: #FFFFFF;
 
 body {
@@ -21,12 +20,31 @@ body {
     }
   }
   &-header {
-    background-color: @header-blue;
-    color: @header-text-blue;
+    background-color: white;
+    color: @header-text-gray;
+    &-container {
+      max-width: 970px;
+      margin: auto;
+    }
+
+    &-link {
+      color: @header-text-gray;
+      display: inline-block;
+      height: 30px;
+      margin: 7px;
+      padding: 5px 10px;
+      vertical-align: middle;
+    }
 
     &-logo {
+      color: @header-text-gray;
+      display: inline-block;
       font-size: 20px;
       font-weight: bold;
+      height: 30px;
+      padding: 0 10px;
+      margin: 8px;
+      vertical-align: middle;
     }
   }
   &-home {
