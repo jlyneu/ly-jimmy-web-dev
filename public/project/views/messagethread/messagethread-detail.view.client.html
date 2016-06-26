@@ -1,1 +1,11 @@
 <ps-header user="model.user"></ps-header>
+<div class="container">
+    <div ng-repeat="message in model.messages">
+        {{message.text}}
+    </div>
+    <textarea ng-model="model.message"
+              class="form-control"
+              rows="3"></textarea>
+    <div ng-click="model.send(model.message)"
+         class="btn btn-block btn-primary">Send</div>
+</div>

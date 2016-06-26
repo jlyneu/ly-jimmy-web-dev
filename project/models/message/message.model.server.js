@@ -6,7 +6,7 @@ module.exports = function(mongoose, messagethreadModel) {
 
     var api = {
         createMessage: createMessage,
-        findAllMessagesForMessageThread: findAllMessagesForMessageThread,
+        findAllMessagesForMessagethread: findAllMessagesForMessagethread,
         findMessageById: findMessageById,
         updateMessage: updateMessage,
         deleteMessage: deleteMessage
@@ -24,13 +24,13 @@ module.exports = function(mongoose, messagethreadModel) {
         // then resolve the promise with the newly created message
         Message
             .create(message)
-            .then(pushMessageForMessageThread,rejectError)
+            .then(pushMessageForMessagethread,rejectError)
             .then(resolvePromise,rejectError);
 
         return deferred.promise;
 
         // if the message creation is successful, then push the message id onto the messagethread's messages array
-        function pushMessageForMessageThread(message) {
+        function pushMessageForMessagethread(message) {
             newMessage = message;
             return messagethreadModel.pushMessage(messagethreadId, newMessage._id);
         }
@@ -48,7 +48,7 @@ module.exports = function(mongoose, messagethreadModel) {
     }
 
     // Retrieves all message instances for messagethread whose _id is messagethreadId
-    function findAllMessagesForMessageThread(messagethreadId) {
+    function findAllMessagesForMessagethread(messagethreadId) {
         return Message.find({ _messagethread: messagethreadId });
     }
 
