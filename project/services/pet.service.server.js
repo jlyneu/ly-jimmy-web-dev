@@ -113,6 +113,7 @@ module.exports = function(app, models) {
         function requestCallback(error, response, body) {
             // decode certain special characters in response from petfinder
             var data = JSON.parse(decodeURIComponent(escape(body)));
+            console.log(data);
             if (!error && response.statusCode == 200) {
                 if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
                     errorMessage.message = data.petfinder.header.status.message.$t;
@@ -120,11 +121,15 @@ module.exports = function(app, models) {
                 }
                 else {
                     var pets = data.petfinder.pets.pet;
-                    var cleanPetList = [];
-                    for (var i = 0; i < pets.length; i++) {
-                        cleanPetList.push(util.cleanPetObj(pets[i]));
+                    if (pets) {
+                        var cleanPetList = [];
+                        for (var i = 0; i < pets.length; i++) {
+                            cleanPetList.push(util.cleanPetObj(pets[i]));
+                        }
+                        return res.json(cleanPetList);
+                    } else {
+                        return res.json([]);
                     }
-                    return res.json(cleanPetList);
                 }
             } else {
                 return res.status(500).json(error);

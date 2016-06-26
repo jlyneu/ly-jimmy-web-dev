@@ -4,12 +4,17 @@
         .controller("SearchController", SearchController);
 
     // controller for the search.view.client.html template
-    function SearchController($rootScope, PetService) {
+    function SearchController($rootScope, PetService, PetShelterConstants) {
         var vm = this;
         
         vm.search = search;
 
         vm.user = $rootScope.currentUser;
+        vm.animals = PetShelterConstants.getAnimals();
+        vm.breeds = PetShelterConstants.getBreeds();
+        vm.sizes = PetShelterConstants.getSizes();
+        vm.sexes = PetShelterConstants.getSexes();
+        vm.ages = PetShelterConstants.getAges();
         
         function search(query) {
             PetService.findPet(query)
