@@ -3,7 +3,7 @@
         .module("PetShelter")
         .controller("MessagethreadDetailController", MessagethreadDetailController);
 
-    // controller for the saved-pet-list.view.client.html template
+    // controller for the messagethread-detail.view.client.html template
     function MessagethreadDetailController($rootScope, $routeParams, MessagethreadService, MessageService) {
         var vm = this;
 

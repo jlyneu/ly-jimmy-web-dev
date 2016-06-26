@@ -1,5 +1,6 @@
 <ps-header user="model.user"></ps-header>
 <div class="container">
+    <ps-profile-menu></ps-profile-menu>
     <div ng-repeat="message in model.messages">
         {{message.text}}
     </div>
@@ -8,4 +9,7 @@
               rows="3"></textarea>
     <div ng-click="model.send(model.message)"
          class="btn btn-block btn-primary">Send</div>
+    <a href="#/profile/message">
+        <div class="btn btn-block btn-danger">Back</div>
+    </a>
 </div>

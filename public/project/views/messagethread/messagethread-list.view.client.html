@@ -1,1 +1,9 @@
 <ps-header user="model.user"></ps-header>
+<div class="container">
+    <ps-profile-menu></ps-profile-menu>
+    <div ng-repeat="messagethread in model.messagethreads">
+        <a href="#/profile/message/{{messagethread._id}}">
+            <div class="btn btn-block btn-primary">{{messagethread._user}}</div>
+        </a>
+    </div>
+</div>
