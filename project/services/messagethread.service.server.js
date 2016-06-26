@@ -23,6 +23,8 @@ module.exports = function(app, models) {
             return;
         }
 
+        console.log(messagethread);
+
         // try to create the messagethread in the database
         messagethreadModel
             .createMessagethread(userId, messagethread)
@@ -40,6 +42,7 @@ module.exports = function(app, models) {
 
         // if an error occurred, then return an error
         function createMessagethreadError(error) {
+            console.log(error);
             errorMessage.message = "Could not create messagethread. Please try again later.";
             res.status(500).json(errorMessage);
         }

@@ -4,10 +4,11 @@
         .controller("PetDetailController", PetDetailController);
 
     // controller for the pet-detail.view.client.html template
-    function PetDetailController($scope, $rootScope, $routeParams, ShelterService, PetService) {
+    function PetDetailController($rootScope, $location, $routeParams, ShelterService, PetService, MessagethreadService, MessageService) {
         var vm = this;
 
         vm.savePet = savePet;
+        vm.sendMessage = sendMessage;
 
         vm.shelterId = $routeParams["shelterId"];
         vm.petId = $routeParams["petId"];
@@ -78,6 +79,42 @@
             }
 
             function savePetError(error) {
+
+            }
+        }
+
+        function sendMessage(message) {
+            var newMessagethread;
+            var messagethreadObj = {
+                _user: vm.user._id,
+                _shelter: vm.shelterId,
+                messages: []
+            };
+            MessagethreadService
+                .createMessagethread(vm.user._id, messagethreadObj)
+                .then(createMessagethreadSuccess, createMessagethreadError);
+
+            function createMessagethreadSuccess(response) {
+                newMessagethread = response.data;
+                var messageObj = {
+                    _messagethread: newMessagethread._id,
+                    text: message
+                };
+                MessageService
+                    .createMessage(newMessagethread._id, messageObj)
+                    .then(createMessageSuccess, createMessageError);
+            }
+
+            function createMessagethreadError(error) {
+
+            }
+
+            function createMessageSuccess(response) {
+                var newMessage = response.data;
+                $location.url("/profile/message/" + newMessagethread._id);
+            }
+
+            function createMessageError(error) {
 
             }
         }

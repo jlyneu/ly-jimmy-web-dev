@@ -16,9 +16,7 @@ module.exports = function(mongoose) {
     return api;
 
     // create a new messagethread instance whose users array contains the given userId
-    function createMessagethread(messagethread, userId, shelterId) {
-        messagethread._user = userId;
-        messagethread._shelter = shelterId;
+    function createMessagethread(userId, messagethread) {
         return Messagethread.create(messagethread);
     }
 

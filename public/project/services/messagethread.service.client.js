@@ -5,7 +5,7 @@
     function MessagethreadService($http) {
         var api = {
             "createMessagethread"           : createMessagethread,
-            "findMessagethreadsByUserId" : findMessagethreadsByUserId,
+            "findMessagethreadsByUserId"    : findMessagethreadsByUserId,
             "findMessagethreadById"         : findMessagethreadById,
             "updateMessagethread"           : updateMessagethread,
             "deleteMessagethread"           : deleteMessagethread
