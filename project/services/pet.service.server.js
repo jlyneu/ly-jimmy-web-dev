@@ -82,6 +82,7 @@ module.exports = function(app, models) {
     }
 
     function findPet(req, res) {
+        var results = [];
         var errorMessage = {};
         var url = "http://api.petfinder.com/pet.find?key=" + process.env.PETFINDER_KEY;
         if (req.query.location) {
@@ -107,13 +108,14 @@ module.exports = function(app, models) {
             url += "&age=" + req.query.age;
         }
         url += "&format=json";
-        console.log(url);
+
+        
+
         request(url, requestCallback);
 
         function requestCallback(error, response, body) {
             // decode certain special characters in response from petfinder
             var data = JSON.parse(decodeURIComponent(escape(body)));
-            console.log(data);
             if (!error && response.statusCode == 200) {
                 if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
                     errorMessage.message = data.petfinder.header.status.message.$t;

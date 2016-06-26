@@ -20,6 +20,9 @@
 
             function findPetByIdSuccess(response) {
                 var existingPet = response.data;
+                if (existingPet.breeds) {
+                    existingPet.breed = existingPet.breeds[0];
+                }
                 if (!$.isEmptyObject(existingPet)) {
                     vm.pet = existingPet;
                 }

@@ -8,6 +8,7 @@ module.exports = function(mongoose, shelterModel) {
         createPet: createPet,
         findAllPetsForShelter: findAllPetsForShelter,
         findPetById: findPetById,
+        findPetByQuery: findPetByQuery,
         updatePet: updatePet,
         deletePet: deletePet
     };
@@ -57,9 +58,20 @@ module.exports = function(mongoose, shelterModel) {
         return Pet.findById(petId);
     }
 
+    function findPetByQuery(query) {
+        return Pet.find(query);
+    }
+
     // Updates pet instance whose _id is petId
     function updatePet(petId, pet) {
-        delete pet._id
+        delete pet._id;
+        if (pet.animal) {
+            pet.animal = pet.animal.toUpperCase();
+        }
+        if (pet.breed) {
+            pet.breeds = [pet.breed];
+        }
+        console.log(pet);
         return Pet.update(
             { _id: petId },
             { $set: pet }
