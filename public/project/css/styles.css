@@ -8,6 +8,7 @@ body {
   max-width: 970px;
   margin: 30px auto;
   padding: 30px;
+  text-align: center;
 }
 @media (max-width: 768px) {
   .ps-card {
@@ -21,10 +22,6 @@ body {
 .ps-header {
   background-color: white;
   color: #777777;
-}
-.ps-header-container {
-  max-width: 970px;
-  margin: auto;
 }
 .ps-header-link {
   color: #777777;
@@ -40,6 +37,7 @@ body {
   font-size: 20px;
   font-weight: bold;
   height: 30px;
+  padding: 0 10px;
   margin: 8px;
   vertical-align: middle;
 }
