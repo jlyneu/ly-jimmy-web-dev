@@ -27,10 +27,22 @@ a {
     margin-bottom: 20px;
 }
 
+@media (max-width: 768px) {
+    .card-header {
+        font-size: 18px;
+    }
+}
+
 .card-holder {
     margin: 30px auto;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
     max-width: 708px;
+    -webkit-transition: -webkit-transform 0.25s;
+    transition: transform 0.25s;
+}
+
+.card-holder:hover {
+    transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
@@ -82,7 +94,7 @@ a {
 }
 
 .profile-description {
-    font-size: 30px;
+    font-size: 26px;
     max-width: 768px;
     margin: 30px auto;
     text-align: center;
@@ -116,7 +128,7 @@ a {
 
 .profile-name {
     text-align: center;
-    font-size: 30px;
+    font-size: 40px;
 }
 
 .profile-titles {
