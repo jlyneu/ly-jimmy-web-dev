@@ -13,6 +13,7 @@
         vm.user = $rootScope.currentUser;
 
         function createPet(pet) {
+            pet.source = "PETSHELTER";
             PetService
                 .createPet(vm.shelterId, pet)
                 .then(createPetSuccess, createPetError);

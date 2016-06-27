@@ -27,6 +27,15 @@ module.exports = function() {
                 cleanPetObj.options.push(rawPetObj.options.option[i].$t);
             }
         }
+
+        if (rawPetObj.media && rawPetObj.media.photos && rawPetObj.media.photos.photo) {
+            for (i = 0; i < rawPetObj.media.photos.photo.length; i++) {
+                var photo = rawPetObj.media.photos.photo[i];
+                if (photo["@size"] == "pn" && photo["@id"] == "1") {
+                    cleanPetObj.photoUrl = photo.$t;
+                }
+            }
+        }
         cleanPetObj.contact = {};
         cleanPetObj.contact.name = rawPetObj.contact.name && rawPetObj.contact.name.$t;
         cleanPetObj.contact.phone = rawPetObj.contact.phone.$t;
@@ -38,6 +47,7 @@ module.exports = function() {
         cleanPetObj.contact.zip = rawPetObj.contact.zip.$t;
         cleanPetObj.contact.fax = rawPetObj.contact.fax.$t;
         cleanPetObj.source = "PETFINDER";
+
         return cleanPetObj;
     }
 };

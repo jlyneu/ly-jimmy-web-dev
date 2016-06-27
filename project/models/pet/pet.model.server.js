@@ -44,6 +44,7 @@ module.exports = function(mongoose, shelterModel) {
 
         // an error occurred so reject the promise
         function rejectError(err) {
+            console.log(err);
             deferred.reject(err);
         }
     }

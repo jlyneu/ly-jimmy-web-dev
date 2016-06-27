@@ -64,8 +64,28 @@
         <option ng-repeat="age in model.ages" value="{{age}}">{{age}}</option>
     </select>
     <div ng-click="model.search(model.query)" class="btn btn-block btn-primary">Go!</div>
-    <div>Search Results</div>
+
+
+    <h1>Search Results</h1>
     <div ng-repeat="pet in model.pets">
-        <div>{{pet.name}}</div>
+        <div ng-click="model.visitPet(pet)"
+             class="ps-search-result-container">
+            <img ng-if="pet.photoUrl"
+                 ng-src="{{pet.photoUrl}}"
+                 height="250px"
+                 width="250px"
+                 class="ng-search-result-img"/>
+            <div>
+                <div ng-if="pet.animal">Animal Type: {{pet.animal}}</div>
+                <div ng-if="pet.name">Name: {{pet.name}}</div>
+                <div ng-if="!pet.name">Name: Not Specified</div>
+                <div ng-if="pet.breeds.length > 0">
+                    <div>Breed: <span ng-repeat="breed in pet.breeds">{{breed}} </span></div>
+                </div>
+                <div ng-if="pet.breeds.length == 0">
+                    <div>Breed: Not Specified</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
