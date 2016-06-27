@@ -1,6 +1,6 @@
 <ps-header user="model.user"></ps-header>
+<ps-profile-menu></ps-profile-menu>
 <div class="container">
-    <ps-profile-menu></ps-profile-menu>
     <div ng-repeat="shelter in model.shelters">
         <a href="#/shelter/{{shelter._id}}"><div class="btn btn-block btn-success">{{shelter.name}}</div></a>
     </div>
