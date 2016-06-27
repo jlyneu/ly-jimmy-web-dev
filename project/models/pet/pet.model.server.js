@@ -59,7 +59,46 @@ module.exports = function(mongoose, shelterModel) {
     }
 
     function findPetByQuery(query) {
-        return Pet.find(query);
+        var errorMessage = {};
+        var deferred = q.defer();
+        if (!query.location) {
+            errorMessage.message = "Location is required for search";
+            deferred.reject(errorMessage);
+        }
+        // find the shelters that match the provided location,
+        // then search for pets that match the other query values
+        shelterModel
+            .findShelterByQuery({ zip: query.location })
+            .then(findShelterByQuerySuccess, findShelterByQueryError);
+
+        return deferred.promise;
+
+        function findShelterByQuerySuccess(shelters) {
+            var shelterIds = [];
+            for (var i = 0; i < shelters.length; i++) {
+                shelterIds.push(shelters[i]._id);
+            }
+            query._shelter = { $in: shelterIds };
+            delete query.location;
+
+            Pet
+                .find(query)
+                .then(findSuccess, findError);
+        }
+
+        function findShelterByQueryError(error) {
+            errorMessage.message = "Could not find pets at this time. Please try again later.";
+            deferred.reject(errorMessage);
+        }
+
+        function findSuccess(pets) {
+            deferred.resolve(pets);
+        }
+
+        function findError(error) {
+            errorMessage.message = "Could not find pets at this time. Please try again later.";
+            deferred.reject(errorMessage);
+        }
     }
 
     // Updates pet instance whose _id is petId
@@ -71,7 +110,6 @@ module.exports = function(mongoose, shelterModel) {
         if (pet.breed) {
             pet.breeds = [pet.breed];
         }
-        console.log(pet);
         return Pet.update(
             { _id: petId },
             { $set: pet }

@@ -17,6 +17,10 @@
         vm.ages = PetShelterConstants.getAges();
         
         function search(query) {
+            if (!query.location) {
+                vm.error = "Location is required";
+            }
+            
             PetService.findPet(query)
                 .then(findPetSuccess, findPetError);
 

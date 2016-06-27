@@ -109,9 +109,21 @@ module.exports = function(app, models) {
         }
         url += "&format=json";
 
-        
+        petModel
+            .findPetByQuery(req.query)
+            .then(findPetByQuerySuccess, findPetByQueryError);
 
-        request(url, requestCallback);
+        function findPetByQuerySuccess(pets) {
+            for (var i = 0; i < pets.length; i++) {
+                results.push(pets[i]);
+            }
+            request(url, requestCallback);
+        }
+
+        function findPetByQueryError(error) {
+            errorMessage.message("Could not find pets at this time. Please try again later.");
+            return res.status(500).json(errorMessage);
+        }
 
         function requestCallback(error, response, body) {
             // decode certain special characters in response from petfinder
@@ -124,11 +136,10 @@ module.exports = function(app, models) {
                 else {
                     var pets = data.petfinder.pets.pet;
                     if (pets) {
-                        var cleanPetList = [];
                         for (var i = 0; i < pets.length; i++) {
-                            cleanPetList.push(util.cleanPetObj(pets[i]));
+                            results.push(util.cleanPetObj(pets[i]));
                         }
-                        return res.json(cleanPetList);
+                        return res.json(results);
                     } else {
                         return res.json([]);
                     }

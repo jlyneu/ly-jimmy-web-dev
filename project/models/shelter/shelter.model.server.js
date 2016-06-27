@@ -8,6 +8,7 @@ module.exports = function(mongoose) {
         createShelterForUser: createShelterForUser,
         findAllSheltersForUser: findAllSheltersForUser,
         findShelterById: findShelterById,
+        findShelterByQuery: findShelterByQuery,
         updateShelter: updateShelter,
         deleteShelter: deleteShelter,
         pushPet: pushPet,
@@ -29,6 +30,10 @@ module.exports = function(mongoose) {
     // Retrieves single shelter instance whose _id is shelterId
     function findShelterById(shelterId) {
         return Shelter.findById(shelterId);
+    }
+
+    function findShelterByQuery(query) {
+        return Shelter.find(query);
     }
 
     // Updates shelter instance whose _id is shelterId
