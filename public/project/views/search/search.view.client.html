@@ -66,7 +66,7 @@
     <div ng-click="model.search(model.query)" class="btn btn-block btn-primary">Go!</div>
 
 
-    <h1>Search Results</h1>
+    <h1 ng-if="model.pets && model.pets.length > 0">Search Results</h1>
     <div ng-repeat="pet in model.pets">
         <div ng-click="model.visitPet(pet)"
              class="ps-search-result-container">
