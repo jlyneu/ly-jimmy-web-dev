@@ -3,6 +3,12 @@ body {
   color: #111111;
   font-family: 'Open Sans', sans-serif;
 }
+.btn {
+  margin-top: 10px;
+}
+.form-control {
+  margin-bottom: 10px;
+}
 .ps-card {
   background-color: #5EA989;
   max-width: 970px;
