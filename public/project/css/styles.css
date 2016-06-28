@@ -98,16 +98,10 @@ body {
   color: #777777;
   display: block;
   font-weight: bold;
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   text-align: center;
   margin: 15px auto;
-}
-@media (min-width: 768px) and (max-width: 992px) {
-  .ps-search-result-img {
-    width: 200px;
-    height: 200px;
-  }
 }
 .ps-search-result-img-missing-icon {
   font-size: 150px;
