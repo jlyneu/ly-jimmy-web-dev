@@ -1,6 +1,7 @@
 <ps-header user="model.user"></ps-header>
 <div class="container">
     <h1>Add a new pet</h1>
+    <h2>Pet Info</h2>
     <label>Animal type</label>
     <input ng-model="model.pet.animal"
            type="text"
@@ -31,6 +32,38 @@
            class="form-control"/>
     <label>Photo URL</label>
     <input ng-model="model.pet.photoUrl"
+           type="text"
+           class="form-control"/>
+    <h2>Contact Info</h2>
+    <label>Name</label>
+    <input ng-model="model.pet.contact.name"
+           type="text"
+           class="form-control"/>
+    <label>Address</label>
+    <input ng-model="model.pet.contact.address1"
+           type="text"
+           class="form-control"/>
+    <input ng-model="model.pet.contact.address2"
+           type="text"
+           class="form-control"/>
+    <label>State</label>
+    <input ng-model="model.pet.contact.state"
+           type="text"
+           class="form-control"/>
+    <label>Zip Code</label>
+    <input ng-model="model.pet.contact.zip"
+           type="text"
+           class="form-control"/>
+    <label>Phone Number</label>
+    <input ng-model="model.pet.contact.phone"
+           type="text"
+           class="form-control"/>
+    <label>Fax</label>
+    <input ng-model="model.pet.contact.fax"
+           type="text"
+           class="form-control"/>
+    <label>Email</label>
+    <input ng-model="model.pet.contact.email"
            type="text"
            class="form-control"/>
     <div ng-click="model.createPet(model.pet)"

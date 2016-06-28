@@ -1,5 +1,16 @@
 module.exports = function(mongoose) {
 
+    var ContactSchema = mongoose.Schema({
+        name: String,
+        address1: String,
+        address2: String,
+        state: String,
+        zip: String,
+        phone: String,
+        fax: String,
+        email: String
+    }, { collection: "project.contact"});
+
     var PetSchema = mongoose.Schema({
         _shelter: {
             type: mongoose.Schema.Types.ObjectId,
@@ -23,8 +34,17 @@ module.exports = function(mongoose) {
             type: String,
             enum: ["M", "F"] // male, female
         },
+        age: {
+            type: String,
+            enum: ["Baby", "Young", "Adult", "Senior"]
+        },
+        status: {
+            type: String,
+            enum: ["A", "H", "P", "X"] // adoptable, hold, pending, adopted/removed
+        },
         options: [String],
         photoUrl: String,
+        contact: ContactSchema,
         source: {
             type: String,
             enum: ["PETFINDER", "PETSHELTER"]
