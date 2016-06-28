@@ -12,6 +12,7 @@
         vm.user = $rootScope.currentUser;
         
         function createShelter(shelter) {
+            shelter.source = "PETSHELTER";
             ShelterService
                 .createShelter(vm.user._id, shelter)
                 .then(createShelterSuccess, createShelterError);
