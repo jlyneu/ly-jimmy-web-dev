@@ -70,7 +70,7 @@ module.exports = function(mongoose, shelterModel) {
         // find the shelters that match the provided location,
         // then search for pets that match the other query values
         shelterModel
-            .findShelterByQuery({ zip: query.location })
+            .findShelterByQuery({ zip: query.location, source: "PETSHELTER" })
             .then(findShelterByQuerySuccess, findShelterByQueryError);
 
         return deferred.promise;
