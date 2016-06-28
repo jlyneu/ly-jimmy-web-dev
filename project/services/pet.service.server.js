@@ -8,6 +8,7 @@ module.exports = function(app, models) {
     app.get("/api/petshelter/shelter/:shelterId/pet", findAllPetsForShelter);
     app.get("/api/petshelter/pet", findPet);
     app.get("/api/petshelter/pet/:petId", findPetById);
+    app.get("/api/petshelter/petfinder/pet/:petfinderId", findPetByPetfinderId);
     app.put("/api/petshelter/pet/:petId", updatePet);
     app.delete("/api/petshelter/pet/:petId", deletePet);
 
@@ -173,6 +174,24 @@ module.exports = function(app, models) {
 
         // if an error occurred, then return an error
         function findPetByIdError(error) {
+            errorMessage.message = "Could not fetch pet. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
+    }
+
+    function findPetByPetfinderId(req, res) {
+        var petfinderId = req.params["petfinderId"];
+        var errorMessage = {};
+
+        petModel
+            .findPetByPetfinderId(petfinderId)
+            .then(findPetByPetfinderIdSuccess, findPetByPetfinderIdError);
+
+        function findPetByPetfinderIdSuccess(pet) {
+            return res.json(pet);
+        }
+
+        function findPetByPetfinderIdError(error) {
             errorMessage.message = "Could not fetch pet. Please try again later.";
             res.status(500).json(errorMessage);
         }

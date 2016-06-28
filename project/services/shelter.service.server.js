@@ -1,9 +1,14 @@
+var request = require("request");
+var util = require("../utils/petfinder.util.server.js")();
+
 module.exports = function(app, models) {
 
     // declare the API
     app.post("/api/petshelter/user/:userId/shelter", createShelter);
     app.get("/api/petshelter/user/:userId/shelter", findAllSheltersForUser);
     app.get("/api/petshelter/shelter/:shelterId", findShelterById);
+    app.get("/api/petshelter/petfinder/shelter/:petfinderId", findShelterByPetfinderId);
+    app.get("/api/petfinder/shelter/:petfinderId", findPetfinderShelterById);
     app.put("/api/petshelter/shelter/:shelterId", updateShelter);
     app.delete("/api/petshelter/shelter/:shelterId", deleteShelter);
 
@@ -103,6 +108,56 @@ module.exports = function(app, models) {
         function findShelterByIdError(error) {
             errorMessage.message = "Could not fetch shelter. Please try again later.";
             res.status(500).json(errorMessage);
+        }
+    }
+
+    function findShelterByPetfinderId(req, res) {
+        var petfinderId = req.params["petfinderId"];
+        var errorMessage = {};
+
+        shelterModel
+            .findShelterByPetfinderId(petfinderId)
+            .then(findShelterByPetfinderIdSuccess, findShelterByPetfinderIdError);
+
+        function findShelterByPetfinderIdSuccess(shelter) {
+            return res.json(shelter);
+        }
+
+        function findShelterByPetfinderIdError(error) {
+            errorMessage.message = "Could not fetch shelter. Please try again later.";
+            return res.status(500).json(errorMessage);
+        }
+    }
+
+    function findPetfinderShelterById(req, res) {
+        var petfinderId = req.params["petfinderId"];
+        var errorMessage = {};
+
+        var url = "http://api.petfinder.com/shelter.get?key={key}&id={id}&format=json"
+            .replace("{key}", process.env.PETFINDER_KEY).replace("{id}", petfinderId);
+        console.log(url);
+
+        request(url, requestCallback);
+
+        function requestCallback(error, response, body) {
+            // decode certain special characters in response from petfinder
+            var data = JSON.parse(decodeURIComponent(escape(body)));
+            if (!error && response.statusCode == 200) {
+                if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
+                    errorMessage.message = data.petfinder.header.status.message.$t;
+                    return res.status(400).json(errorMessage);
+                }
+                else {
+                    var shelter = data.petfinder.shelter;
+                    if (shelter) {
+                        return res.json(util.cleanShelterObj(shelter));
+                    } else {
+                        return res.json({});
+                    }
+                }
+            } else {
+                return res.status(500).json(error);
+            }
         }
     }
 

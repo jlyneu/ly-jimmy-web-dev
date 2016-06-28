@@ -4,13 +4,14 @@
         .factory("PetService", PetService);
     function PetService($http) {
         var api = {
-            "createPet"           : createPet,
-            "findPetsByShelterId" : findPetsByShelterId,
-            "findPet"             : findPet,
-            "findPetById"         : findPetById,
-            "updatePet"           : updatePet,
-            "savePet"             : savePet,
-            "deletePet"           : deletePet
+            "createPet"            : createPet,
+            "findPetsByShelterId"  : findPetsByShelterId,
+            "findPet"              : findPet,
+            "findPetById"          : findPetById,
+            "findPetByPetfinderId" : findPetByPetfinderId,
+            "updatePet"            : updatePet,
+            "savePet"              : savePet,
+            "deletePet"            : deletePet
         };
         return api;
 
@@ -21,7 +22,7 @@
             var url = "/api/petshelter/shelter/" + shelterId + "/pet";
             return $http.post(url, pet);
         }
-
+        
         // return a promise for finding pets by the given user id. if the pets were found,
         // then the promise will resolve with the existing pets. if the pets were not
         // found, then the promise will resolve with an error.
@@ -59,6 +60,11 @@
         // found, then the promise will resolve with an error.
         function findPetById(petId) {
             var url = "/api/petshelter/pet/" + petId;
+            return $http.get(url);
+        }
+
+        function findPetByPetfinderId(petfinderId) {
+            var url = "/api/petshelter/petfinder/pet/" + petfinderId;
             return $http.get(url);
         }
 

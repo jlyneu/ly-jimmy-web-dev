@@ -10,13 +10,15 @@ module.exports = function(mongoose) {
             required: true
         },
         address1: {
-            type: String,
-            required: true
+            type: String
         },
         address2: String,
         city: String,
         state: String,
-        zip: String,
+        zip: {
+            type: String,
+            required: true
+        },
         country: String,
         latitude: Number,
         longitude: Number,

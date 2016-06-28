@@ -9,6 +9,7 @@ module.exports = function(mongoose) {
         findAllSheltersForUser: findAllSheltersForUser,
         findShelterById: findShelterById,
         findShelterByQuery: findShelterByQuery,
+        findShelterByPetfinderId: findShelterByPetfinderId,
         updateShelter: updateShelter,
         deleteShelter: deleteShelter,
         pushPet: pushPet,
@@ -18,7 +19,9 @@ module.exports = function(mongoose) {
 
     // create a new shelter instance whose users array contains the given userId
     function createShelterForUser(userId, shelter) {
-        shelter.users = [userId];
+        if (userId != "null") {
+            shelter.users = [userId];
+        }
         return Shelter.create(shelter);
     }
 
@@ -34,6 +37,10 @@ module.exports = function(mongoose) {
 
     function findShelterByQuery(query) {
         return Shelter.find(query);
+    }
+
+    function findShelterByPetfinderId(petfinderId) {
+        return Shelter.findOne({ petfinderId: petfinderId });
     }
 
     // Updates shelter instance whose _id is shelterId

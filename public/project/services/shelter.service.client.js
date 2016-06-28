@@ -5,8 +5,10 @@
     function ShelterService($http) {
         var api = {
             "createShelter"           : createShelter,
-            "findSheltersByUserId" : findSheltersByUserId,
+            "findSheltersByUserId"    : findSheltersByUserId,
             "findShelterById"         : findShelterById,
+            "findShelterByPetfinderId": findShelterByPetfinderId,
+            "findPetfinderShelterById": findPetfinderShelterById,
             "updateShelter"           : updateShelter,
             "saveShelter"             : saveShelter,
             "deleteShelter"           : deleteShelter
@@ -34,6 +36,16 @@
         // found, then the promise will resolve with an error.
         function findShelterById(shelterId) {
             var url = "/api/petshelter/shelter/" + shelterId;
+            return $http.get(url);
+        }
+
+        function findShelterByPetfinderId(petfinderId) {
+            var url = "/api/petshelter/petfinder/shelter/" + petfinderId;
+            return $http.get(url);
+        }
+
+        function findPetfinderShelterById(petfinderId) {
+            var url = "/api/petfinder/shelter/" + petfinderId;
             return $http.get(url);
         }
 

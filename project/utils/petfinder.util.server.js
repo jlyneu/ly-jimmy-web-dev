@@ -1,9 +1,27 @@
 module.exports = function() {
 
     var api = {
-        cleanPetObj: cleanPetObj
+        cleanShelterObj : cleanShelterObj,
+        cleanPetObj     : cleanPetObj
     };
     return api;
+
+    function cleanShelterObj(rawShelterObj) {
+        var cleanShelterObj = {};
+        cleanShelterObj.name = rawShelterObj.name.$t;
+        cleanShelterObj.address1 = rawShelterObj.address1.$t;
+        cleanShelterObj.address2 = rawShelterObj.address2.$t;
+        cleanShelterObj.city = rawShelterObj.city.$t;
+        cleanShelterObj.state = rawShelterObj.state.$t;
+        cleanShelterObj.zip = rawShelterObj.zip.$t;
+        cleanShelterObj.country = rawShelterObj.country.$t;
+        cleanShelterObj.latitude = rawShelterObj.latitude.$t;
+        cleanShelterObj.longitude = rawShelterObj.longitude.$t;
+        cleanShelterObj.phone = rawShelterObj.phone.$t;
+        cleanShelterObj.email = rawShelterObj.email.$t;
+        cleanShelterObj.fax = rawShelterObj.fax.$t;
+        return cleanShelterObj;
+    }
 
     function cleanPetObj(rawPetObj) {
         var cleanPetObj = {};
@@ -12,7 +30,7 @@ module.exports = function() {
         cleanPetObj.size = rawPetObj.size.$t;
         cleanPetObj.media = rawPetObj.media.$t;
         cleanPetObj.id = rawPetObj.id.$t;
-        cleanPetObj.shelterPetId = rawPetObj.shelterPetId.$t;
+        cleanPetObj.shelterId = rawPetObj.shelterId.$t;
         cleanPetObj.name = rawPetObj.name.$t;
         cleanPetObj.sex = rawPetObj.sex.$t;
         cleanPetObj.description = rawPetObj.description.$t;

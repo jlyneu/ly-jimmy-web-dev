@@ -9,6 +9,7 @@ module.exports = function(mongoose, shelterModel) {
         findAllPetsForShelter: findAllPetsForShelter,
         findPetById: findPetById,
         findPetByQuery: findPetByQuery,
+        findPetByPetfinderId: findPetByPetfinderId,
         updatePet: updatePet,
         deletePet: deletePet
     };
@@ -100,6 +101,10 @@ module.exports = function(mongoose, shelterModel) {
             errorMessage.message = "Could not find pets at this time. Please try again later.";
             deferred.reject(errorMessage);
         }
+    }
+
+    function findPetByPetfinderId(petfinderId) {
+        return Pet.findOne({ petfinderId: petfinderId });
     }
 
     // Updates pet instance whose _id is petId

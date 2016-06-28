@@ -6,10 +6,7 @@ module.exports = function(mongoose) {
             ref: "Shelter",
             required: true
         },
-        animal: {
-            type: String,
-            enum: ["BARNYARD", "BIRD", "CAT", "DOG", "HORSE", "PIG", "REPTILE", "SMALLFURRY"]
-        },
+        animal: String,
         breeds: {
             type: [String]
         },
