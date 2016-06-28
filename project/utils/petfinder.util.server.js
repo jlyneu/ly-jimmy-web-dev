@@ -36,8 +36,12 @@ module.exports = function() {
         cleanPetObj.description = rawPetObj.description.$t;
         cleanPetObj.animal = rawPetObj.animal.$t;
         cleanPetObj.breeds = [];
-        for (var i = 0; i < rawPetObj.breeds.breed.length; i++) {
-            cleanPetObj.breeds.push(rawPetObj.breeds.breed[i].$t);
+        if (rawPetObj.breeds.breed.$t) {
+            cleanPetObj.breeds = [rawPetObj.breeds.breed.$t];
+        } else {
+            for (var i = 0; i < rawPetObj.breeds.breed.length; i++) {
+                cleanPetObj.breeds.push(rawPetObj.breeds.breed[i].$t);
+            }
         }
         cleanPetObj.options = [];
         if (rawPetObj.options.option) {

@@ -69,21 +69,30 @@
     <h1 ng-if="model.pets && model.pets.length > 0">Search Results</h1>
     <div ng-repeat="pet in model.pets">
         <div ng-click="model.visitPet(pet)"
-             class="ps-search-result-container">
+             class="ps-search-result-container col-sm-4">
             <img ng-if="pet.photoUrl"
                  ng-src="{{pet.photoUrl}}"
-                 height="250px"
-                 width="250px"
-                 class="ng-search-result-img"/>
-            <div>
-                <div ng-if="pet.animal">Animal Type: {{pet.animal}}</div>
-                <div ng-if="pet.name">Name: {{pet.name}}</div>
-                <div ng-if="!pet.name">Name: Not Specified</div>
+                 class="ps-search-result-img"/>
+            <div ng-if="!pet.photoUrl"
+                 class="ps-search-result-img">
+                <div ng-if="!pet.photoUrl"
+                     class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
+                <div ng-if="!pet.photoUrl"
+                     class="ps-search-result-img-missing-text">No Image Provided</div>
+            </div>
+            <div class="ps-search-result-description">
+                <div ng-if="pet.animal"><strong>Animal Type</strong>: {{pet.animal}}</div>
+                <div ng-if="pet.name"><strong>Name</strong>: {{pet.name}}</div>
+                <div ng-if="!pet.name"><strong>Name</strong>: Not Specified</div>
                 <div ng-if="pet.breeds.length > 0">
-                    <div>Breed: <span ng-repeat="breed in pet.breeds">{{breed}} </span></div>
+                    <div><strong>Breed</strong>:
+                        <span ng-repeat="breed in pet.breeds">
+                            <span ng-if="!$last">{{breed}} | </span>
+                            <span ng-if="$last">{{breed}}</span>
+                        </span></div>
                 </div>
                 <div ng-if="pet.breeds.length == 0">
-                    <div>Breed: Not Specified</div>
+                    <div><strong>Breed</strong>: Not Specified</div>
                 </div>
             </div>
         </div>

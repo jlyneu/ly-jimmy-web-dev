@@ -34,7 +34,7 @@ body {
   display: inline-block;
   height: 30px;
   margin: 7px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   vertical-align: middle;
 }
 .ps-header-logo {
@@ -77,8 +77,42 @@ body {
   background-color: white;
   border: 1px solid gray;
   cursor: pointer;
+  margin: 0;
+}
+.ps-search-result-description {
+  margin: 15px auto;
+  padding: 25px 0 0 0;
+  height: 125px;
+  width: 250px;
+}
+@media (min-width: 768px) and (max-width: 992px) {
+  .ps-search-result-description {
+    width: 200px;
+    height: 200px;
+  }
+}
+.ps-search-result-description div {
+  margin-bottom: 5px;
 }
 .ps-search-result-img {
-  float: left;
-  height: 300px;
+  color: #777777;
+  display: block;
+  font-weight: bold;
+  width: 250px;
+  height: 250px;
+  text-align: center;
+  margin: 15px auto;
+}
+@media (min-width: 768px) and (max-width: 992px) {
+  .ps-search-result-img {
+    width: 200px;
+    height: 200px;
+  }
+}
+.ps-search-result-img-missing-icon {
+  font-size: 150px;
+  margin-top: 40px;
+}
+.ps-search-result-img-missing-text {
+  font-size: 20px;
 }
