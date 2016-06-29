@@ -45,7 +45,6 @@ module.exports = function(mongoose, shelterModel) {
 
         // an error occurred so reject the promise
         function rejectError(err) {
-            console.log(err);
             deferred.reject(err);
         }
     }
@@ -110,9 +109,6 @@ module.exports = function(mongoose, shelterModel) {
     // Updates pet instance whose _id is petId
     function updatePet(petId, pet) {
         delete pet._id;
-        if (pet.animal) {
-            pet.animal = pet.animal.toUpperCase();
-        }
         if (pet.breed) {
             pet.breeds = [pet.breed];
         }

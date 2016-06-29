@@ -2,6 +2,13 @@
 <div class="container">
     <h1>{{model.pet.name}}</h1>
     <img ng-src="{{model.pet.photoUrl}}"/>
+    <form action="/api/petshelter/upload"  method="post" enctype="multipart/form-data">
+        <label  for="file">Upload an image</label>
+        <input  name="myFile"    type="file" class="form-control" id="file"/>
+        <input  name="shelterId" value="{{model.shelterId}}" style="display: none"/>
+        <input  name="petId"     value="{{model.petId}}" style="display: none"/>
+        <button type="submit"    class="btn btn-block btn-primary">Upload Image</button>
+    </form>
     <a href="#/shelter/{{model.shelterId}}/pet/{{model.petId}}/edit"
        ng-if="model.isOwner">
         <div class="btn btn-block btn-primary">Edit Pet</div>

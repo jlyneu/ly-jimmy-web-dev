@@ -32,7 +32,20 @@ module.exports = function(mongoose) {
 
     // Retrieves single shelter instance whose _id is shelterId
     function findShelterById(shelterId) {
-        return Shelter.findById(shelterId);
+        var errorMessage = {};
+        var deferred = q.defer();
+        Shelter
+            .findById(shelterId)
+            .populate("users")
+            .exec(function (error, shelter) {
+                if (error) {
+                    errorMessage.message = "Error populating users for shelter";
+                    deferred.reject(errorMessage);
+                } else {
+                    deferred.resolve(shelter);
+                }
+            });
+        return deferred.promise;
     }
 
     function findShelterByQuery(query) {

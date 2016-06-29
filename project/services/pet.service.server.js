@@ -1,9 +1,12 @@
 var request = require("request");
 var util = require("../utils/petfinder.util.server.js")();
+var multer = require('multer');
+var upload = multer({ dest: __dirname + '/../../public/uploads' });
 
 module.exports = function(app, models) {
 
     // declare the API
+    app.post("/api/petshelter/upload", upload.single("myFile"), uploadImage);
     app.post("/api/petshelter/shelter/:shelterId/pet", createPet);
     app.get("/api/petshelter/shelter/:shelterId/pet", findAllPetsForShelter);
     app.get("/api/petshelter/pet", findPet);
@@ -15,6 +18,55 @@ module.exports = function(app, models) {
 
     var shelterModel = models.shelterModel;
     var petModel = models.petModel;
+
+    // upload the image in the body of the request to the server and
+    // return a path to the uploaded image
+    function uploadImage(req, res) {
+        var shelterId = req.body.shelterId;
+        var petId     = req.body.petId;
+        var myFile    = req.file;
+
+        // if file isn't provided, then redirect user back to edit page
+        if (!myFile) {
+            redirectToPetDetail();
+            return;
+        }
+
+        var originalname  = myFile.originalname; // file name on user's computer
+        var filename      = myFile.filename;     // new file name in upload folder
+        var path          = myFile.path;         // full path of uploaded file
+        var destination   = myFile.destination;  // folder where file is saved to
+        var size          = myFile.size;
+        var mimetype      = myFile.mimetype;
+
+        // find the widget by the given widgetId. If successful, try to update the url of the widget with
+        // the path to the newly uploaded file on the server. If successful then update the widget in the
+        // database. Make sure the user is redirected to the widget edit page
+        petModel
+            .findPetById(petId)
+            .then(findPetByIdSuccess, redirectToPetDetail);
+
+        // try to update the image widget url and save to the database. then redirect the user to the
+        // edit widget page
+        function findPetByIdSuccess(pet) {
+            if (pet) {
+                // update the url of the image widget to be the path to the new uploaded file on the server
+                pet.photoUrl = "/uploads/" + filename;
+                // update the widget in the db then redirect the user to the edit widget page
+                petModel
+                    .updatePet(petId, pet)
+                    .then(redirectToPetDetail, redirectToPetDetail);
+            } else {
+                // the widget wasn't found so just redirect the user back to the edit widget page
+                redirectToPetEdit();
+            }
+        }
+
+        // redirect the user to the edit widget page
+        function redirectToPetDetail() {
+            res.redirect("/project/#/shelter/" + shelterId + "/pet/" + petId);
+        }
+    }
 
     // adds the pet body parameter instance to the local pets array.
     // return the pet if creation was successful, otherwise return an error.

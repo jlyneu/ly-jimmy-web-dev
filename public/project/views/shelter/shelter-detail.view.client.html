@@ -18,6 +18,12 @@
         <li ng-if="model.shelter.phone">{{model.shelter.phone}}</li>
         <li ng-if="model.shelter.fax">{{model.shelter.fax}}</li>
     </ul>
+    <h2>PetShelter Users That Manage This Shelter</h2>
+    <ul>
+        <li ng-repeat="user in model.shelter.users">
+            <a href="#/user/{{user._id}}">{{user.firstName}} {{user.lastName}}</a>
+        </li>
+    </ul>
     <h2>Pets at this shelter</h2>
     <div ng-repeat="pet in model.pets">
         <ps-pet-result pet="pet"></ps-pet-result>
