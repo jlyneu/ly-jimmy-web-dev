@@ -4,6 +4,7 @@ module.exports = function(mongoose) {
         name: String,
         address1: String,
         address2: String,
+        city: String,
         state: String,
         zip: String,
         phone: String,
@@ -42,7 +43,6 @@ module.exports = function(mongoose) {
             type: String,
             enum: ["A", "H", "P", "X"] // adoptable, hold, pending, adopted/removed
         },
-        options: [String],
         photoUrl: String,
         contact: ContactSchema,
         source: {

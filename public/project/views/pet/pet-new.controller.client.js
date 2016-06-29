@@ -14,6 +14,10 @@
 
         function createPet(pet) {
             pet.source = "PETSHELTER";
+            if (pet.breed) {
+                pet.breeds = [pet.breed];
+                delete pet.breed;
+            }
             PetService
                 .createPet(vm.shelterId, pet)
                 .then(createPetSuccess, createPetError);

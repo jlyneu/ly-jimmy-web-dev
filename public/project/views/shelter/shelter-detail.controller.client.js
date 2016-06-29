@@ -58,9 +58,11 @@
                             break;
                         }
                     }
-                    for (i = 0; i < vm.shelter.users.length; i++) {
-                        if (vm.shelter.users[i] === vm.user._id) {
-                            vm.isOwner = true;
+                    if (vm.shelter.users) {
+                        for (i = 0; i < vm.shelter.users.length; i++) {
+                            if (vm.shelter.users[i] === vm.user._id) {
+                                vm.isOwner = true;
+                            }
                         }
                     }
                 }
