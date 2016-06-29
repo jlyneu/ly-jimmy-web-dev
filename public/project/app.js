@@ -1,4 +1,4 @@
 (function() {
     angular
-        .module("PetShelter", ["ngRoute","petshelterDirectives"]);
+        .module("PetShelter", ["ngRoute"]);
 })();
