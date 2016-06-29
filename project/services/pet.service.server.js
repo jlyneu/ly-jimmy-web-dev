@@ -6,7 +6,7 @@ var upload = multer({ dest: __dirname + '/../../public/uploads' });
 module.exports = function(app, models) {
 
     // declare the API
-    app.post("/api/petshelter/upload", upload.single("myFile"), uploadImage);
+    app.post("/api/petshelter/pet/upload", upload.single("myFile"), uploadImage);
     app.post("/api/petshelter/shelter/:shelterId/pet", createPet);
     app.get("/api/petshelter/shelter/:shelterId/pet", findAllPetsForShelter);
     app.get("/api/petshelter/pet", findPet);

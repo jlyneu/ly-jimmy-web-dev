@@ -1,4 +1,22 @@
 <ps-header user="model.user"></ps-header>
 <div class="container">
-    {{model.userDetail.firstName}} {{model.userDetail.lastName}}
+    <h1>{{model.userDetail.firstName}} {{model.userDetail.lastName}}</h1>
+    <img ng-if="model.user.photoUrl"
+         ng-src="{{model.user.photoUrl}}"
+         height="250px"
+         width="250px"/>
+    <div ng-if="!model.user.photoUrl"
+         class="ps-search-result-img">
+        <div ng-if="!model.user.photoUrl"
+             class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
+        <div ng-if="!model.user.photoUrl"
+             class="ps-search-result-img-missing-text">No Image Provided</div>
+    </div>
+    <h2>Shelters</h2>
+    <div ng-repeat="shelter in model.shelters">
+        <a href="#/shelter/{{shelter._id}}">
+            <div class="btn btn-block btn-success">{{shelter.name}}</div>
+        </a>
+    </div>
+    <div ng-if="model.shelters.length == 0">{{model.userDetail.firstName}} does not own any shelters</div>
 </div>

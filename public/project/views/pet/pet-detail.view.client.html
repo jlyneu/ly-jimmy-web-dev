@@ -2,7 +2,7 @@
 <div class="container">
     <h1>{{model.pet.name}}</h1>
     <img ng-src="{{model.pet.photoUrl}}"/>
-    <form action="/api/petshelter/upload"  method="post" enctype="multipart/form-data">
+    <form action="/api/petshelter/pet/upload"  method="post" enctype="multipart/form-data">
         <label  for="file">Upload an image</label>
         <input  name="myFile"    type="file" class="form-control" id="file"/>
         <input  name="shelterId" value="{{model.shelterId}}" style="display: none"/>

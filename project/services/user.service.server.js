@@ -2,12 +2,14 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 var bcrypt = require("bcrypt-nodejs");
+var multer = require('multer');
+var upload = multer({ dest: __dirname + '/../../public/uploads' });
 
 module.exports = function(app, models) {
 
     // declare the API
 
-    // Use management
+    // User management
     app.post("/api/petshelter/login", passport.authenticate("local-petfinder"), login);
     app.post("/api/petshelter/logout", logout);
     app.post("/api/petshelter/register", register);
@@ -19,6 +21,7 @@ module.exports = function(app, models) {
     }));
 
     // CRUD operations
+    app.post("/api/petshelter/user/upload", upload.single("myFile"), uploadImage);
     app.post("/api/petshelter/user", createUser);
     app.get("/api/petshelter/user", getUsers);
     app.get("/api/petshelter/user/:userId", findUserById);
@@ -146,6 +149,54 @@ module.exports = function(app, models) {
     }
 
     // Implement the API
+
+    // upload the image in the body of the request to the server and
+    // return a path to the uploaded image
+    function uploadImage(req, res) {
+        var userId = req.body.userId;
+        var myFile    = req.file;
+
+        // if file isn't provided, then redirect user back to edit page
+        if (!myFile) {
+            redirectToProfile();
+            return;
+        }
+
+        var originalname  = myFile.originalname; // file name on user's computer
+        var filename      = myFile.filename;     // new file name in upload folder
+        var path          = myFile.path;         // full path of uploaded file
+        var destination   = myFile.destination;  // folder where file is saved to
+        var size          = myFile.size;
+        var mimetype      = myFile.mimetype;
+
+        // find the widget by the given widgetId. If successful, try to update the url of the widget with
+        // the path to the newly uploaded file on the server. If successful then update the widget in the
+        // database. Make sure the user is redirected to the widget edit page
+        userModel
+            .findUserById(userId)
+            .then(findUserByIdSuccess, redirectToProfile);
+
+        // try to update the image widget url and save to the database. then redirect the user to the
+        // edit widget page
+        function findUserByIdSuccess(user) {
+            if (user) {
+                // update the url of the image widget to be the path to the new uploaded file on the server
+                user.photoUrl = "/uploads/" + filename;
+                // update the widget in the db then redirect the user to the edit widget page
+                userModel
+                    .updateUser(userId, user)
+                    .then(redirectToProfile, redirectToProfile);
+            } else {
+                // the widget wasn't found so just redirect the user back to the edit widget page
+                redirectToProfile();
+            }
+        }
+
+        // redirect the user to the edit widget page
+        function redirectToProfile() {
+            res.redirect("/project/#/profile");
+        }
+    }
 
     // the passport authenticate middleware has already authenticated and found the user in the database,
     // storing the user in the request. simply return the user in the request

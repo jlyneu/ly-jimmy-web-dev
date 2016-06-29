@@ -2,6 +2,23 @@
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
     <h1>Profile</h1>
+    <img ng-if="model.user.photoUrl"
+         ng-src="{{model.user.photoUrl}}"
+         height="250px"
+         width="250px"/>
+    <div ng-if="!model.user.photoUrl"
+         class="ps-search-result-img">
+        <div ng-if="!model.user.photoUrl"
+             class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
+        <div ng-if="!model.user.photoUrl"
+             class="ps-search-result-img-missing-text">No Image Provided</div>
+    </div>
+    <form action="/api/petshelter/user/upload"  method="post" enctype="multipart/form-data">
+        <label  for="file">Upload an image</label>
+        <input  name="myFile"    type="file" class="form-control" id="file"/>
+        <input  name="userId" value="{{model.user._id}}" style="display: none"/>
+        <button type="submit"    class="btn btn-block btn-primary">Upload Image</button>
+    </form>
     <p>First name: {{model.user.firstName}}</p>
     <p>Last name: {{model.user.lastName}}</p>
     <p>Email: {{model.user.email}}</p>

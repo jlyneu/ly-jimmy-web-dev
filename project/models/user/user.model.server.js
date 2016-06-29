@@ -76,6 +76,7 @@ module.exports = function(mongoose) {
                     lastName: user.lastName,
                     email: user.email,
                     phone: user.phone,
+                    photoUrl: user.photoUrl,
                     dateUpdated: Date.now()
                 }
             }
