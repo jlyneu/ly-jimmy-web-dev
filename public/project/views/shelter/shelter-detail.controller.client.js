@@ -13,6 +13,7 @@
         vm.user = $rootScope.currentUser;
         vm.isSaved = false;
         vm.isSavedDisplay = "Not Saved";
+        vm.source;
 
         function init() {
             ShelterService
@@ -22,6 +23,31 @@
 
             function findShelterByIdSuccess(response) {
                 vm.shelter = response.data;
+                vm.source = vm.shelter.source;
+
+                if (vm.shelter.source == "PETFINDER") {
+                    ShelterService
+                        .findPetfinderShelterById(vm.shelter.petfinderId)
+                        .then(findPetfinderShelterByIdSuccess, findPetfinderShelterByIdError);
+                } else {
+                    findShelterPets();
+                }
+            }
+
+            function findShelterByIdError(error) {
+
+            }
+
+            function findPetfinderShelterByIdSuccess(response) {
+                vm.shelter = response.data;
+                findShelterPets();
+            }
+
+            function findPetfinderShelterByIdError(error) {
+
+            }
+
+            function findShelterPets() {
                 if (vm.user) {
                     vm.isSaved = false;
                     vm.isSavedDisplay = "Not Saved";
@@ -35,16 +61,12 @@
                     for (i = 0; i < vm.shelter.users.length; i++) {
                         if (vm.shelter.users[i] === vm.user._id) {
                             vm.isOwner = true;
-                            return PetService
-                                .findPetsByShelterId(vm.shelterId)
-                                .then(findPetsByShelterIdSuccess, findPetsByShelterIdError);
                         }
                     }
                 }
-            }
-
-            function findShelterByIdError(error) {
-
+                return PetService
+                    .findPetsByShelterId(vm.shelterId, vm.source)
+                    .then(findPetsByShelterIdSuccess, findPetsByShelterIdError);
             }
 
             function findPetsByShelterIdSuccess(response) {
@@ -76,20 +98,6 @@
 
             function saveShelterError(error) {
 
-            }
-
-            function pushShelter(shelterId) {
-                vm.user.savedShelters.push(shelterId);
-                $rootScope.savedShelters.push(shelterId);
-            }
-
-            function pullShelter(shelterId) {
-                for (var i = 0; i < vm.user.savedShelters.length; i++) {
-                    if (vm.user.savedShelters[i] === shelterId) {
-                        vm.user.savedShelters.splice(i, 1);
-                        $rootScope.currentUser.savedShelters.splice(i, 1);
-                    }
-                }
             }
         }
     }

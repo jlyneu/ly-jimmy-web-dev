@@ -26,8 +26,11 @@
         // return a promise for finding pets by the given user id. if the pets were found,
         // then the promise will resolve with the existing pets. if the pets were not
         // found, then the promise will resolve with an error.
-        function findPetsByShelterId(shelterId) {
+        function findPetsByShelterId(shelterId, source) {
             var url = "/api/petshelter/shelter/" + shelterId + "/pet";
+            if (source) {
+                url += "?source=" + source;
+            }
             return $http.get(url);
         }
 

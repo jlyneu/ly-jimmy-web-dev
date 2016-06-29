@@ -5,6 +5,7 @@
        ng-if="model.isOwner">
         <div class="btn btn-block btn-primary">Edit Pet</div>
     </a>
+    <a href="#/shelter/{{model.shelterId}}">Shelter</a>
     <div ng-click="model.savePet()"
          class="btn btn-block btn-primary">{{model.isSavedDisplay}}</div>
     <div>Have more questions? Try sending the shelter owners a message to get the conversation started!</div>
