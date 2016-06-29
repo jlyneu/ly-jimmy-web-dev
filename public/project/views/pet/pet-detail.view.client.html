@@ -1,11 +1,38 @@
 <ps-header user="model.user"></ps-header>
 <div class="container">
     <h1>{{model.pet.name}}</h1>
+    <img ng-src="{{model.pet.photoUrl}}"/>
     <a href="#/shelter/{{model.shelterId}}/pet/{{model.petId}}/edit"
        ng-if="model.isOwner">
         <div class="btn btn-block btn-primary">Edit Pet</div>
     </a>
-    <a href="#/shelter/{{model.shelterId}}">Shelter</a>
+    <h2>Shelter:</h2>
+    <a href="#/shelter/{{model.shelterId}}">{{model.shelter.name}}</a>
+    <h2>Pet Info</h2>
+    <ul>
+        <li>Animal Type: {{model.pet.animal}}</li>
+        <li>Name: {{model.pet.name}}</li>
+        <li>Description: {{model.pet.description}}</li>
+        <li>Breed:
+            <span ng-repeat="breed in model.pet.breeds">
+                <span ng-if="!$last">{{breed}} | </span>
+                <span ng-if="$last">{{breed}}</span>
+            </span>
+        </li>
+        <li>Size: {{model.pet.size}}</li>
+        <li>Sex: {{model.pet.sex}}</li>
+        <li>Age: {{model.pet.age}}</li>
+    </ul>
+    <h2>Contact Info</h2>
+    <ul>
+        <li>Name: {{model.pet.contact.name}}</li>
+        <li>Address: {{model.pet.contact.address1}}<br>{{model.pet.contact.address2}}</li>
+        <li>State: {{model.pet.contact.state}}</li>
+        <li>Zip: {{model.pet.contact.zip}}</li>
+        <li>Phone: {{model.pet.contact.phone}}</li>
+        <li>Fax: {{model.pet.contact.fax}}</li>
+        <li>Email: {{model.pet.contact.email}}</li>
+    </ul>
     <div ng-click="model.savePet()"
          class="btn btn-block btn-primary">{{model.isSavedDisplay}}</div>
     <div>Have more questions? Try sending the shelter owners a message to get the conversation started!</div>

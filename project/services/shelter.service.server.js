@@ -49,7 +49,6 @@ module.exports = function(app, models) {
 
         // if an error occurred, then return an error
         function createShelterForUserError(error) {
-            console.log(error);
             errorMessage.message = "Could not create shelter. Please try again later.";
             res.status(500).json(errorMessage);
         }
@@ -135,7 +134,6 @@ module.exports = function(app, models) {
 
         var url = "http://api.petfinder.com/shelter.get?key={key}&id={id}&format=json"
             .replace("{key}", process.env.PETFINDER_KEY).replace("{id}", petfinderId);
-        console.log(url);
 
         request(url, requestCallback);
 

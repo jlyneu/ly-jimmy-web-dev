@@ -15,11 +15,13 @@
         <div ng-if="model.pet.name"><strong>Name</strong>: {{model.pet.name}}</div>
         <div ng-if="!model.pet.name"><strong>Name</strong>: Not Specified</div>
         <div ng-if="model.pet.breeds.length > 0">
-            <div><strong>Breed</strong>:
-                        <span ng-repeat="breed in model.pet.breeds">
-                            <span ng-if="!$last">{{breed}} | </span>
-                            <span ng-if="$last">{{breed}}</span>
-                        </span></div>
+            <div>
+                <strong>Breed</strong>:
+                <span ng-repeat="breed in model.pet.breeds">
+                    <span ng-if="!$last">{{breed}} | </span>
+                    <span ng-if="$last">{{breed}}</span>
+                </span>
+            </div>
         </div>
         <div ng-if="model.pet.breeds.length == 0">
             <div><strong>Breed</strong>: Not Specified</div>

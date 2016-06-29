@@ -9,6 +9,7 @@
             "findPet"              : findPet,
             "findPetById"          : findPetById,
             "findPetByPetfinderId" : findPetByPetfinderId,
+            "findPetfinderPetById" : findPetfinderPetById,
             "updatePet"            : updatePet,
             "savePet"              : savePet,
             "deletePet"            : deletePet
@@ -68,6 +69,11 @@
 
         function findPetByPetfinderId(petfinderId) {
             var url = "/api/petshelter/petfinder/pet/" + petfinderId;
+            return $http.get(url);
+        }
+        
+        function findPetfinderPetById(petfinderId) {
+            var url = "/api/petfinder/pet/" + petfinderId;
             return $http.get(url);
         }
 

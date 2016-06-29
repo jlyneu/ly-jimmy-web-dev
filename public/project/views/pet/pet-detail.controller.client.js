@@ -39,6 +39,12 @@
                 ShelterService
                     .findShelterById(vm.shelterId)
                     .then(findShelterByIdSuccess, findShelterByIdError);
+
+                if (vm.pet.source == "PETFINDER") {
+                    PetService
+                        .findPetfinderPetById(vm.pet.petfinderId)
+                        .then(findPetfinderPetByIdSuccess, findPetfinderPetByIdError);
+                }
             }
 
             function findPetByIdError(error) {
@@ -57,6 +63,14 @@
             }
 
             function findShelterByIdError(error) {
+
+            }
+
+            function findPetfinderPetByIdSuccess(response) {
+                vm.pet = response.data;
+            }
+
+            function findPetfinderPetByIdError(error) {
 
             }
         }

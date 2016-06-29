@@ -9,6 +9,7 @@ module.exports = function(app, models) {
     app.get("/api/petshelter/pet", findPet);
     app.get("/api/petshelter/pet/:petId", findPetById);
     app.get("/api/petshelter/petfinder/pet/:petfinderId", findPetByPetfinderId);
+    app.get("/api/petfinder/pet/:petfinderId", findPetfinderPetById);
     app.put("/api/petshelter/pet/:petId", updatePet);
     app.delete("/api/petshelter/pet/:petId", deletePet);
 
@@ -253,6 +254,37 @@ module.exports = function(app, models) {
         function findPetByPetfinderIdError(error) {
             errorMessage.message = "Could not fetch pet. Please try again later.";
             res.status(500).json(errorMessage);
+        }
+    }
+
+    function findPetfinderPetById(req, res) {
+        var petfinderId = req.params["petfinderId"];
+        var errorMessage = {};
+
+        var url = "http://api.petfinder.com/pet.get?key=" + process.env.PETFINDER_KEY;
+        url += "&id=" + petfinderId;
+        url += "&format=json";
+        request(url, requestCallback);
+
+        function requestCallback(error, response, body) {
+            // decode certain special characters in response from petfinder
+            var data = JSON.parse(decodeURIComponent(escape(body)));
+            if (!error && response.statusCode == 200) {
+                if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
+                    errorMessage.message = data.petfinder.header.status.message.$t;
+                    return res.status(400).json(errorMessage);
+                }
+                else {
+                    var pet = data.petfinder.pet;
+                    if (pet) {
+                        return res.json(util.cleanPetObj(pet));
+                    } else {
+                        return res.json({});
+                    }
+                }
+            } else {
+                return res.status(500).json(error);
+            }
         }
     }
 
