@@ -7,6 +7,7 @@ module.exports = function(app, models) {
     app.put("/api/petshelter/messagethread/:messagethreadId", updateMessagethread);
     app.delete("/api/petshelter/messagethread/:messagethreadId", deleteMessagethread);
 
+    var shelterModel = models.shelterModel;
     var messagethreadModel = models.messagethreadModel;
 
     // adds the messagethread body parameter instance to the local messagethreads array.
@@ -50,6 +51,7 @@ module.exports = function(app, models) {
     function findAllMessagethreadsForUser(req, res) {
         var userId = req.params["userId"];
         var errorMessage = {};
+        var results = [];
 
         // try to find the messagethreads in the database
         messagethreadModel
@@ -59,7 +61,11 @@ module.exports = function(app, models) {
         // return the messagethreads from the model. otherwise, something went wrong
         function findAllMessagethreadsForUserSuccess(messagethreads) {
             if (messagethreads) {
-                res.json(messagethreads);
+                results = results.concat(messagethreads);
+
+                shelterModel
+                    .findAllSheltersForUser(userId)
+                    .then(findAllSheltersForUserSuccess, findAllSheltersForUserError);
             } else {
                 errorMessage.message = "Could not fetch messagethreads. Please try again later.";
                 res.status(500).json(errorMessage);
@@ -68,6 +74,34 @@ module.exports = function(app, models) {
 
         // if an error occurred, then return an error
         function findAllMessagethreadsForUserError(error) {
+            errorMessage.message = "Could not fetch messagethreads. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
+
+        function findAllSheltersForUserSuccess(shelters) {
+            if (shelters) {
+                var shelterIds = [];
+                for (var i = 0; i < shelters.length; i++) {
+                    shelterIds.push(shelters[i]._id);
+                }
+                messagethreadModel
+                    .findAllMessagethreadsForShelters(shelterIds)
+                    .then(findAllMessagethreadsForSheltersSuccess, findAllMessagethreadsForSheltersError);
+            } else {
+                return res.json(results);
+            }
+        }
+
+        function findAllSheltersForUserError(error) {
+            errorMessage.message = "Could not fetch messagethreads. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
+
+        function findAllMessagethreadsForSheltersSuccess(messagethreads) {
+            res.json(results.concat(messagethreads));
+        }
+
+        function findAllMessagethreadsForSheltersError(error) {
             errorMessage.message = "Could not fetch messagethreads. Please try again later.";
             res.status(500).json(errorMessage);
         }

@@ -3,7 +3,7 @@ module.exports = function(mongoose) {
     var MessagethreadSchema = mongoose.Schema({
         _user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            ref: "PetUser",
             required: true
         },
         _shelter: {

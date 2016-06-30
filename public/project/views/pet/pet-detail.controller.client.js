@@ -112,7 +112,8 @@
                 newMessagethread = response.data;
                 var messageObj = {
                     _messagethread: newMessagethread._id,
-                    text: message
+                    text: message,
+                    _user: vm.user._id
                 };
                 MessageService
                     .createMessage(newMessagethread._id, messageObj)

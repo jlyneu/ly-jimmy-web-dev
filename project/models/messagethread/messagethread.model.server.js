@@ -7,6 +7,7 @@ module.exports = function(mongoose) {
     var api = {
         createMessagethread: createMessagethread,
         findAllMessagethreadsForUser: findAllMessagethreadsForUser,
+        findAllMessagethreadsForShelters: findAllMessagethreadsForShelters,
         findMessagethreadById: findMessagethreadById,
         updateMessagethread: updateMessagethread,
         deleteMessagethread: deleteMessagethread,
@@ -17,6 +18,7 @@ module.exports = function(mongoose) {
 
     // create a new messagethread instance whose users array contains the given userId
     function createMessagethread(userId, messagethread) {
+        messagethread._user = userId;
         return Messagethread.create(messagethread);
     }
 
@@ -25,9 +27,24 @@ module.exports = function(mongoose) {
         return Messagethread.find({ _user: userId });
     }
 
+    function findAllMessagethreadsForShelters(shelterIds) {
+        return Messagethread.find({ _shelter: { $in: shelterIds }});
+    }
+
     // Retrieves single messagethread instance whose _id is messagethreadId
     function findMessagethreadById(messagethreadId) {
-        return Messagethread.findById(messagethreadId);
+        var deferred = q.defer();
+        Messagethread
+            .findById(messagethreadId)
+            .populate('_user')
+            .exec(function (error, messagethread) {
+                if (messagethread) {
+                    deferred.resolve(messagethread);
+                } else {
+
+                }
+            });
+        return deferred.promise;
     }
 
     // Updates messagethread instance whose _id is messagethreadId

@@ -42,7 +42,8 @@
         function send(message) {
             var messageObj = {
                 _messagethread: vm.messagethread._id,
-                text: message
+                text: message,
+                _user: vm.user._id
             };
             MessageService
                 .createMessage(vm.messagethread._id, messageObj)
