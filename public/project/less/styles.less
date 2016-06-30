@@ -10,6 +10,7 @@
 @card-green: #5EA989;
 @text-white: #BAF0D9;
 @text-shadow-gray: #333333;
+@description-dark-gray: #E2E2E2;
 
 @subtitle-blue: #1f5392;
 
@@ -153,7 +154,7 @@ body {
       text-align: center;
 
       &-dark {
-        background-color: #E2E2E2;
+        background-color: @description-dark-gray;
       }
       &-header {
         font-size: 30px;
@@ -199,6 +200,48 @@ body {
         color: white;
         text-decoration: none;
       }
+    }
+  }
+  &-profile {
+    &-img {
+      width: 250px;
+      @media(max-width: @screen-sm-max) {
+        width: 100%;
+      }
+
+      &-missing {
+        color: @header-text-gray;
+        display: block;
+        font-weight: bold;
+        width: 200px;
+        height: 275px;
+        text-align: center;
+        margin: 15px auto;
+        &-icon {
+          font-size: 150px;
+          margin-top: 25px;
+        }
+        &-text {
+          font-size: 20px;
+        }
+      }
+    }
+    &-info {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 18px;
+
+      &-container {
+        background-color: @description-dark-gray;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        @media(max-width: @screen-sm-max) {
+          margin: 15px;
+        }
+      }
+    }
+    &-label {
+      font-size: 20px;
     }
   }
   &-register {

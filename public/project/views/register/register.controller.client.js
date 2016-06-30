@@ -85,6 +85,7 @@
                 scrollToError();
             }
 
+            // scroll to the top of the page so that the user can more easily see the validation/registration error
             function scrollToError() {
                 $('html, body').animate({
                     scrollTop: $('ps-header').offset().top + 'px'

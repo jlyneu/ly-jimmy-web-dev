@@ -1,29 +1,43 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
+<div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+    {{model.error}}
+</div>
 <div class="container">
-    <h1>Profile</h1>
-    <img ng-if="model.user.photoUrl"
-         ng-src="{{model.user.photoUrl}}"
-         height="250px"
-         width="250px"/>
-    <div ng-if="!model.user.photoUrl"
-         class="ps-search-result-img">
-        <div ng-if="!model.user.photoUrl"
-             class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
-        <div ng-if="!model.user.photoUrl"
-             class="ps-search-result-img-missing-text">No Image Provided</div>
+    <h1 class="col-xs-12">Profile</h1>
+    <div class="col-sm-6">
+        <div class="ps-profile-img">
+            <img ng-if="model.user.photoUrl"
+                 ng-src="{{model.user.photoUrl}}"
+                 height="250px"
+                 width="250px"/>
+            <div ng-if="!model.user.photoUrl"
+                 class="ps-profile-img-missing">
+                <div ng-if="!model.user.photoUrl"
+                     class="ps-profile-img-missing-icon glyphicon glyphicon-question-sign"></div>
+                <div ng-if="!model.user.photoUrl"
+                     class="ps-profile-img-missing-text">No Image Provided</div>
+            </div>
+            <form action="/api/petshelter/user/upload"  method="post" enctype="multipart/form-data">
+                <label  for="file" class="ps-profile-label">Upload an image</label>
+                <input  name="myFile"    type="file" class="" id="file"/>
+                <input  name="userId" value="{{model.user._id}}" style="display: none"/>
+                <button type="submit"    class="btn btn-block btn-primary">Upload Image</button>
+            </form>
+        </div>
     </div>
-    <form action="/api/petshelter/user/upload"  method="post" enctype="multipart/form-data">
-        <label  for="file">Upload an image</label>
-        <input  name="myFile"    type="file" class="form-control" id="file"/>
-        <input  name="userId" value="{{model.user._id}}" style="display: none"/>
-        <button type="submit"    class="btn btn-block btn-primary">Upload Image</button>
-    </form>
-    <p>First name: {{model.user.firstName}}</p>
-    <p>Last name: {{model.user.lastName}}</p>
-    <p>Email: {{model.user.email}}</p>
-    <p>Phone: {{model.user.phone}}</p>
-    <a href="#/profile/edit"><div class="btn btn-block btn-primary">Edit</div></a>
-    <div ng-click="model.logout()"
-         class="btn btn-block btn-danger">Log out</div>
+    <div class="col-sm-6 ps-profile-info-container">
+        <h2>Your Info</h2>
+        <div class="ps-profile-info">First name: {{model.user.firstName}}</div>
+        <div class="ps-profile-info">Last name: {{model.user.lastName}}</div>
+        <div ng-if="model.user.google.id" class="ps-profile-info">Sign in via Google</div>
+        <div ng-if="!model.user.google.id" class="ps-profile-info">Username: {{model.user.username}}</div>
+        <div class="ps-profile-info">Email: {{model.user.email}}</div>
+        <div class="ps-profile-info">Phone: {{model.user.phone}}</div>
+    </div>
+    <div class="col-xs-12">
+        <a href="#/profile/edit"><div class="btn btn-block btn-primary">Edit</div></a>
+        <div ng-click="model.logout()"
+             class="btn btn-block btn-danger">Log out</div>
+    </div>
 </div>

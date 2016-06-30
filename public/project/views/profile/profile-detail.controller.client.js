@@ -7,8 +7,10 @@
     function ProfileDetailController($rootScope, $location, UserService) {
         var vm = this;
 
+        // event handlers
         vm.logout = logout;
 
+        // get current user from rootScope if present
         vm.user = $rootScope.currentUser;
 
         // make a request to the server to logout the current user. if successful,
@@ -19,11 +21,13 @@
                 .logout()
                 .then(logoutSuccess, logoutError);
 
+            // a 200 was returned, so remove the user from the rootScope and navigate to the home page
             function logoutSuccess(response) {
                 $rootScope.currentUser = null;
                 $location.url("/");
             }
 
+            // if the server returned an error, then display an error
             function logoutError(error) {
                 vm.error = "Could not logout. Please try again later.";
             }
