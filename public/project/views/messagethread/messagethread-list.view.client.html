@@ -3,7 +3,9 @@
 <div class="container">
     <div ng-repeat="messagethread in model.messagethreads">
         <a href="#/profile/message/{{messagethread._id}}">
-            <div class="btn btn-block btn-primary">{{messagethread._user}}</div>
+            <div class="btn btn-block btn-primary">
+                {{messagethread._user.firstName}} {{messagethread._user.lastName}} to {{messagethread._shelter.name}}
+            </div>
         </a>
     </div>
 </div>

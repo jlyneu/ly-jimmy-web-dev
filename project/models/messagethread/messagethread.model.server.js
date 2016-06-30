@@ -24,11 +24,39 @@ module.exports = function(mongoose) {
 
     // Retrieves all messagethread instances for user whose _id is userId
     function findAllMessagethreadsForUser(userId) {
-        return Messagethread.find({ _user: userId });
+        var deferred = q.defer();
+        var errorMessage = {};
+
+        Messagethread
+            .find({ _user: userId })
+            .populate(["_user", "_shelter"])
+            .exec(function (error, messagethread) {
+                if (error) {
+                    errorMessage.message = "Could not fetch messagethread. Please try again later.";
+                    deferred.reject(errorMessage);
+                } else {
+                    deferred.resolve(messagethread);
+                }
+            });
+        return deferred.promise;
     }
 
     function findAllMessagethreadsForShelters(shelterIds) {
-        return Messagethread.find({ _shelter: { $in: shelterIds }});
+        var deferred = q.defer();
+        var errorMessage = {};
+
+        Messagethread
+            .find({ _shelter: { $in: shelterIds }})
+            .populate(["_user", "_shelter"])
+            .exec(function (error, messagethread) {
+                if (error) {
+                    errorMessage.message = "Could not fetch messagethread. Please try again later.";
+                    deferred.reject(errorMessage);
+                } else {
+                    deferred.resolve(messagethread);
+                }
+            });
+        return deferred.promise;
     }
 
     // Retrieves single messagethread instance whose _id is messagethreadId
