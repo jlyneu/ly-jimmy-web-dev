@@ -27,10 +27,24 @@
             }
 
             // make sure required fields are provided
-            var requiredFields = ["username", "password", "firstName", "lastName"];
+            var requiredFields = [
+                {
+                    fieldName: "username",
+                    displayName: "username"
+                },{
+                    fieldName: "password",
+                    displayName: "passwordname"
+                },
+                {
+                    fieldName: "firstName",
+                    displayName: "first name"
+                },{
+                    fieldName: "lastName",
+                    displayName: "last name"
+                }];
             for (var i = 0; i < requiredFields.length; i++) {
-                if (!user[requiredFields[i]]) {
-                    vm.error = "A {} is required.".replace("{}", requiredFields[i]);
+                if (!user[requiredFields[i]["fieldName"]]) {
+                    vm.error = "A {} is required.".replace("{}", requiredFields[i]["displayName"]);
                     scrollToError();
                     return;
                 }
