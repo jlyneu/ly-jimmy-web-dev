@@ -6,33 +6,40 @@
     <h1>Register</h1>
     <label>Username (Required)</label>
     <input type="text"
+           placeholder="Username"
            ng-model="model.user.username"
            class="form-control"
            autocapitalize="off"
            autocorrect="off"/>
     <label>Password (Required)</label>
     <input type="password"
+           placeholder="Password"
            ng-model="model.user.password"
            class="form-control"/>
     <label>Verify Password (Required)</label>
     <input type="password"
+           placeholder="Verify Password"
            ng-model="model.user.verifyPassword"
            class="form-control"/>
     <label>First Name (Required)</label>
-    <input type="password"
+    <input type="text"
+           placeholder="John"
            ng-model="model.user.firstName"
            class="form-control"/>
     <label>Last Name (Required)</label>
-    <input type="password"
+    <input type="text"
+           placeholder="Doe"
            ng-model="model.user.lastName"
            class="form-control"/>
     <label>Phone</label>
     <input type="text"
+           placeholder="555-555-5555"
            ng-pattern="model.phoneRegex"
            ng-model="model.user.phone"
            class="form-control"/>
     <label>Email</label>
     <input type="email"
+           placeholder="John@Doe.com"
            ng-model="model.user.email"
            class="form-control"/>
     <div ng-click="model.register(model.user)"
