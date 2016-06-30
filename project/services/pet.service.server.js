@@ -43,24 +43,8 @@ module.exports = function(app, models) {
         // the path to the newly uploaded file on the server. If successful then update the widget in the
         // database. Make sure the user is redirected to the widget edit page
         petModel
-            .findPetById(petId)
-            .then(findPetByIdSuccess, redirectToPetDetail);
-
-        // try to update the image widget url and save to the database. then redirect the user to the
-        // edit widget page
-        function findPetByIdSuccess(pet) {
-            if (pet) {
-                // update the url of the image widget to be the path to the new uploaded file on the server
-                pet.photoUrl = "/uploads/" + filename;
-                // update the widget in the db then redirect the user to the edit widget page
-                petModel
-                    .updatePet(petId, pet)
-                    .then(redirectToPetDetail, redirectToPetDetail);
-            } else {
-                // the widget wasn't found so just redirect the user back to the edit widget page
-                redirectToPetEdit();
-            }
-        }
+            .updatePet(petId, { photoUrl: "/uploads/" + filename })
+            .then(redirectToPetDetail, redirectToPetDetail);
 
         // redirect the user to the edit widget page
         function redirectToPetDetail() {
