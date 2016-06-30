@@ -25,6 +25,7 @@ module.exports = function(mongoose, messagethreadModel) {
         Message
             .create(message)
             .then(pushMessageForMessagethread,rejectError)
+            .then(updateDate,rejectError)
             .then(resolvePromise,rejectError);
 
         return deferred.promise;
@@ -33,6 +34,11 @@ module.exports = function(mongoose, messagethreadModel) {
         function pushMessageForMessagethread(message) {
             newMessage = message;
             return messagethreadModel.pushMessage(messagethreadId, newMessage._id);
+        }
+
+        function updateDate(numUpdated) {
+            var newUpdateDate = { dateUpdated : Date.now() };
+            return messagethreadModel.updateMessagethread(messagethreadId, newUpdateDate);
         }
 
         // if the message id is successfully pushed onto the messagethread's messages array then resolve the promise
@@ -49,7 +55,20 @@ module.exports = function(mongoose, messagethreadModel) {
 
     // Retrieves all message instances for messagethread whose _id is messagethreadId
     function findAllMessagesForMessagethread(messagethreadId) {
-        return Message.find({ _messagethread: messagethreadId });
+        var deferred = q.defer();
+        var errorMessage = {};
+        Message
+            .find({ _messagethread: messagethreadId })
+            .populate("_user")
+            .exec(function (error, messagethread) {
+                if (messagethread) {
+                    deferred.resolve(messagethread);
+                } else {
+                    deferred.reject();
+                    errorMessage.message = "Could not fetch messages at this time. Please try again later.";
+                }
+            });
+        return deferred.promise;
     }
 
     // Retrieves single message instance whose _id is messageId
