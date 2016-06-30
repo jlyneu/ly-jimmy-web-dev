@@ -59,8 +59,10 @@
                         }
                     }
                     if (vm.shelter.users) {
+                        console.log(vm.shelter.users);
+                        console.log(vm.user._id);
                         for (i = 0; i < vm.shelter.users.length; i++) {
-                            if (vm.shelter.users[i] === vm.user._id) {
+                            if (vm.shelter.users[i]._id === vm.user._id) {
                                 vm.isOwner = true;
                             }
                         }
