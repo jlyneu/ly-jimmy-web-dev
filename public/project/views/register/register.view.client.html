@@ -1,21 +1,41 @@
 <ps-header user="model.currentUser"></ps-header>
 <div class="container">
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <h1>Register</h1>
-    <label>Username</label>
+    <label>Username (Required)</label>
     <input type="text"
            ng-model="model.user.username"
            class="form-control"
            autocapitalize="off"
            autocorrect="off"/>
-    <label>Password</label>
+    <label>Password (Required)</label>
     <input type="password"
            ng-model="model.user.password"
            class="form-control"/>
-    <label>Verify Password</label>
+    <label>Verify Password (Required)</label>
     <input type="password"
            ng-model="model.user.verifyPassword"
            class="form-control"/>
+    <label>First Name (Required)</label>
+    <input type="password"
+           ng-model="model.user.firstName"
+           class="form-control"/>
+    <label>Last Name (Required)</label>
+    <input type="password"
+           ng-model="model.user.lastName"
+           class="form-control"/>
+    <label>Phone</label>
+    <input type="text"
+           ng-pattern="model.phoneRegex"
+           ng-model="model.user.phone"
+           class="form-control"/>
+    <label>Email</label>
+    <input type="email"
+           ng-model="model.user.email"
+           class="form-control"/>
     <div ng-click="model.register(model.user)"
          class="btn btn-block btn-primary">Register</div>
-    <div>Already have an account? <a href="#/login">Log in</a></div>
+    <p class="ps-register-login-link">Already have an account? <a href="#/login">Log in</a></p>
 </div>

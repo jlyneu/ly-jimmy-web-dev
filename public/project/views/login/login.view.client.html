@@ -1,20 +1,23 @@
 <ps-header user="model.currentUser"></ps-header>
 <div class="container">
+    <div ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <h1>Login</h1>
-    <label>Username</label>
     <input type="text"
+           placeholder="Username"
            class="form-control"
            ng-model="model.user.username"
            autocapitalize="off"
            autocorrect="off"/>
-    <label>Password</label>
     <input type="password"
+           placeholder="Password"
            class="form-control"
            ng-model="model.user.password"/>
     <div class="btn btn-block btn-primary" ng-click="model.login(model.user)">Login</div>
     <a href="/auth/google" class="btn btn-danger btn-block">
+        Or sign in with
         <span class="fa fa-google-plus"></span>
-        Google
     </a>
     <div>
         Don't have an account yet? <a href="#/register">Sign up for an account</a>

@@ -10,17 +10,18 @@
         // event handler declarations
         vm.login = login;
 
+        // get current user from rootScope if present
         vm.currentUser = $rootScope.currentUser;
+        
         // initialize model.user object
         vm.user = {};
-
+        // will hold error messages
         vm.error = "";
 
         // use the UserService to determine whether the given user exists
         // based on the provided username and password. If the user exists,
         // then navigate to their profile page. Otherwise, display an error message.
         function login(user) {
-            console.log(user);
             // temporarily remove error messages
             vm.error = "";
 

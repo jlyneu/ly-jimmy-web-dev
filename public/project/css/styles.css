@@ -3,6 +3,9 @@ body {
   color: #111111;
   font-family: 'Open Sans', sans-serif;
 }
+.alert {
+  margin-top: 20px;
+}
 .btn {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -177,6 +180,9 @@ body {
 .ps-home-link:hover {
   color: white;
   text-decoration: none;
+}
+.ps-register-login-link {
+  margin-bottom: 30px;
 }
 .ps-search-result-container {
   background-color: white;
