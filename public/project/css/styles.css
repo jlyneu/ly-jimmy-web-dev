@@ -10,6 +10,9 @@ body {
 .form-control {
   margin-bottom: 10px;
 }
+.navbar {
+  margin-bottom: 0;
+}
 .ps-card {
   background-color: #5EA989;
   max-width: 970px;
@@ -128,6 +131,7 @@ body {
 }
 @media (max-width: 768px) {
   .ps-home-description-header {
+    font-size: 24px;
     margin-left: 30px;
     margin-right: 30px;
   }
@@ -140,6 +144,7 @@ body {
 }
 @media (max-width: 768px) {
   .ps-home-description-text {
+    font-size: 16px;
     margin-left: 30px;
     margin-right: 30px;
   }
