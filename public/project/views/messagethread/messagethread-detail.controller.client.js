@@ -44,13 +44,15 @@
             var messageObj = {
                 _messagethread: vm.messagethread._id,
                 text: message,
-                _user: vm.user._id
+                _user: vm.user
             };
             MessageService
                 .createMessage(vm.messagethread._id, messageObj)
                 .then(createMessageSuccess, createMessageError);
             
             function createMessageSuccess(response) {
+                messageObj = response.data;
+                messageObj._user = vm.user;
                 vm.messages.push(messageObj);
                 vm.message = "";
             }
