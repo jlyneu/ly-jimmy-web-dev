@@ -95,8 +95,12 @@ body {
         }
       }
       &-learn-more {
-        margin-left: 100px;
         border: 1px solid green;
+        font-size: 20px;
+        margin-left: 100px;
+        @media(max-width: @screen-md-max) {
+          margin-left: 70px;
+        }
         @media(max-width: @screen-sm-max) {
           margin: 0;
         }
@@ -110,6 +114,7 @@ body {
         text-align: left;
         text-shadow: 1px 1px white;
         @media(max-width: @screen-md-max) {
+          padding-left: 70px;
           padding-top: 120px;
         }
         @media(max-width: @screen-sm-max) {
@@ -128,6 +133,7 @@ body {
         text-align: right;
         text-shadow: 1px 1px #333333;
         @media(max-width: @screen-md-max) {
+          padding-right: 70px;
           padding-top: 120px;
         }
         @media(max-width: @screen-sm-max) {

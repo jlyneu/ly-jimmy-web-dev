@@ -65,8 +65,14 @@ body {
   }
 }
 .ps-home-cover-learn-more {
-  margin-left: 100px;
   border: 1px solid green;
+  font-size: 20px;
+  margin-left: 100px;
+}
+@media (max-width: 992px) {
+  .ps-home-cover-learn-more {
+    margin-left: 70px;
+  }
 }
 @media (max-width: 768px) {
   .ps-home-cover-learn-more {
@@ -84,6 +90,7 @@ body {
 }
 @media (max-width: 992px) {
   .ps-home-cover-subtitle {
+    padding-left: 70px;
     padding-top: 120px;
   }
 }
@@ -106,6 +113,7 @@ body {
 }
 @media (max-width: 992px) {
   .ps-home-cover-title {
+    padding-right: 70px;
     padding-top: 120px;
   }
 }
