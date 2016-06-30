@@ -1,7 +1,17 @@
 <ps-header user="model.user"></ps-header>
 <div class="container">
     <h1>{{model.pet.name}}</h1>
-    <img ng-src="{{model.pet.photoUrl}}"/>
+    <img ng-if="model.pet.photoUrl"
+         ng-src="{{model.pet.photoUrl}}"
+         height="250px"
+         width="250px"/>
+    <div ng-if="!model.pet.photoUrl"
+         class="ps-search-result-img">
+        <div ng-if="!model.pet.photoUrl"
+             class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
+        <div ng-if="!model.pet.photoUrl"
+             class="ps-search-result-img-missing-text">No Image Provided</div>
+    </div>
     <form action="/api/petshelter/pet/upload"  method="post" enctype="multipart/form-data">
         <label  for="file">Upload an image</label>
         <input  name="myFile"    type="file" class="form-control" id="file"/>

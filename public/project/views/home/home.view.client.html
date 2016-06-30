@@ -1,17 +1,41 @@
 <ps-header user="model.user"></ps-header>
-<div class="ps-card">
-    <div class="ps-home-heading">Looking to adopt a new best friend?</div>
-    <div class="ps-home-heading">Let us help</div>
-    <div class="btn btn-primary">
-        <a class="ps-home-link" href="#/search">Get started</a>
-    </div>
-    <h2>What is PetShelter?</h2>
-    <p>
-        PetShelter is a place for people to find pets to adopt from local animal
+<div class="ps-home-cover-img">
+    <div class="ps-home-cover-title">Want to adopt a new best friend?</div>
+    <div class="ps-home-cover-subtitle">Let us help.</div>
+    <div ng-click="model.learnMore()"
+         class="ps-home-cover-learn-more btn btn-success">Learn More</div>
+</div>
+<div id="ps-home-description" class="container">
+    <div class="ps-home-description-header">What is PetShelter?</div>
+    <div class="ps-home-divider-small"></div>
+    <div class="ps-home-description-text">
+        PetShelter is a platform for people to find pets to adopt from local animal
         shelters. Animal shelter owners are also able to list their shelter and
         pets for adoption.
-    </p>
+    </div>
+    <div class="ps-home-divider-large"></div>
 </div>
-<!--<div class="ps-main-container">-->
-    <!---->
-<!--</div>-->
+<div class="ps-home-description-dark">
+    <div class="container">
+        <div class="ps-home-description-header">What kind of paperwork do I need to fill out?</div>
+        <div class="ps-home-divider-small"></div>
+        <div class="ps-home-description-text">
+            Paperwork will vary for each shelter. You won't actually be adopting pets through PetShelter,
+            but PetShelter provides means of finding the perfect pet and contacting the shelter to
+            get the adoption process started.
+        </div>
+        <div class="ps-home-divider-large"></div>
+    </div>
+</div>
+<div class="ps-home-description container">
+    <div class="ps-home-description-header">How much does PetShelter cost?</div>
+    <div class="ps-home-divider-small"></div>
+    <div class="ps-home-description-text">
+        PetShelter is free service! Simply click the button below to start a quick search in your area.
+        Once you find the pet that you've been looking for, simply reach out to the provided
+        contact and you'll be bringing your new buddy home in no time!
+    </div>
+    <a href="#/search">
+        <div class=" ps-home-get-started btn btn-primary">Let's Get Started</div>
+    </a>
+</div>

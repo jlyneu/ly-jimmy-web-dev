@@ -9,6 +9,9 @@
 @background-green: #074028;
 @card-green: #5EA989;
 @text-white: #BAF0D9;
+@text-shadow-gray: #333333;
+
+@subtitle-blue: #1f5392;
 
 @background-gray: #F2F2F2;
 @text-black: #111111;
@@ -75,33 +78,110 @@ body {
     }
   }
   &-home {
-    &-heading {
-      display: block;
-      font-size: 30px;
-      color: @background-green;
-      width: 100%;
+    &-cover {
+      &-img {
+        background: url('../img/dog.jpg') no-repeat right bottom;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        height: 500px;
+        @media(max-width: @screen-sm-max) {
+          text-align: center;
+        }
+      }
+      &-learn-more {
+        margin-left: 100px;
+        border: 1px solid green;
+        @media(max-width: @screen-sm-max) {
+          margin: 0;
+        }
+      }
+      &-subtitle {
+        color: @subtitle-blue;
+        font-size: 50px;
+        font-weight: bolder;
+        padding-top: 230px;
+        padding-left: 100px;
+        text-align: left;
+        text-shadow: 1px 1px white;
+        @media(max-width: @screen-md-max) {
+          padding-top: 120px;
+        }
+        @media(max-width: @screen-sm-max) {
+          font-size: 30px;
+          padding: 0;
+          text-align: center;
+          margin: 10px 15px 20px;
+        }
+      }
+      &-title {
+        color: white;
+        font-size: 40px;
+        font-weight: bolder;
+        padding-top: 30px;
+        padding-right: 100px;
+        text-align: right;
+        text-shadow: 1px 1px #333333;
+        @media(max-width: @screen-md-max) {
+          padding-top: 120px;
+        }
+        @media(max-width: @screen-sm-max) {
+          font-size: 30px;
+          padding-top: 40px;
+          padding-right: 0;
+          text-align: center;
+          margin: 0 30px;
+        }
+      }
+    }
+    &-description {
+      text-align: center;
+
+      &-dark {
+        background-color: #E2E2E2;
+      }
+      &-header {
+        font-size: 30px;
+        margin-top: 50px;
+        text-align: center;
+        @media(max-width: @screen-sm-max) {
+          margin-left: 30px;
+          margin-right: 30px;
+        }
+      }
+      &-text {
+        font-size: 18px;
+        max-width: 650px;
+        margin: auto;
+        text-align: center;
+        @media(max-width: @screen-sm-max) {
+          margin-left: 30px;
+          margin-right: 30px;
+        }
+      }
+    }
+    &-divider {
+      &-small {
+        border-bottom: 1px solid #666666;
+        margin: 25px auto;
+        width: 50px;
+      }
+      &-large {
+        border-bottom: 1px solid #666666;
+        margin: 50px auto 50px;
+        width: 200px;
+      }
+    }
+    &-get-started {
+      margin-top: 25px;
+      margin-bottom: 50px;
     }
     &-link {
       color: white;
       &:hover {
         color: white;
         text-decoration: none;
-      }
-    }
-    &-random {
-      &-container {
-        display: block;
-        height: 300px;
-        width: 100%;
-      }
-      &-panel {
-        width: 300px;
-        height: 300px;
-
-        img {
-          width: 100%;
-          height: 100%;
-        }
       }
     }
   }

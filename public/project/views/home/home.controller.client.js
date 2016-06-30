@@ -7,6 +7,14 @@
     function HomeController($rootScope) {
         var vm = this;
 
+        vm.learnMore = learnMore;
+
         vm.user = $rootScope.currentUser;
+
+        function learnMore() {
+            $('html, body').animate({
+                scrollTop: $('#ps-home-description').offset().top + 'px'
+            }, 'slow');
+        }
     }
 })();
