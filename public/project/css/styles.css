@@ -234,41 +234,34 @@ a:hover {
   margin-bottom: 30px;
 }
 .ps-search-result-container {
-  background-color: white;
-  border: 1px solid gray;
+  background-color: #E2E2E2;
+  box-shadow: 2px 2px 2px #666666;
   cursor: pointer;
-  margin: 0;
+  margin-bottom: 10px;
 }
 .ps-search-result-description {
-  margin: 15px auto;
-  padding: 25px 0 0 0;
-  height: 125px;
-  width: 250px;
-}
-@media (min-width: 768px) and (max-width: 992px) {
-  .ps-search-result-description {
-    width: 200px;
-    height: 150px;
-  }
+  height: 130px;
+  padding-top: 15px;
+  padding-left: 130px;
 }
 .ps-search-result-description div {
   margin-bottom: 5px;
 }
 .ps-search-result-img {
   color: #777777;
-  display: block;
   font-weight: bold;
-  width: 200px;
-  height: 200px;
+  float: left;
+  width: 100px;
+  height: 100px;
+  margin-top: 15px;
+  margin-left: 15px;
   text-align: center;
-  margin: 15px auto;
 }
 .ps-search-result-img-missing-icon {
-  font-size: 150px;
-  margin-top: 10px;
+  font-size: 60px;
 }
 .ps-search-result-img-missing-text {
-  font-size: 20px;
+  font-size: 14px;
 }
 .ps-shelter-new {
   margin-top: 0;
