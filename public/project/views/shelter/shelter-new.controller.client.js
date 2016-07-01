@@ -26,6 +26,20 @@
                 scrollToError();
                 return;
             }
+            
+            // check for valid zip code based on regex
+            if ($('input[type="text"]').hasClass('ng-invalid-pattern')) {
+                vm.error = "Please provide a valid five digit zip code";
+                scrollToError();
+                return;
+            }
+
+            // check for valid email based on Angular's default email validation
+            if ($('input[type="email"]').hasClass('ng-invalid-email')) {
+                vm.error = "Please provide a valid email address";
+                scrollToError();
+                return;
+            }
 
             // make sure required fields are provided
             var requiredFields = ["name",{field: "address1", display: "address"},"city","state","zip","country","email"];
@@ -39,20 +53,6 @@
                     scrollToError();
                     return;
                 }
-            }
-
-            // check for valid zip code based on regex
-            if ($('input[type="text"]').hasClass('ng-invalid-pattern')) {
-                vm.error = "Please provide a valid five digit zip code";
-                scrollToError();
-                return;
-            }
-
-            // check for valid email based on Angular's default email validation
-            if ($('input[type="email"]').hasClass('ng-invalid-email')) {
-                vm.error = "Please provide a valid email address";
-                scrollToError();
-                return;
             }
 
             shelter.source = "PETSHELTER";

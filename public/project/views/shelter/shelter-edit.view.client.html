@@ -1,48 +1,76 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
-    <label>Name</label>
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
+    <h1>Edit Shelter</h1>
+    <label for="name">Name (Required)</label>
     <input type="text"
+           placeholder="Example Shelter"
+           id="name"
            ng-model="model.shelter.name"
            class="form-control"/>
-    <label>Address</label>
+    <label for="address1">Address (Required)</label>
     <input type="text"
+           placeholder="123 Example Street"
+           id="address1"
            ng-model="model.shelter.address1"
            class="form-control"/>
     <input type="text"
+           placeholder="P.O. Box 12345"
+           id="address2"
            ng-model="model.shelter.address2"
            class="form-control"/>
-    <label>City</label>
+    <label for="city">City (Required)</label>
     <input type="text"
+           placeholder="Example City"
+           id="city"
            ng-model="model.shelter.city"
            class="form-control"/>
-    <label>State</label>
+    <label for="state">State (Required)</label>
+    <select ng-model="model.shelter.state"
+            id="state"
+            class="form-control">
+        <option value=""></option>
+        <option ng-repeat="state in model.states" value="{{state}}">{{state}}</option>
+    </select>
+    <label for="zip">Zip (Required)</label>
     <input type="text"
-           ng-model="model.shelter.state"
-           class="form-control"/>
-    <label>Zip</label>
-    <input type="text"
+           placeholder="12345"
+           id="zip"
            ng-model="model.shelter.zip"
+           ng-pattern="model.zipRegex"
            class="form-control"/>
-    <label>Country</label>
+    <label for="country">Country (Required)</label>
     <input type="text"
+           placeholder="USA"
+           id="country"
            ng-model="model.shelter.country"
            class="form-control"/>
-    <label>Phone</label>
+    <label for="phone">Phone</label>
     <input type="text"
+           placeholder="555-555-5555"
+           id="phone"
            ng-model="model.shelter.phone"
            class="form-control"/>
-    <label>Fax</label>
+    <label for="fax">Fax</label>
     <input type="text"
+           placeholder="555-555-5555"
+           id="fax"
            ng-model="model.shelter.fax"
            class="form-control"/>
-    <label>Email</label>
-    <input type="text"
+    <label for="email">Email (Required)</label>
+    <input type="email"
+           placeholder="Example@Email.com"
+           id="email"
            ng-model="model.shelter.email"
            class="form-control"/>
     <div ng-click="model.updateShelter(model.shelter)"
-         class="btn btn-block btn-primary">Save</div>
+         class="btn btn-block btn-success">Save</div>
     <a href="#/shelter/{{model.shelterId}}">
-        <div class="btn btn-block btn-danger">Cancel</div>
+        <div class="btn btn-block btn-primary">Cancel</div>
     </a>
+    <div ng-click="model.deleteShelter()"
+         class="btn btn-block btn-danger">Delete</div>
 </div>
