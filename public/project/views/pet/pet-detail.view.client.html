@@ -1,63 +1,98 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
-    <h1>{{model.pet.name}}</h1>
-    <img ng-if="model.pet.photoUrl"
-         ng-src="{{model.pet.photoUrl}}"
-         height="250px"
-         width="250px"/>
-    <div ng-if="!model.pet.photoUrl"
-         class="ps-search-result-img">
+    <h1 ng-if="model.pet.name" class="col-sm-12">{{model.pet.name}}</h1>
+    <h1 ng-if="!model.pet.name" class="col-sm-12">Name Not Provided</h1>
+    <div class="col-sm-6">
+        <img ng-if="model.pet.photoUrl"
+             ng-src="{{model.pet.photoUrl}}"
+             height="250px"
+             width="250px"/>
         <div ng-if="!model.pet.photoUrl"
-             class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
-        <div ng-if="!model.pet.photoUrl"
-             class="ps-search-result-img-missing-text">No Image Provided</div>
+             class="ps-profile-img-missing">
+            <div ng-if="!model.pet.photoUrl"
+                 class="ps-profile-img-missing-icon glyphicon glyphicon-question-sign"></div>
+            <div ng-if="!model.pet.photoUrl"
+                 class="ps-profile-img-missing-text">No Image Provided</div>
+        </div>
+        <form ng-if="model.isOwner" action="/api/petshelter/pet/upload"  method="post" enctype="multipart/form-data">
+            <label  for="file">Upload an image</label>
+            <input  name="myFile"    type="file" class="form-control" id="file"/>
+            <input  name="shelterId" value="{{model.shelterId}}" style="display: none"/>
+            <input  name="petId"     value="{{model.petId}}" style="display: none"/>
+            <button type="submit"    class="btn btn-block btn-primary">Upload Image</button>
+        </form>
+        <h2>Shelter:</h2>
+        <a class="ps-pet-detail-shelter" href="#/shelter/{{model.shelterId}}">{{model.shelter.name}}</a>
     </div>
-    <form action="/api/petshelter/pet/upload"  method="post" enctype="multipart/form-data">
-        <label  for="file">Upload an image</label>
-        <input  name="myFile"    type="file" class="form-control" id="file"/>
-        <input  name="shelterId" value="{{model.shelterId}}" style="display: none"/>
-        <input  name="petId"     value="{{model.petId}}" style="display: none"/>
-        <button type="submit"    class="btn btn-block btn-primary">Upload Image</button>
-    </form>
-    <a href="#/shelter/{{model.shelterId}}/pet/{{model.petId}}/edit"
-       ng-if="model.isOwner">
-        <div class="btn btn-block btn-primary">Edit Pet</div>
-    </a>
-    <h2>Shelter:</h2>
-    <a href="#/shelter/{{model.shelterId}}">{{model.shelter.name}}</a>
-    <h2>Pet Info</h2>
-    <ul>
-        <li>Animal Type: {{model.pet.animal}}</li>
-        <li>Name: {{model.pet.name}}</li>
-        <li>Description: {{model.pet.description}}</li>
-        <li>Breed:
+    <div class="col-sm-6">
+        <h2 class="ps-pet-detail-header">Pet Info</h2>
+        <div>Animal Type: {{model.pet.animal}}</div>
+        <div ng-if="model.pet.breeds">Breed:
             <span ng-repeat="breed in model.pet.breeds">
                 <span ng-if="!$last">{{breed}} | </span>
                 <span ng-if="$last">{{breed}}</span>
             </span>
-        </li>
-        <li>Size: {{model.pet.size}}</li>
-        <li>Sex: {{model.pet.sex}}</li>
-        <li>Age: {{model.pet.age}}</li>
-    </ul>
-    <h2>Contact Info</h2>
-    <ul>
-        <li>Name: {{model.pet.contact.name}}</li>
-        <li>Address: {{model.pet.contact.address1}}<br>{{model.pet.contact.address2}}</li>
-        <li>State: {{model.pet.contact.state}}</li>
-        <li>Zip: {{model.pet.contact.zip}}</li>
-        <li>Phone: {{model.pet.contact.phone}}</li>
-        <li>Fax: {{model.pet.contact.fax}}</li>
-        <li>Email: {{model.pet.contact.email}}</li>
-    </ul>
-    <div ng-click="model.savePet()"
-         class="btn btn-block btn-primary">{{model.isSavedDisplay}}</div>
-    <div>Have more questions? Try sending the shelter owners a message to get the conversation started!</div>
-    <textarea ng-model="model.message"
-              class="form-control"
-              rows="3"></textarea>
-    <div ng-click="model.sendMessage(model.message)" class="btn btn-block btn-success">
-        Send
+        </div>
+        <div ng-if="model.pet.size">Size: {{model.pet.size}}</div>
+        <div ng-if="!model.pet.size">Size: Not Provided</div>
+        <div ng-if="model.pet.sex">Sex: {{model.pet.sex}}</div>
+        <div ng-if="!model.pet.sex">Sex: Not Provided</div>
+        <div ng-if="model.pet.age">Age: {{model.pet.age}}</div>
+        <div ng-if="!model.pet.age">Age: Not Provided</div>
+        <h2>Contact Info</h2>
+        <div ng-if="model.pet.contact.name">Name: {{model.pet.contact.name}}</div>
+        <div ng-if="!model.pet.contact.name">Name: Not Provided</div>
+        <div ng-if="model.pet.contact.address1">Address: {{model.pet.contact.address1}}
+            <span ng-if="model.pet.contact.address2"><br>{{model.pet.contact.address2}}</span>
+        </div>
+        <div ng-if="!model.pet.contact.address1">Address: Not Provided</div>
+        <div ng-if="model.pet.contact.city">City: {{model.pet.contact.city}}</div>
+        <div ng-if="!model.pet.contact.city">City: Not Provided</div>
+        <div ng-if="model.pet.contact.state">State: {{model.pet.contact.state}}</div>
+        <div ng-if="!model.pet.contact.state">State: Not Provided</div>
+        <div ng-if="model.pet.contact.zip">Zip: {{model.pet.contact.zip}}</div>
+        <div ng-if="!model.pet.contact.zip">Zip: Not Provided</div>
+        <div ng-if="model.pet.contact.phone">Phone Number: {{model.pet.contact.phone}}</div>
+        <div ng-if="!model.pet.contact.phone">Phone Number: Not Provided</div>
+        <div ng-if="model.pet.contact.fax">Fax: {{model.pet.contact.fax}}</div>
+        <div ng-if="!model.pet.contact.fax">Fax: Not Provided</div>
+        <div ng-if="model.pet.contact.email">Email: {{model.pet.contact.email}}</div>
+        <div ng-if="!model.pet.contact.email">Email: Not Provided</div>
     </div>
+    <div class="col-sm-12">
+        <h2>Pet Description</h2>
+        <div ng-if="model.pet.description">{{model.pet.description}}</div>
+        <div ng-if="!model.pet.description">No description provided</div>
+    </div>
+    <a href="#/shelter/{{model.shelterId}}/pet/{{model.petId}}/edit"
+       class="col-sm-12"
+       ng-if="model.isOwner">
+        <div class="btn btn-block btn-primary">Edit Pet</div>
+    </a>
+    <div ng-if="model.user"
+         ng-click="model.savePet()"
+         class="col-sm-12">
+        <div class="btn btn-block" ng-class="model.saveStats.isSavedClass">{{model.saveStats.isSavedDisplay}}</div>
+    </div>
+    <div ng-if="!model.user" class="col-sm-12 ps-pet-detail-last">Have more questions? <a href="#/login">Login</a>
+        or <a href="#/register">Sign up for an account</a> to message the shelter owner.<br>
+        Being logged in also lets you save pets for quick reference later!
+    </div>
+    <div ng-if="model.hasMessagethread" class="col-sm-12 ps-pet-detail-last">
+        <h3>
+            Have more questions? <a href="#/profile/message/{{model.messagethreadId}}">Click here</a> to send your
+            questions to {{model.shelter.name}}
+        </h3>
+    </div>
+    <div ng-if="model.user && !model.hasMessagethread && !model.isOwner"
+         class="col-sm-12 ps-pet-detail-last">
+        <h4>Have more questions? Try sending the shelter owner a message to get the conversation started!</h4>
+        <textarea ng-model="model.message"
+                  class="form-control"
+                  rows="3"></textarea>
+        <div ng-click="model.sendMessage(model.message)" class="btn btn-block btn-success">Send</div>
+    </div>
+
+
 </div>

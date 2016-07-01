@@ -6,7 +6,9 @@ body {
 a {
   text-decoration: none;
 }
-a:hover {
+a:hover,
+a :visited,
+a :active {
   text-decoration: none;
 }
 .alert {
@@ -188,6 +190,18 @@ a:hover {
   color: white;
   text-decoration: none;
 }
+.ps-pet-detail-header {
+  margin-top: 0;
+}
+.ps-pet-detail-last {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+.ps-pet-detail-shelter {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
 .ps-profile-img {
   width: 250px;
 }
@@ -287,6 +301,9 @@ a:hover {
 .ps-search-result-img-missing-text {
   font-size: 14px;
 }
+.ps-shelter-detail-no-pets {
+  margin-bottom: 50px;
+}
 .ps-shelter-new {
   margin-top: 0;
 }
@@ -328,7 +345,6 @@ a:hover {
   width: 100px;
   height: 100px;
   margin-top: 15px;
-  margin-left: 15px;
   text-align: center;
 }
 @media (max-width: 420px) {
@@ -340,10 +356,9 @@ a:hover {
 }
 .ps-user-result-name {
   color: black;
-  font-size: 30px;
+  font-size: 26px;
   height: 130px;
   padding-top: 40px;
-  padding-left: 130px;
   text-align: center;
 }
 @media (max-width: 420px) {

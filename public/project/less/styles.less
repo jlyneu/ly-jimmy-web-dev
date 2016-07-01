@@ -31,7 +31,7 @@ body {
 
 a {
   text-decoration: none;
-  &:hover {
+  &:hover, :visited, :active {
     text-decoration: none;
   }
 }
@@ -212,6 +212,20 @@ a {
       }
     }
   }
+  &-pet-detail {
+    &-header {
+      margin-top: 0;
+    }
+    &-last {
+      margin-top: 30px;
+      margin-bottom: 50px;
+    }
+    &-shelter {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+  }
   &-profile {
     &-img {
       width: 250px;
@@ -318,6 +332,9 @@ a {
     }
   }
   &-shelter {
+    &-detail-no-pets {
+      margin-bottom: 50px;
+    }
     &-new {
       margin-top: 0;
     }
@@ -360,7 +377,6 @@ a {
       width: 100px;
       height: 100px;
       margin-top: 15px;
-      margin-left: 15px;
       text-align: center;
       @media(max-width: @screen-xs-max) {
         display: block;
@@ -370,10 +386,9 @@ a {
     }
     &-name {
       color: black;
-      font-size: 30px;
+      font-size: 26px;
       height: 130px;
       padding-top: 40px;
-      padding-left: 130px;
       text-align: center;
       @media(max-width: @screen-xs-max) {
         float: none;
