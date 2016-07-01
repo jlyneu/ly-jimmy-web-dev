@@ -18,7 +18,7 @@
             <div ng-if="!model.pet.photoUrl"
                  class="ps-profile-img-missing-text">No Image Provided</div>
         </div>
-        <form ng-if="model.isOwner" action="/api/petshelter/pet/upload"  method="post" enctype="multipart/form-data">
+        <form ng-if="model.isOwner" class="ps-profile-upload" action="/api/petshelter/pet/upload"  method="post" enctype="multipart/form-data">
             <label  for="file">Upload an image</label>
             <input  name="myFile"    type="file" class="form-control" id="file"/>
             <input  name="shelterId" value="{{model.shelterId}}" style="display: none"/>
