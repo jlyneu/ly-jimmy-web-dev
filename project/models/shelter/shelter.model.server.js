@@ -2,6 +2,9 @@ var q = require("q");
 
 module.exports = function(mongoose) {
 
+    var ShelterSchema = require("./shelter.schema.server.js")(mongoose);
+    var Shelter = mongoose.model("Shelter", ShelterSchema);
+
     var api = {
         createShelterForUser: createShelterForUser,
         findAllSheltersForUser: findAllSheltersForUser,
@@ -14,9 +17,6 @@ module.exports = function(mongoose) {
         pullPet: pullPet
     };
     return api;
-
-    var ShelterSchema = require("./shelter.schema.server.js")(mongoose);
-    var Shelter = mongoose.model("Shelter", ShelterSchema);
 
     // create a new shelter instance whose users array contains the given userId
     function createShelterForUser(userId, shelter) {

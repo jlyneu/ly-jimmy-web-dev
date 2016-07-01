@@ -2,6 +2,9 @@ var q = require("q");
 
 module.exports = function(mongoose, shelterModel) {
 
+    var PetSchema = require("./pet.schema.server.js")(mongoose);
+    var Pet = mongoose.model("Pet", PetSchema);
+
     var api = {
         createPet: createPet,
         findAllPetsForShelter: findAllPetsForShelter,
@@ -12,9 +15,6 @@ module.exports = function(mongoose, shelterModel) {
         deletePet: deletePet
     };
     return api;
-
-    var PetSchema = require("./pet.schema.server.js")(mongoose);
-    var Pet = mongoose.model("Pet", PetSchema);
 
     // Creates a new pet instance for shelter whose _id is shelterId
     function createPet(shelterId, pet) {

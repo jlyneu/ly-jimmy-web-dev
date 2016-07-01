@@ -2,6 +2,9 @@ var q = require("q");
 
 module.exports = function(mongoose) {
 
+    var MessagethreadSchema = require("./messagethread.schema.server.js")(mongoose);
+    var Messagethread = mongoose.model("Messagethread", MessagethreadSchema);
+
     var api = {
         createMessagethread: createMessagethread,
         findAllMessagethreadsForUser: findAllMessagethreadsForUser,
@@ -13,9 +16,6 @@ module.exports = function(mongoose) {
         pullMessage: pullMessage
     };
     return api;
-
-    var MessagethreadSchema = require("./messagethread.schema.server.js")(mongoose);
-    var Messagethread = mongoose.model("Messagethread", MessagethreadSchema);
 
     // create a new messagethread instance whose users array contains the given userId
     function createMessagethread(userId, messagethread) {
