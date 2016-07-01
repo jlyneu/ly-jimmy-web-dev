@@ -1,71 +1,142 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <h1>Edit pet</h1>
     <h2>Pet Info</h2>
-    <label>Animal type</label>
-    <input ng-model="model.pet.animal"
-           type="text"
-           class="form-control"/>
-    <label>Breed</label>
-    <input ng-model="model.pet.breed"
-           type="text"
-           class="form-control"/>
-    <label>Name</label>
+    <label for="animal">Animal Type (Required)</label>
+    <select ng-model="model.pet.animal"
+            id="animal"
+            class="form-control"
+            ng-options="item as item.display for item in model.animals track by item.value">
+        <option value="">Any Animal Type</option>
+    </select>
+    <label for="breed">Breed (Required)</label>
+    <select ng-model="model.pet.breed"
+            id="breed"
+            class="form-control">
+        <option value="">Any Breed</option>
+        <option ng-if="model.pet.animal.value === 'barnyard'"
+                ng-repeat="breed in model.breeds.barnyard"
+                value="{{breed}}">{{breed}}</option>
+        <option ng-if="model.pet.animal.value === 'bird'"
+                ng-repeat="breed in model.breeds.bird"
+                value="{{breed}}">{{breed}}</option>
+        <option ng-if="model.pet.animal.value === 'cat'"
+                ng-repeat="breed in model.breeds.cat"
+                value="{{breed}}">{{breed}}</option>
+        <option ng-if="model.pet.animal.value === 'dog'"
+                ng-repeat="breed in model.breeds.dog"
+                value="{{breed}}">{{breed}}</option>
+        <option ng-if="model.pet.animal.value === 'horse'"
+                ng-repeat="breed in model.breeds.horse"
+                value="{{breed}}">{{breed}}</option>
+        <option ng-if="model.pet.animal.value === 'pig'"
+                ng-repeat="breed in model.breeds.pig"
+                value="{{breed}}">{{breed}}</option>
+        <option ng-if="model.pet.animal.value === 'reptile'"
+                ng-repeat="breed in model.breeds.reptile"
+                value="{{breed}}">{{breed}}</option>
+        <option ng-if="model.pet.animal.value === 'smallfurry'"
+                ng-repeat="breed in model.breeds.smallfurry"
+                value="{{breed}}">{{breed}}</option>
+    </select>
+    <label for="name">Name (Required)</label>
     <input ng-model="model.pet.name"
+           placeholder="Snoopy"
+           id="name"
            type="text"
            class="form-control"/>
-    <label>Description</label>
+    <label for="description">Description (Required)</label>
     <textarea ng-model="model.pet.description"
+              placeholder="Tell us about your pet!"
+              id="description"
               rows="3"
               class="form-control"></textarea>
-    <label>Size</label>
-    <input ng-model="model.pet.size"
-           type="text"
-           class="form-control"/>
-    <label>Sex</label>
-    <input ng-model="model.pet.sex"
-           type="text"
-           class="form-control"/>
+    <label for="size">Size</label>
+    <select ng-model="model.pet.size"
+            id="size"
+            class="form-control"
+            ng-options="item as item.display for item in model.sizes track by item.value">
+        <option value="">Any Size</option>
+    </select>
+    <label for="sex">Sex</label>
+    <select ng-model="model.pet.sex"
+            id="sex"
+            class="form-control"
+            ng-options="item as item.display for item in model.sexes track by item.value">
+        <option value="">Any Sex</option>
+    </select>
+    <label for="age">Age</label>
+    <select ng-model="model.pet.age"
+            id="age"
+            class="form-control">
+        <option value="">Any Age</option>
+        <option ng-repeat="age in model.ages" value="{{age}}">{{age}}</option>
+    </select>
     <h2>Contact Info</h2>
-    <label>Name</label>
+    <label for="contact-name">Name</label>
     <input ng-model="model.pet.contact.name"
+           placeholder="John Doe"
+           id="contact-name"
            type="text"
            class="form-control"/>
-    <label>Address</label>
+    <label for="contact-address1">Address</label>
     <input ng-model="model.pet.contact.address1"
+           placeholder="123 Main Street"
+           id="contact-address1"
            type="text"
            class="form-control"/>
     <input ng-model="model.pet.contact.address2"
+           placeholder="P.O. Box 12345"
+           id="contact-address2"
            type="text"
            class="form-control"/>
-    <label>City</label>
+    <label for="contact-city">City</label>
     <input ng-model="model.pet.contact.city"
+           placeholder="Example City"
+           id="contact-city"
            type="text"
            class="form-control"/>
-    <label>State</label>
+    <label for="contact-state">State</label>
     <input ng-model="model.pet.contact.state"
+           id="contact-state"
            type="text"
            class="form-control"/>
-    <label>Zip Code</label>
+    <label for="contact-zip">Zip Code</label>
     <input ng-model="model.pet.contact.zip"
+           placeholder="12345"
+           ng-pattern="model.zipRegex"
+           id="contact-zip"
            type="text"
            class="form-control"/>
-    <label>Phone Number</label>
+    <label for="contact-phone">Phone Number</label>
     <input ng-model="model.pet.contact.phone"
+           placeholder="555-555-5555"
+           ng-pattern="model.phoneRegex"
+           id="contact-phone"
            type="text"
            class="form-control"/>
-    <label>Fax</label>
+    <label for="contact-fax">Fax</label>
     <input ng-model="model.pet.contact.fax"
+           placeholder="555-555-5555"
+           ng-pattern="model.phoneRegex"
+           id="contact-fax"
            type="text"
            class="form-control"/>
-    <label>Email</label>
+    <label for="contact-email">Email</label>
     <input ng-model="model.pet.contact.email"
-           type="text"
+           placeholder="John@Doe.com"
+           id="contact-email"
+           type="email"
            class="form-control"/>
     <div ng-click="model.updatePet(model.pet)"
-         class="btn btn-block btn-primary">Save</div>
+         class="btn btn-block btn-success">Save</div>
     <a href="#/shelter/{{model.shelterId}}/pet/{{model.petId}}">
-        <div class="btn btn-block btn-danger">Cancel</div>
+        <div class="btn btn-block btn-primary">Cancel</div>
     </a>
+    <div ng-click="model.deletePet()"
+         class="btn btn-block btn-danger">Delete</div>
 </div>

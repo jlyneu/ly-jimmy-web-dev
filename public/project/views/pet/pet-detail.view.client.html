@@ -68,11 +68,12 @@
         <div ng-if="model.pet.description">{{model.pet.description}}</div>
         <div ng-if="!model.pet.description">No description provided</div>
     </div>
-    <a href="#/shelter/{{model.shelterId}}/pet/{{model.petId}}/edit"
-       class="col-sm-12"
-       ng-if="model.isOwner">
-        <div class="btn btn-block btn-primary">Edit Pet</div>
-    </a>
+    <div class="col-sm-12">
+        <a href="#/shelter/{{model.shelterId}}/pet/{{model.petId}}/edit"
+           ng-if="model.isOwner">
+            <div class="btn btn-block btn-primary">Edit Pet</div>
+        </a>
+    </div>
     <div ng-if="model.user"
          ng-click="model.savePet()"
          class="col-sm-12">
