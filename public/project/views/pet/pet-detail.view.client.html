@@ -1,6 +1,9 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <h1 ng-if="model.pet.name" class="col-sm-12">{{model.pet.name}}</h1>
     <h1 ng-if="!model.pet.name" class="col-sm-12">Name Not Provided</h1>
     <div class="col-sm-6">

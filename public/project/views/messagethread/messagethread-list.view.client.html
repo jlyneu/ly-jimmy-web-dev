@@ -1,11 +1,20 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
-    <h1>Messages</h1>
-    <div ng-repeat="messagethread in model.messagethreads">
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
+    <h1 class="col-sm-12">Messages</h1>
+    <div class="col-sm-12"
+         ng-repeat="messagethread in model.messagethreads">
         <a href="#/profile/message/{{messagethread._id}}">
-            <div class="btn btn-block btn-primary">
-                {{messagethread._user.firstName}} {{messagethread._user.lastName}} to {{messagethread._shelter.name}}
+            <div class="ps-messagethread-container">
+                <img ng-src="{{messagethread._user.photoUrl}}" class="ps-messagethread-img"/>
+                <div class="ps-messagethread-info">
+                    <div>User: {{messagethread._user.firstName}} {{messagethread._user.lastName}}</div>
+                    <div>Shelter: {{messagethread._shelter.name}}</div>
+                    <div>Last message sent on {{messagethread.dateUpdated | date:'MMMM d, yyyy'}}</div>
+                </div>
             </div>
         </a>
     </div>
