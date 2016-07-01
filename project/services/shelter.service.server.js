@@ -138,8 +138,14 @@ module.exports = function(app, models) {
         request(url, requestCallback);
 
         function requestCallback(error, response, body) {
-            // decode certain special characters in response from petfinder
-            var data = JSON.parse(decodeURIComponent(escape(body)));
+            // decode certain special characters in response from petfinder. if there is a malformed URI component,
+            // then simply parse the body into JSON, leaving special characters.
+            var data;
+            try {
+                data = JSON.parse(decodeURIComponent(escape(body)));
+            } catch (e) {
+                data = JSON.parse(body);
+            }
             if (!error && response.statusCode == 200) {
                 if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
                     errorMessage.message = data.petfinder.header.status.message.$t;
