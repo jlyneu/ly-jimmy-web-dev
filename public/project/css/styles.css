@@ -233,6 +233,9 @@ a:hover {
 .ps-register-login-link {
   margin-bottom: 30px;
 }
+.ps-saved-pet-list div {
+  color: black;
+}
 .ps-search-go {
   margin-bottom: 30px;
 }
