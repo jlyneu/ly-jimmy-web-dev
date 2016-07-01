@@ -20,7 +20,6 @@
 
             function findMessagesByMessagethreadIdSuccess(response) {
                 vm.messages = response.data;
-                console.log(vm.messages);
                 MessagethreadService
                     .findMessagethreadById(vm.messagethreadId)
                     .then(findMessagethreadByIdSuccess, findMessagethreadByIdError);

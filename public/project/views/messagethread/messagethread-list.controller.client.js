@@ -17,7 +17,6 @@
 
             function findMessagethreadsByUserIdSuccess(response) {
                 vm.messagethreads = response.data;
-                console.log(vm.messagethreads);
                 vm.messagethreads.sort(function(a, b) {
                     return new Date(b.dateUpdated) - new Date(a.dateUpdated);
                 })
