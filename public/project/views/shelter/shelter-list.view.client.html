@@ -1,10 +1,29 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
-    <div ng-repeat="shelter in model.shelters">
-        <a href="#/shelter/{{shelter._id}}"><div class="btn btn-block btn-success">{{shelter.name}}</div></a>
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
     </div>
-    <a href="#/shelter/new">
-        <div class="btn btn-block btn-primary">Register a new shelter</div>
-    </a>
+    <div class="col-sm-12">
+        <h1>My Shelters</h1>
+    </div>
+    <div class="col-sm-12">
+        <a href="#/shelter/new">
+            <div class="btn btn-block btn-primary ps-shelter-new">Register a new shelter</div>
+        </a>
+    </div>
+    <div ng-repeat="shelter in model.shelters">
+        <div class="col-sm-6">
+            <a href="#/shelter/{{shelter._id}}">
+                <a href="#/shelter/{{shelter._id}}">
+                    <div class="ps-shelter-result">
+                        <div class="ps-shelter-result-name">{{shelter.name}}</div>
+                        <div class="ps-shelter-result-city-state">
+                            {{shelter.city}}<span ng-if="shelter.city && shelter.state">, </span>{{shelter.state}}</div>
+                        <div class="ps-shelter-result-zip">{{shelter.zip}}</div>
+                    </div>
+                </a>
+            </a>
+        </div>
+    </div>
 </div>

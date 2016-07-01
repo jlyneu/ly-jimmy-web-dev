@@ -3,6 +3,12 @@ body {
   color: #111111;
   font-family: 'Open Sans', sans-serif;
 }
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
 .alert {
   margin-top: 20px;
 }
@@ -197,7 +203,6 @@ body {
   width: 200px;
   height: 275px;
   text-align: center;
-  margin: 15px auto;
 }
 .ps-profile-img-missing-icon {
   font-size: 150px;
@@ -213,6 +218,7 @@ body {
 }
 .ps-profile-info-container {
   background-color: #E2E2E2;
+  box-shadow: 2px 2px 2px #666666;
   padding-top: 15px;
   padding-bottom: 15px;
 }
@@ -242,7 +248,7 @@ body {
 @media (min-width: 768px) and (max-width: 992px) {
   .ps-search-result-description {
     width: 200px;
-    height: 200px;
+    height: 150px;
   }
 }
 .ps-search-result-description div {
@@ -259,8 +265,30 @@ body {
 }
 .ps-search-result-img-missing-icon {
   font-size: 150px;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 .ps-search-result-img-missing-text {
   font-size: 20px;
+}
+.ps-shelter-new {
+  margin-top: 0;
+}
+.ps-shelter-result {
+  background-color: #E2E2E2;
+  box-shadow: 2px 2px 2px #666666;
+  color: black;
+  padding: 10px;
+}
+.ps-shelter-result-name {
+  font-size: 30px;
+}
+.ps-user-detail-date {
+  font-size: 14px;
+  max-width: 250px;
+  text-align: left;
+  margin-top: 10px;
+}
+.ps-user-detail-header {
+  font-size: 30px;
+  margin-top: 0;
 }

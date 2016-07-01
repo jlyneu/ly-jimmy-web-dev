@@ -11,6 +11,7 @@
 @text-white: #BAF0D9;
 @text-shadow-gray: #333333;
 @description-dark-gray: #E2E2E2;
+@box-shadow-gray: #666666;
 
 @subtitle-blue: #1f5392;
 
@@ -25,6 +26,13 @@ body {
   background-color: @background-gray;
   color: @text-black;
   font-family: 'Open Sans', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .alert {
@@ -217,7 +225,6 @@ body {
         width: 200px;
         height: 275px;
         text-align: center;
-        margin: 15px auto;
         &-icon {
           font-size: 150px;
           margin-top: 25px;
@@ -234,6 +241,7 @@ body {
 
       &-container {
         background-color: @description-dark-gray;
+        box-shadow: 2px 2px 2px @box-shadow-gray;
         padding-top: 15px;
         padding-bottom: 15px;
         @media(max-width: @screen-sm-max) {
@@ -266,7 +274,7 @@ body {
 
         @media(min-width: @screen-sm-max) and (max-width: @screen-md-max) {
           width: 200px;
-          height: 200px;
+          height: 150px;
         }
 
         div {
@@ -285,13 +293,40 @@ body {
         &-missing {
           &-icon {
             font-size: 150px;
-            margin-top: 40px;
+            margin-top: 10px;
           }
           &-text {
             font-size: 20px;
           }
         }
       }
+    }
+  }
+  &-shelter {
+    &-new {
+      margin-top: 0;
+    }
+    &-result {
+      background-color: @description-dark-gray;
+      box-shadow: 2px 2px 2px @box-shadow-gray;
+      color: black;
+      padding: 10px;
+
+      &-name {
+        font-size: 30px;
+      }
+    }
+  }
+  &-user-detail {
+    &-date {
+      font-size: 14px;
+      max-width: 250px;
+      text-align: left;
+      margin-top: 10px;
+    }
+    &-header {
+      font-size: 30px;
+      margin-top: 0;
     }
   }
 }
