@@ -1,10 +1,11 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
-    <h1>Saved Pets</h1>
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
+    <h1 class="col-sm-12">Saved Pets</h1>
     <div ng-repeat="pet in model.savedPets">
-        <a href="#/shelter/{{pet._shelter}}/pet/{{pet._id}}">
-            <div class="btn btn-block btn-success">{{pet.name}}</div>
-        </a>
+        <ps-pet-result pet="pet"></ps-pet-result>
     </div>
 </div>
