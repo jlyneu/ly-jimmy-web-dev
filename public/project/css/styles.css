@@ -190,6 +190,15 @@ a :active {
   color: white;
   text-decoration: none;
 }
+.ps-message-detail-message {
+  margin-bottom: 5px;
+}
+.ps-message-detail-message-other {
+  color: green;
+}
+.ps-message-detail-message-user {
+  color: blue;
+}
 .ps-messagethread-container {
   background-color: #E2E2E2;
   box-shadow: 2px 2px 2px #666666;
@@ -280,6 +289,9 @@ a :active {
 .ps-profile-label {
   font-size: 20px;
   margin-top: 20px;
+}
+.ps-profile-upload {
+  max-width: 250px;
 }
 .ps-register-login-link {
   margin-bottom: 30px;

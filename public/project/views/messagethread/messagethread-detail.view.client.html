@@ -1,8 +1,13 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
+    <h3>{{model.messagethread._user.firstName}} {{model.messagethread._user.lastName}} and {{model.messagethread._shelter.name}}</h3>
     <div ng-repeat="message in model.messages">
-        {{message._user.firstName}} {{message._user.lastName}} [{{message.dateCreated}}]: {{message.text}}
+        <div class="ps-message-detail-message"">
+            <span ng-class="model.getMessageClass(message._user._id)">
+                {{message._user.firstName}} {{message._user.lastName}} [{{message.dateCreated | date:'h:mma MMMM d, yyyy'}}]
+            </span>: {{message.text}}
+        </div>
     </div>
     <textarea ng-model="model.message"
               class="form-control"

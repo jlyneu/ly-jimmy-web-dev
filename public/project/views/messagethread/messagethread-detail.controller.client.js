@@ -8,6 +8,7 @@
         var vm = this;
 
         vm.send = send;
+        vm.getMessageClass = getMessageClass;
 
         vm.user = $rootScope.currentUser;
         vm.messagethreadId = $routeParams["messagethreadId"];
@@ -58,6 +59,14 @@
             
             function createMessageError(error) {
                 
+            }
+        }
+        
+        function getMessageClass(userId) {
+            if (userId == vm.user._id) {
+                return "ps-message-detail-message-user";
+            } else {
+                return "ps-message-detail-message-other";
             }
         }
     }

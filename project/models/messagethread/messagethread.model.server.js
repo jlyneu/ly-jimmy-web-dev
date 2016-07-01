@@ -64,7 +64,7 @@ module.exports = function(mongoose) {
         var deferred = q.defer();
         Messagethread
             .findById(messagethreadId)
-            .populate('_user')
+            .populate(['_user','_shelter'])
             .exec(function (error, messagethread) {
                 if (messagethread) {
                     deferred.resolve(messagethread);
