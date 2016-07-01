@@ -10,7 +10,7 @@ module.exports = function(app, models) {
     var shelterModel = models.shelterModel;
     var messagethreadModel = models.messagethreadModel;
 
-    // adds the messagethread body parameter instance to the local messagethreads array.
+    // adds the messagethread body parameter instance to the database.
     // return the messagethread if creation was successful, otherwise return an error.
     function createMessagethread(req, res) {
         var userId = req.params["userId"];
@@ -46,8 +46,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // retrieves the messagethreads in local messagethreads array whose userId
-    // matches the parameter userId
+    // retrieves the messagethreads in the database whose userId matches the parameter userId
     function findAllMessagethreadsForUser(req, res) {
         var userId = req.params["userId"];
         var errorMessage = {};
@@ -56,28 +55,27 @@ module.exports = function(app, models) {
         // try to find the messagethreads in the database
         messagethreadModel
             .findAllMessagethreadsForUser(userId)
-            .then(findAllMessagethreadsForUserSuccess, findAllMessagethreadsForUserError);
+            .then(findAllMessagethreadsForUserSuccess, findAllMessagethreadsForUserError)
+            .then(findAllSheltersForUserSuccess, findAllSheltersForUserError);
 
-        // return the messagethreads from the model. otherwise, something went wrong
+        // add the messagethreads for the user, then look for shelters for the user
+        // to find messagethreads associated with those shelters. otherwise, something went wrong
         function findAllMessagethreadsForUserSuccess(messagethreads) {
             if (messagethreads) {
                 results = results.concat(messagethreads);
 
-                shelterModel
-                    .findAllSheltersForUser(userId)
-                    .then(findAllSheltersForUserSuccess, findAllSheltersForUserError);
+                return shelterModel.findAllSheltersForUser(userId);
             } else {
-                errorMessage.message = "Could not fetch messagethreads. Please try again later.";
-                res.status(500).json(errorMessage);
+                throw new Error("Could not fetch messagethreads. Please try again later.");
             }
         }
 
-        // if an error occurred, then return an error
+        // if an error occurred, then throw an error
         function findAllMessagethreadsForUserError(error) {
-            errorMessage.message = "Could not fetch messagethreads. Please try again later.";
-            res.status(500).json(errorMessage);
+            throw new Error("Could not fetch messagethreads. Please try again later.");
         }
 
+        // if shelters were returned, then get message threads for the returned shelters
         function findAllSheltersForUserSuccess(shelters) {
             if (shelters) {
                 var shelterIds = [];
@@ -92,22 +90,25 @@ module.exports = function(app, models) {
             }
         }
 
+        // an error occurred so return an error
         function findAllSheltersForUserError(error) {
             errorMessage.message = "Could not fetch messagethreads. Please try again later.";
             res.status(500).json(errorMessage);
         }
 
+        // append messagethreads from shelters and send list of messagethreads back to client
         function findAllMessagethreadsForSheltersSuccess(messagethreads) {
             res.json(results.concat(messagethreads));
         }
 
+        // an error occurred so return an error
         function findAllMessagethreadsForSheltersError(error) {
             errorMessage.message = "Could not fetch messagethreads. Please try again later.";
             res.status(500).json(errorMessage);
         }
     }
 
-    // retrieves the messagethread in local messagethreads array whose _id matches
+    // retrieves the messagethread in database whose _id matches
     // the messagethreadId parameter. return an error if the messagethread cannot be found.
     function findMessagethreadById(req, res) {
         var messagethreadId = req.params["messagethreadId"];
@@ -135,8 +136,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // updates the messagethread in local messagethreads array whose _id matches
-    // the messagethreadId parameter
+    // updates the messagethread in the database whose _id matches the messagethreadId parameter
     // return the updated messagethread if successful, otherwise return an error
     function updateMessagethread(req, res) {
         var messagethreadId = req.params["messagethreadId"];
@@ -171,8 +171,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // removes the messagethread from local messagethreads array whose _id matches
-    // the messagethreadId parameter.
+    // removes the messagethread from the database whose _id matches the messagethreadId parameter.
     // return true if the messagethread is successfully deleted, otherwise return an error.
     function deleteMessagethread(req, res) {
         var messagethreadId = req.params["messagethreadId"];

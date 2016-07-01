@@ -9,7 +9,7 @@ module.exports = function(app, models) {
 
     var messageModel = models.messageModel;
 
-    // adds the message body parameter instance to the local messages array.
+    // adds the message body parameter instance to the database.
     // return the message if creation was successful, otherwise return an error.
     function createMessage(req, res) {
         var messagethreadId = req.params["messagethreadId"];
@@ -49,7 +49,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // retrieves the messages in local messages array whose messagethreadId
+    // retrieves the messages in database whose messagethreadId
     // matches the parameter messagethreadId
     function findAllMessagesForMessagethread(req, res) {
         var messagethreadId = req.params["messagethreadId"];
@@ -77,8 +77,8 @@ module.exports = function(app, models) {
         }
     }
 
-    // retrieves the message in local messages array whose _id matches
-    // the messageId parameter. return an error if the message cannot be found.
+    // retrieves the message in database whose _id matches the messageId parameter.
+    // return an error if the message cannot be found.
     function findMessageById(req, res) {
         var messageId = req.params["messageId"];
         var errorMessage = {};
@@ -140,8 +140,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // removes the message from local messages array whose _id matches
-    // the messageId parameter.
+    // removes the message from database whose _id matches the messageId parameter.
     // return true if the message is successfully deleted, otherwise return an error.
     function deleteMessage(req, res) {
         var messageId = req.params["messageId"];

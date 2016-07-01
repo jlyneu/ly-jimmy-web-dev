@@ -4,7 +4,7 @@
         .controller("ShelterDetailController", ShelterDetailController);
 
     // controller for the shelter-detail.view.client.html template
-    function ShelterDetailController($rootScope, $routeParams, ShelterService, PetService) {
+    function ShelterDetailController($rootScope, $routeParams, UserService, ShelterService, PetService) {
         var vm = this;
 
         // event handlers
@@ -127,7 +127,7 @@
         // of saved shelters. if the user has already saved this shelter, then remove this shelter
         // from the user's list of saved shelters
         function saveShelter() {
-            ShelterService
+            UserService
                 .saveShelter(vm.user._id, vm.shelterId, vm.saveStats.isSaved)
                 .then(saveShelterSuccess, saveShelterError);
 

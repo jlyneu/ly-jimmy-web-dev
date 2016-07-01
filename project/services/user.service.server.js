@@ -156,7 +156,7 @@ module.exports = function(app, models) {
         var userId = req.body.userId;
         var myFile    = req.file;
 
-        // if file isn't provided, then redirect user back to edit page
+        // if file isn't provided, then redirect user back to profile page
         if (!myFile) {
             redirectToProfile();
             return;
@@ -169,30 +169,30 @@ module.exports = function(app, models) {
         var size          = myFile.size;
         var mimetype      = myFile.mimetype;
 
-        // find the widget by the given widgetId. If successful, try to update the url of the widget with
-        // the path to the newly uploaded file on the server. If successful then update the widget in the
-        // database. Make sure the user is redirected to the widget edit page
+        // find the user by the given userId. If successful, try to update the url of the user with
+        // the path to the newly uploaded file on the server. If successful then update the user in the
+        // database. Make sure the user is redirected to the user profile page
         userModel
             .findUserById(userId)
             .then(findUserByIdSuccess, redirectToProfile);
 
-        // try to update the image widget url and save to the database. then redirect the user to the
-        // edit widget page
+        // try to update the image user url and save to the database. then redirect the user to the
+        // profile page
         function findUserByIdSuccess(user) {
             if (user) {
-                // update the url of the image widget to be the path to the new uploaded file on the server
+                // update the url of the image user to be the path to the new uploaded file on the server
                 user.photoUrl = "/uploads/" + filename;
-                // update the widget in the db then redirect the user to the edit widget page
+                // update the user in the db then redirect the user to the profile page
                 userModel
                     .updateUser(userId, user)
                     .then(redirectToProfile, redirectToProfile);
             } else {
-                // the widget wasn't found so just redirect the user back to the edit widget page
+                // the user wasn't found so just redirect the user back to the profile page
                 redirectToProfile();
             }
         }
 
-        // redirect the user to the edit widget page
+        // redirect the user to the profile page
         function redirectToProfile() {
             res.redirect("/project/#/profile");
         }
@@ -441,73 +441,88 @@ module.exports = function(app, models) {
         }
     }
 
+    // either save shelter by adding shelter to user's saved shelters list or unsave shelter
+    // by removing shelter from user's saved shelters list. determine which action to perform
+    // based on the isSaved body parameter
     function saveShelter(req, res) {
         var userId = req.params['userId'];
         var shelterId = req.params['shelterId'];
         var isSaved = req.body.isSaved;
         var errorMessage = {};
 
+        // determine whether to save or unsave the shelter
         if (isSaved) {
             userModel
                 .pullShelter(userId, shelterId)
-                .then(saveShelterSuccess, saveShelterError);
+                .then(saveShelterSuccess, saveShelterError)
+                .then(findUserByIdSuccess, findUserByIdError);
         } else {
             userModel
                 .pushShelter(userId, shelterId)
-                .then(saveShelterSuccess, saveShelterError);
+                .then(saveShelterSuccess, saveShelterError)
+                .then(findUserByIdSuccess, findUserByIdError);
         }
 
+        // shelter is saved or unsaved so find user to return to the client
         function saveShelterSuccess(response) {
-            userModel
-                .findUserById(userId)
-                .then(findUserByIdSuccess, findUserByIdError);        }
-
-        function saveShelterError(error) {
-            errorMessage.message = "Could not update saved shelters at this time. Please try again later.";
-            res.status(500).json(errorMessage);
+            return userModel.findUserById(userId);
         }
 
+        // an error occurred so throw an error
+        function saveShelterError(error) {
+            throw new Error("Could not update saved shelters at this time. Please try again later.");
+        }
+
+        // return the user to the client
         function findUserByIdSuccess(user) {
             res.json(user);
         }
 
+        // an error occurred so return an error to the client
         function findUserByIdError(error) {
             errorMessage.message = "Could not update saved shelters at this time. Please try again later.";
             res.status(500).json(errorMessage);
         }
     }
 
+    // either save pet by adding pet to user's saved pets list or unsave pet
+    // by removing pet from user's saved pets list. determine which action to perform
+    // based on the isSaved body parameter
     function savePet(req, res) {
         var userId = req.params['userId'];
         var petId = req.params['petId'];
         var isSaved = req.body.isSaved;
         var errorMessage = {};
 
+        // determine whether to save or unsave the pet
         if (isSaved) {
             userModel
                 .pullPet(userId, petId)
-                .then(savePetSuccess, savePetError);
+                .then(savePetSuccess, savePetError)
+                .then(findUserByIdSuccess, findUserByIdError);
         } else {
             userModel
                 .pushPet(userId, petId)
-                .then(savePetSuccess, savePetError);
-        }
-
-        function savePetSuccess(response) {
-            userModel
-                .findUserById(userId)
+                .then(savePetSuccess, savePetError)
                 .then(findUserByIdSuccess, findUserByIdError);
         }
 
-        function savePetError(error) {
-            errorMessage.message = "Could not update saved pets at this time. Please try again later.";
-            res.status(500).json(errorMessage);
+        // pet is saved or unsaved so find user to return to the client
+        function savePetSuccess(response) {
+            return userModel.findUserById(userId);
         }
 
+        // an error occurred so throw an error
+        function savePetError(error) {
+            throw new Error("Could not update saved pets at this time. Please try again later.");
+        }
+
+        // return the user object to the client
         function findUserByIdSuccess(user) {
             res.json(user);
         }
 
+        // an error occurred so return an error
         function findUserByIdError(error) {
             errorMessage.message = "Could not update saved pets at this time. Please try again later.";
             res.status(500).json(errorMessage);
@@ -524,6 +539,7 @@ module.exports = function(app, models) {
             .deleteUser(userId)
             .then(deleteUserSuccess, deleteUserError);
 
+        // if delete is successful then return true to the client. otherwise, return an error
         function deleteUserSuccess(numDeleted) {
             if (numDeleted) {
                 res.send(true);

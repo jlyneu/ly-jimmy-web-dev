@@ -24,6 +24,7 @@
             vm.sizes = PetShelterConstants.getSizes();
             vm.sexes = PetShelterConstants.getSexes();
             vm.ages = PetShelterConstants.getAges();
+            vm.states = PetShelterConstants.getStates();
             // regex for validating phone, fax, and zip codes
             vm.phoneRegex = "^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$";
             vm.zipRegex = vm.zipRegex = '^\\d{5}$';
@@ -95,7 +96,7 @@
             }
 
             // check required fields
-            if (!pet.animal || !pet.animal.value) {
+            if (!pet.animal) {
                 vm.error = "An animal type is required.";
                 scrollToError();
                 return;
@@ -121,15 +122,6 @@
             if (pet.breed) {
                 pet.breeds = [pet.breed];
                 delete pet.breed;
-            }
-            if (pet.animal && pet.animal.value) {
-                pet.animal = pet.animal.value;
-            }
-            if (pet.size && pet.size.value) {
-                pet.size = pet.size.value;
-            }
-            if (pet.sex && pet.sex.value) {
-                pet.sex = pet.sex.value;
             }
 
             PetService

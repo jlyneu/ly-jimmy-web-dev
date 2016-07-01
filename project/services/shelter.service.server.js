@@ -14,7 +14,7 @@ module.exports = function(app, models) {
 
     var shelterModel = models.shelterModel;
 
-    // adds the shelter body parameter instance to the local shelters array.
+    // adds the shelter body parameter instance to the database.
     // return the shelter if creation was successful, otherwise return an error.
     function createShelter(req, res) {
         var userId = req.params["userId"];
@@ -54,7 +54,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // retrieves the shelters in local shelters array whose userId
+    // retrieves the shelters in the database whose userId
     // matches the parameter userId
     function findAllSheltersForUser(req, res) {
         var userId = req.params["userId"];
@@ -82,7 +82,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // retrieves the shelter in local shelters array whose _id matches
+    // retrieves the shelter in the database whose _id matches
     // the shelterId parameter. return an error if the shelter cannot be found.
     function findShelterById(req, res) {
         var shelterId = req.params["shelterId"];
@@ -110,6 +110,7 @@ module.exports = function(app, models) {
         }
     }
 
+    // find shelter in database with petfinderId parameter value
     function findShelterByPetfinderId(req, res) {
         var petfinderId = req.params["petfinderId"];
         var errorMessage = {};
@@ -118,16 +119,20 @@ module.exports = function(app, models) {
             .findShelterByPetfinderId(petfinderId)
             .then(findShelterByPetfinderIdSuccess, findShelterByPetfinderIdError);
 
+        // return the shelter to the client
         function findShelterByPetfinderIdSuccess(shelter) {
             return res.json(shelter);
         }
-
+        
+        // an error occurred so return an error to the client
         function findShelterByPetfinderIdError(error) {
             errorMessage.message = "Could not fetch shelter. Please try again later.";
             return res.status(500).json(errorMessage);
         }
     }
 
+    // use the third party petfinder API to find the shelter with the provided petfinderId
+    // and return to the client
     function findPetfinderShelterById(req, res) {
         var petfinderId = req.params["petfinderId"];
         var errorMessage = {};
@@ -136,7 +141,9 @@ module.exports = function(app, models) {
             .replace("{key}", process.env.PETFINDER_KEY).replace("{id}", petfinderId);
 
         request(url, requestCallback);
-
+        
+        // when the data comes back from the petfinder API, convert the shelter responses to a form
+        // closer to the shelter schema then return the list to the client.
         function requestCallback(error, response, body) {
             // decode certain special characters in response from petfinder. if there is a malformed URI component,
             // then simply parse the body into JSON, leaving special characters.
@@ -146,12 +153,14 @@ module.exports = function(app, models) {
             } catch (e) {
                 data = JSON.parse(body);
             }
+            // first check for errors
             if (!error && response.statusCode == 200) {
                 if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
                     errorMessage.message = data.petfinder.header.status.message.$t;
                     return res.status(400).json(errorMessage);
                 }
                 else {
+                    // convert shelter response to format like shelter schema then return to client
                     var shelter = data.petfinder.shelter;
                     if (shelter) {
                         return res.json(util.cleanShelterObj(shelter));
@@ -160,13 +169,13 @@ module.exports = function(app, models) {
                     }
                 }
             } else {
+                // an error occurred so return an error
                 return res.status(500).json(error);
             }
         }
     }
 
-    // updates the shelter in local shelters array whose _id matches
-    // the shelterId parameter
+    // updates the shelter in the database whose _id matches the shelterId parameter
     // return the updated shelter if successful, otherwise return an error
     function updateShelter(req, res) {
         var shelterId = req.params["shelterId"];
@@ -201,8 +210,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // removes the shelter from local shelters array whose _id matches
-    // the shelterId parameter.
+    // removes the shelter from the database whose _id matches the shelterId parameter.
     // return true if the shelter is successfully deleted, otherwise return an error.
     function deleteShelter(req, res) {
         var shelterId = req.params["shelterId"];

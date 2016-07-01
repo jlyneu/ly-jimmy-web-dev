@@ -11,6 +11,8 @@
             "findUserById"          : findUserById,
             "findUserByUsername"    : findUserByUsername,
             "findUserByCredentials" : findUserByCredentials,
+            "saveShelter"           : saveShelter,
+            "savePet"               : savePet,
             "updateUser"            : updateUser,
             "deleteUser"            : deleteUser
         };
@@ -71,6 +73,22 @@
         function findUserByCredentials(username, password) {
             var url = "/api/petshelter/user?username=" + username + "&password=" + password;
             return $http.get(url);
+        }
+
+        // return a promise for saving or unsaving a shelter for the user with the given userId.
+        // if the shelter was saved/unsaved properly, then the promise will resolve with the updated
+        // user. if not, then the promise will resolve with an error.
+        function saveShelter(userId, shelterId, isSaved) {
+            var url = "/api/petshelter/user/" + userId + "/shelter/" + shelterId;
+            return $http.put(url, { isSaved: isSaved });
+        }
+
+        // return a promise for saving or unsaving a pet for the user with the given userId.
+        // if the pet was saved/unsaved properly, then the promise will resolve with the updated
+        // user. if not, then the promise will resolve with an error.
+        function savePet(userId, petId, isSaved) {
+            var url = "/api/petshelter/user/" + userId + "/pet/" + petId;
+            return $http.put(url, { isSaved: isSaved });
         }
 
         // return a promise for updating the given user on the server. if the user was updated

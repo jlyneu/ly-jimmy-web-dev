@@ -4,7 +4,7 @@
         .controller("PetDetailController", PetDetailController);
 
     // controller for the pet-detail.view.client.html template
-    function PetDetailController($rootScope, $location, $routeParams, ShelterService, PetService, MessagethreadService, MessageService) {
+    function PetDetailController($rootScope, $location, $routeParams, UserService, ShelterService, PetService, MessagethreadService, MessageService) {
         var vm = this;
 
         // event handlers
@@ -136,7 +136,7 @@
         // of saved pets. if the user has already saved this pet, then remove this pet
         // from the user's list of saved pets
         function savePet() {
-            PetService
+            UserService
                 .savePet(vm.user._id, vm.petId, vm.saveStats.isSaved)
                 .then(savePetSuccess, savePetError);
 

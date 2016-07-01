@@ -101,10 +101,12 @@
            type="text"
            class="form-control"/>
     <label for="contact-state">State</label>
-    <input ng-model="model.pet.contact.state"
-           id="contact-state"
-           type="text"
-           class="form-control"/>
+    <select ng-model="model.pet.contact.state"
+            id="contact-state"
+            class="form-control">
+        <option value=""></option>
+        <option ng-repeat="state in model.states" value="{{state}}">{{state}}</option>
+    </select>
     <label for="contact-zip">Zip Code</label>
     <input ng-model="model.pet.contact.zip"
            placeholder="12345"

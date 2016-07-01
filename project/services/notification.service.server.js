@@ -9,7 +9,7 @@ module.exports = function(app, models) {
 
     var notificationModel = models.notificationModel;
 
-    // adds the notification body parameter instance to the local notifications array.
+    // adds the notification body parameter instance to the database.
     // return the notification if creation was successful, otherwise return an error.
     function createNotification(req, res) {
         var userId = req.params["userId"];
@@ -45,8 +45,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // retrieves the notifications in local notifications array whose userId
-    // matches the parameter userId
+    // retrieves the notifications in the database whose userId matches the parameter userId
     function findAllNotificationsForUser(req, res) {
         var userId = req.params["userId"];
         var errorMessage = {};
@@ -73,7 +72,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // retrieves the notification in local notifications array whose _id matches
+    // retrieves the notification in the database whose _id matches
     // the notificationId parameter. return an error if the notification cannot be found.
     function findNotificationById(req, res) {
         var notificationId = req.params["notificationId"];
@@ -101,8 +100,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // updates the notification in local notifications array whose _id matches
-    // the notificationId parameter
+    // updates the notification in the database whose _id matches the notificationId parameter
     // return the updated notification if successful, otherwise return an error
     function updateNotification(req, res) {
         var notificationId = req.params["notificationId"];
@@ -137,8 +135,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // removes the notification from local notifications array whose _id matches
-    // the notificationId parameter.
+    // removes the notification from the database whose _id matches the notificationId parameter.
     // return true if the notification is successfully deleted, otherwise return an error.
     function deleteNotification(req, res) {
         var notificationId = req.params["notificationId"];

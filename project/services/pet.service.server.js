@@ -26,7 +26,7 @@ module.exports = function(app, models) {
         var petId     = req.body.petId;
         var myFile    = req.file;
 
-        // if file isn't provided, then redirect user back to edit page
+        // if file isn't provided, then redirect user back to pet detail page
         if (!myFile) {
             redirectToPetDetail();
             return;
@@ -39,20 +39,20 @@ module.exports = function(app, models) {
         var size          = myFile.size;
         var mimetype      = myFile.mimetype;
 
-        // find the widget by the given widgetId. If successful, try to update the url of the widget with
-        // the path to the newly uploaded file on the server. If successful then update the widget in the
-        // database. Make sure the user is redirected to the widget edit page
+        // find the pet by the given petId. If successful, try to update the url of the pet with
+        // the path to the newly uploaded file on the server. If successful then update the pet in the
+        // database. Make sure the user is redirected to the pet detail page
         petModel
             .updatePet(petId, { photoUrl: "/uploads/" + filename })
             .then(redirectToPetDetail, redirectToPetDetail);
 
-        // redirect the user to the edit widget page
+        // redirect the user to the pet detail page
         function redirectToPetDetail() {
             res.redirect("/project/#/shelter/" + shelterId + "/pet/" + petId);
         }
     }
 
-    // adds the pet body parameter instance to the local pets array.
+    // adds the pet body parameter instance to the database.
     // return the pet if creation was successful, otherwise return an error.
     function createPet(req, res) {
         var shelterId = req.params["shelterId"];
@@ -92,7 +92,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // retrieves the pets in local pets array whose shelterId
+    // retrieves the pets in the database whose shelterId
     // matches the parameter shelterId
     function findAllPetsForShelter(req, res) {
         var shelterId = req.params["shelterId"];
@@ -104,6 +104,8 @@ module.exports = function(app, models) {
         }
     }
 
+    // retrieves the petshelter pets for the shelter with the given shelter id
+    // from the database
     function findPetshelterPetsForShelter(shelterId, res) {
         var errorMessage = {};
 
@@ -129,13 +131,18 @@ module.exports = function(app, models) {
         }
     }
 
+    // uses the third party petfinder API to find the petfinder pets for the
+    // shelter with the given shelterId
     function findPetfinderPetsForShelter(shelterId, res) {
         var results = [];
+        var errorMessage = {};
 
         shelterModel
             .findShelterById(shelterId)
             .then(findShelterByIdSuccess, findShelterByIdError);
 
+        // if the shelter is returned from the database, make a request to the third party
+        // API to get the pets for the shelter
         function findShelterByIdSuccess(shelter) {
             if (shelter) {
                 var url = "http://api.petfinder.com/shelter.getPets?key=" + process.env.PETFINDER_KEY;
@@ -144,14 +151,19 @@ module.exports = function(app, models) {
 
                 request(url, requestCallback);
             } else {
-
+                errorMessage.message = "Could not fetch pets at this time. Please try again later.";
+                return res.status(500).json(errorMessage);
             }
         }
 
+        // an error occurred so return an error
         function findShelterByIdError(error) {
-
+            errorMessage.message = "Could not fetch pets at this time. Please try again later.";
+            return res.status(500).json(errorMessage);
         }
 
+        // when the data comes back from the petfinder API, convert the pet responses to a form
+        // closer to the pet schema then return the list to the client.
         function requestCallback(error, response, body) {
             // decode certain special characters in response from petfinder. if there is a malformed URI component,
             // then simply parse the body into JSON, leaving special characters.
@@ -162,11 +174,13 @@ module.exports = function(app, models) {
                 data = JSON.parse(body);
             }
             if (!error && response.statusCode == 200) {
+                // check for an error first
                 if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
                     errorMessage.message = data.petfinder.header.status.message.$t;
                     return res.status(400).json(errorMessage);
                 }
                 else {
+                    // loop through the pets and convert the response to the pet schema-like format
                     var pets = data.petfinder.pets.pet;
                     if (pets) {
                         for (var i = 0; i < pets.length; i++) {
@@ -178,16 +192,20 @@ module.exports = function(app, models) {
                     }
                 }
             } else {
+                // if there was an error then return an error
                 return res.status(500).json(error);
             }
         }
-
     }
 
+    // given a search query in the request, look in the database for pets that match the
+    // query criteria, then use the third party petfinder API to find the petfinder pets
+    // that match the search query criteria
     function findPet(req, res) {
         var results = [];
         var errorMessage = {};
         var url = "http://api.petfinder.com/pet.find?key=" + process.env.PETFINDER_KEY;
+        // make sure the user provides a location
         if (req.query.location) {
             url += "&location=" + req.query.location;
         } else {
@@ -212,10 +230,13 @@ module.exports = function(app, models) {
         }
         url += "&format=json";
 
+        // look for pets in the database that match the query criteria
         petModel
             .findPetByQuery(req.query)
             .then(findPetByQuerySuccess, findPetByQueryError);
 
+        // add the pets to the result list then make a request to the petfinder API
+        // to find petfinder pets that match the query criteria
         function findPetByQuerySuccess(pets) {
             for (var i = 0; i < pets.length; i++) {
                 results.push(pets[i]);
@@ -223,11 +244,14 @@ module.exports = function(app, models) {
             request(url, requestCallback);
         }
 
+        // an error occurred so return an error
         function findPetByQueryError(error) {
             errorMessage.message("Could not find pets at this time. Please try again later.");
             return res.status(500).json(errorMessage);
         }
 
+        // when the data comes back from the petfinder API, convert the pet responses to a form
+        // closer to the pet schema then return the list to the client.
         function requestCallback(error, response, body) {
             // decode certain special characters in response from petfinder. if there is a malformed URI component,
             // then simply parse the body into JSON, leaving special characters.
@@ -237,12 +261,15 @@ module.exports = function(app, models) {
             } catch (e) {
                 data = JSON.parse(body);
             }
+            // first check for errors
             if (!error && response.statusCode == 200) {
                 if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
                     errorMessage.message = data.petfinder.header.status.message.$t;
                     return res.status(400).json(errorMessage);
                 }
                 else {
+                    // convert pet responses to format similar to pet schema, add to results,
+                    // then return results to client
                     var pets = data.petfinder.pets.pet;
                     if (pets) {
                         for (var i = 0; i < pets.length; i++) {
@@ -254,12 +281,13 @@ module.exports = function(app, models) {
                     }
                 }
             } else {
+                // if an error occurred then return an error
                 return res.status(500).json(error);
             }
         }
     }
 
-    // retrieves the pet in local pets array whose _id matches
+    // retrieves the pet in the database whose _id matches
     // the petId parameter. return an error if the pet cannot be found.
     function findPetById(req, res) {
         var petId = req.params["petId"];
@@ -287,6 +315,7 @@ module.exports = function(app, models) {
         }
     }
 
+    // find pet in database with petfinderId parameter value
     function findPetByPetfinderId(req, res) {
         var petfinderId = req.params["petfinderId"];
         var errorMessage = {};
@@ -295,16 +324,20 @@ module.exports = function(app, models) {
             .findPetByPetfinderId(petfinderId)
             .then(findPetByPetfinderIdSuccess, findPetByPetfinderIdError);
 
+        // return the pet to the client
         function findPetByPetfinderIdSuccess(pet) {
             return res.json(pet);
         }
 
+        // an error occurred so return an error to the client
         function findPetByPetfinderIdError(error) {
             errorMessage.message = "Could not fetch pet. Please try again later.";
             res.status(500).json(errorMessage);
         }
     }
 
+    // use the third party petfinder API to find the pet with the provided petfinderId
+    // and return to the client
     function findPetfinderPetById(req, res) {
         var petfinderId = req.params["petfinderId"];
         var errorMessage = {};
@@ -314,6 +347,8 @@ module.exports = function(app, models) {
         url += "&format=json";
         request(url, requestCallback);
 
+        // when the data comes back from the petfinder API, convert the pet responses to a form
+        // closer to the pet schema then return the list to the client.
         function requestCallback(error, response, body) {
             // decode certain special characters in response from petfinder. if there is a malformed URI component,
             // then simply parse the body into JSON, leaving special characters.
@@ -323,12 +358,14 @@ module.exports = function(app, models) {
             } catch (e) {
                 data = JSON.parse(body);
             }
+            // first check for errors
             if (!error && response.statusCode == 200) {
                 if (data.petfinder.header.status.message && data.petfinder.header.status.message.$t) {
                     errorMessage.message = data.petfinder.header.status.message.$t;
                     return res.status(400).json(errorMessage);
                 }
                 else {
+                    // convert pet response to format like pet schema then return to client
                     var pet = data.petfinder.pet;
                     if (pet) {
                         return res.json(util.cleanPetObj(pet));
@@ -337,13 +374,13 @@ module.exports = function(app, models) {
                     }
                 }
             } else {
+                // an error occurred so return an error
                 return res.status(500).json(error);
             }
         }
     }
 
-    // updates the pet in local pets array whose _id matches
-    // the petId parameter
+    // updates the pet in the database whose _id matches the petId parameter
     // return the updated pet if successful, otherwise return an error
     function updatePet(req, res) {
         var petId = req.params["petId"];
@@ -378,8 +415,7 @@ module.exports = function(app, models) {
         }
     }
 
-    // removes the pet from local pets array whose _id matches
-    // the petId parameter.
+    // removes the pet from the database whose _id matches the petId parameter.
     // return true if the pet is successfully deleted, otherwise return an error.
     function deletePet(req, res) {
         var petId = req.params["petId"];

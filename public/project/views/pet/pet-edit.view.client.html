@@ -9,37 +9,42 @@
     <label for="animal">Animal Type (Required)</label>
     <select ng-model="model.pet.animal"
             id="animal"
-            class="form-control"
-            ng-options="item as item.display for item in model.animals track by item.value">
+            class="form-control">
         <option value="">Any Animal Type</option>
+        <option
+            ng-repeat="animal in model.animals"
+            title="{{animal.display}}"
+            ng-selected="{{animal.value == model.pet.animal}}"
+            value="{{animal.value}}">{{animal.display}}
+        </option>
     </select>
     <label for="breed">Breed (Required)</label>
     <select ng-model="model.pet.breed"
             id="breed"
             class="form-control">
         <option value="">Any Breed</option>
-        <option ng-if="model.pet.animal.value === 'barnyard'"
+        <option ng-if="model.pet.animal === 'barnyard'"
                 ng-repeat="breed in model.breeds.barnyard"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.pet.animal.value === 'bird'"
+        <option ng-if="model.pet.animal === 'bird'"
                 ng-repeat="breed in model.breeds.bird"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.pet.animal.value === 'cat'"
+        <option ng-if="model.pet.animal === 'cat'"
                 ng-repeat="breed in model.breeds.cat"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.pet.animal.value === 'dog'"
+        <option ng-if="model.pet.animal === 'dog'"
                 ng-repeat="breed in model.breeds.dog"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.pet.animal.value === 'horse'"
+        <option ng-if="model.pet.animal === 'horse'"
                 ng-repeat="breed in model.breeds.horse"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.pet.animal.value === 'pig'"
+        <option ng-if="model.pet.animal === 'pig'"
                 ng-repeat="breed in model.breeds.pig"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.pet.animal.value === 'reptile'"
+        <option ng-if="model.pet.animal === 'reptile'"
                 ng-repeat="breed in model.breeds.reptile"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.pet.animal.value === 'smallfurry'"
+        <option ng-if="model.pet.animal === 'smallfurry'"
                 ng-repeat="breed in model.breeds.smallfurry"
                 value="{{breed}}">{{breed}}</option>
     </select>
@@ -58,16 +63,26 @@
     <label for="size">Size</label>
     <select ng-model="model.pet.size"
             id="size"
-            class="form-control"
-            ng-options="item as item.display for item in model.sizes track by item.value">
+            class="form-control">
         <option value="">Any Size</option>
+        <option
+                ng-repeat="size in model.sizes"
+                title="{{size.display}}"
+                ng-selected="{{size.value == model.pet.size}}"
+                value="{{size.value}}">{{size.display}}
+        </option>
     </select>
     <label for="sex">Sex</label>
     <select ng-model="model.pet.sex"
             id="sex"
-            class="form-control"
-            ng-options="item as item.display for item in model.sexes track by item.value">
+            class="form-control">
         <option value="">Any Sex</option>
+        <option
+                ng-repeat="sex in model.sexes"
+                title="{{sex.display}}"
+                ng-selected="{{sex.value == model.pet.sex}}"
+                value="{{sex.value}}">{{sex.display}}
+        </option>
     </select>
     <label for="age">Age</label>
     <select ng-model="model.pet.age"
@@ -101,10 +116,12 @@
            type="text"
            class="form-control"/>
     <label for="contact-state">State</label>
-    <input ng-model="model.pet.contact.state"
-           id="contact-state"
-           type="text"
-           class="form-control"/>
+    <select ng-model="model.pet.contact.state"
+            id="contact-state"
+            class="form-control">
+        <option value=""></option>
+        <option ng-repeat="state in model.states" value="{{state}}">{{state}}</option>
+    </select>
     <label for="contact-zip">Zip Code</label>
     <input ng-model="model.pet.contact.zip"
            placeholder="12345"
