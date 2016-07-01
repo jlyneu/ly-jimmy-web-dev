@@ -1,6 +1,9 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <h3>{{model.messagethread._user.firstName}} {{model.messagethread._user.lastName}} and {{model.messagethread._shelter.name}}</h3>
     <div ng-repeat="message in model.messages">
         <div class="ps-message-detail-message"">
