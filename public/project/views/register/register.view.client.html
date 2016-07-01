@@ -4,44 +4,56 @@
         {{model.error}}
     </div>
     <h1>Register</h1>
-    <label>Username (Required)</label>
+    <label for="username">Username (Required)</label>
     <input type="text"
+           id="username"
            placeholder="Username"
            ng-model="model.user.username"
            class="form-control"
            autocapitalize="off"
            autocorrect="off"/>
-    <label>Password (Required)</label>
+    <label for="password">Password (Required)</label>
     <input type="password"
+           id="password"
            placeholder="Password"
            ng-model="model.user.password"
            class="form-control"/>
-    <label>Verify Password (Required)</label>
+    <label for="verify-password">Verify Password (Required)</label>
     <input type="password"
+           id="verify-password"
            placeholder="Verify Password"
            ng-model="model.user.verifyPassword"
            class="form-control"/>
-    <label>First Name (Required)</label>
+    <label for="first-name">First Name (Required)</label>
     <input type="text"
+           id="first-name"
            placeholder="John"
            ng-model="model.user.firstName"
            class="form-control"/>
-    <label>Last Name (Required)</label>
+    <label for="last-name">Last Name (Required)</label>
     <input type="text"
+           id="last-name"
            placeholder="Doe"
            ng-model="model.user.lastName"
            class="form-control"/>
-    <label>Phone</label>
+    <label for="phone">Phone</label>
     <input type="text"
+           id="phone"
            placeholder="555-555-5555"
            ng-pattern="model.phoneRegex"
            ng-model="model.user.phone"
            class="form-control"/>
-    <label>Email</label>
+    <label for="email">Email</label>
     <input type="email"
+           id="email"
            placeholder="John@Doe.com"
            ng-model="model.user.email"
            class="form-control"/>
+    <label for="biography">Biography</label>
+    <textarea id="biography"
+              rows="3"
+              class="form-control"
+              ng-model="model.user.biography"></textarea>
     <div ng-click="model.register(model.user)"
          class="btn btn-block btn-primary">Register</div>
     <p class="ps-register-login-link">Already have an account? <a href="#/login">Log in</a></p>

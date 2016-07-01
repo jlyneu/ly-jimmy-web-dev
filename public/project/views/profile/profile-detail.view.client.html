@@ -38,6 +38,10 @@
             <div ng-if="model.user.phone" class="ps-profile-info">Phone: {{model.user.phone}}</div>
             <div ng-if="!model.user.phone" class="ps-profile-info">Phone: Not Provided</div>
         </div>
+        <div ng-if="model.user.biography">
+            <h2>About Me</h2>
+            <div>{{model.user.biography}}</div>
+        </div>
     </div>
     <div class="col-xs-12">
         <a href="#/profile/edit"><div class="btn btn-block btn-primary">Edit</div></a>

@@ -11,6 +11,7 @@ module.exports = function(mongoose) {
         email: String,
         phone: String,
         photoUrl: String,
+        biography: String,
         savedShelters: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Shelter"
