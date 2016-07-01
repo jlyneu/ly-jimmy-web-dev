@@ -13,6 +13,7 @@
         };
         return api;
 
+        // get the list of animal types for the animal type dropdown
         function getAnimals() {
             var animals =  [{
                 value: "barnyard",
@@ -42,6 +43,7 @@
             return animals;
         }
 
+        // get the list of animal breeds by animal type for the breeds dropdown
         function getBreeds() {
             var breeds = {
                 barnyard: [
@@ -152,6 +154,7 @@
             return breeds;
         }
 
+        // get the list of animal sizes for the animal size dropdown
         function getSizes() {
             var sizes = [{
                 value: "S",
@@ -169,6 +172,7 @@
             return sizes;
         }
 
+        // get the list of animal types for the animal type dropdown
         function getSexes() {
             var sexes = [{
                 value: "M",
@@ -180,6 +184,7 @@
             return sexes;
         }
 
+        // get the list of ages for the animal age dropdown
         function getAges() {
             var ages = [
                 "Baby", "Young", "Adult", "Senior"
@@ -187,6 +192,7 @@
             return ages;
         }
 
+        // get the list of state abbreviation for the state dropdown
         function getStates() {
             return ["AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL",
                 "GA","GU","HI","IA","ID", "IL","IN","KS","KY","LA","MA",
