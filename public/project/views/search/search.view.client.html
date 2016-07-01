@@ -1,6 +1,9 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
     <h1>Search</h1>
     <label for="location">Zip Code (required)</label>
     <input ng-model="model.query.location"
@@ -64,11 +67,13 @@
         <option value="">Any Age</option>
         <option ng-repeat="age in model.ages" value="{{age}}">{{age}}</option>
     </select>
-    <div ng-click="model.search(model.query)" class="btn btn-block btn-primary">Go!</div>
+    <div ng-click="model.search(model.query)"
+         class="btn btn-block btn-primary ps-search-go">Go!</div>
 
 
     <h1 ng-if="model.pets && model.pets.length > 0"
-        class="col-sm-12">Search Results</h1>
+        class="col-sm-12"
+        id="ps-search-results">Search Results</h1>
     <div ng-repeat="pet in model.pets">
         <ps-pet-result pet="pet"></ps-pet-result>
     </div>

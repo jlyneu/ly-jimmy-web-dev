@@ -233,16 +233,30 @@ a:hover {
 .ps-register-login-link {
   margin-bottom: 30px;
 }
+.ps-search-go {
+  margin-bottom: 30px;
+}
 .ps-search-result-container {
   background-color: #E2E2E2;
   box-shadow: 2px 2px 2px #666666;
   cursor: pointer;
   margin-bottom: 10px;
 }
+@media (max-width: 768px) {
+  .ps-search-result-container {
+    padding-top: 15px;
+  }
+}
 .ps-search-result-description {
   height: 130px;
   padding-top: 15px;
   padding-left: 130px;
+}
+@media (max-width: 768px) {
+  .ps-search-result-description {
+    float: none;
+    padding-left: 15px;
+  }
 }
 .ps-search-result-description div {
   margin-bottom: 5px;
@@ -257,6 +271,13 @@ a:hover {
   margin-left: 15px;
   text-align: center;
 }
+@media (max-width: 768px) {
+  .ps-search-result-img {
+    display: block;
+    float: none;
+    margin: auto;
+  }
+}
 .ps-search-result-img-missing-icon {
   font-size: 60px;
 }
@@ -270,6 +291,7 @@ a:hover {
   background-color: #E2E2E2;
   box-shadow: 2px 2px 2px #666666;
   color: black;
+  margin-bottom: 10px;
   padding: 10px;
 }
 .ps-shelter-result-name {

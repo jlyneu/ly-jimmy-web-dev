@@ -6,155 +6,67 @@
     // controller for the search.view.client.html template
     function SearchController($rootScope, $location, ShelterService, PetService, PetShelterConstants) {
         var vm = this;
-        
-        vm.search = search;
-        vm.visitPet = visitPet;
 
+        // event handlers
+        vm.search = search;
+
+        // get current user from rootScope if present
         vm.user = $rootScope.currentUser;
+        // get options for search field dropdowns
         vm.animals = PetShelterConstants.getAnimals();
         vm.breeds = PetShelterConstants.getBreeds();
         vm.sizes = PetShelterConstants.getSizes();
         vm.sexes = PetShelterConstants.getSexes();
         vm.ages = PetShelterConstants.getAges();
-        
+
+        // send the search query to the server, searching in both the database and with the third party
+        // petfinder api. the results will be populated in the search results at the bottom of the page
         function search(query) {
+            // make sure that the user provides a zip code
             if (!query || !query.location) {
-                vm.error = "Location is required";
+                vm.error = "Zip code is required";
+                scrollToError();
+                return;
             }
             
             PetService.findPet(query)
                 .then(findPetSuccess, findPetError);
 
+            // a 200 came back. if null is not returned, set the returned list of pets then scroll
+            // down to the search results.
             function findPetSuccess(response) {
-                vm.pets = response.data;
+                if (response.data) {
+                    vm.pets = response.data;
+                    // when trying to scroll directly after setting the pets, angular has not updated the DOM yet
+                    // so jQuery has nothing to scroll down to. a better solution would be to have some listener
+                    // that fires after angular has updated the DOM for the search results
+                    setTimeout(function() {
+                        $('html, body').animate({
+                            scrollTop: $('#ps-search-results').offset().top + 'px'
+                        }, 'slow');
+                    }, 250);
+                } else {
+                    vm.error = "Could not search for pets at this time. Please try again later.";
+                    scrollToError();
+                }
             }
 
+            // an error occurred so display an error
             function findPetError(error) {
-
-            }
-        }
-
-        function visitPet(pet) {
-            var petfinderShelter;
-
-            if (pet.source == "PETSHELTER") {
-                $location.url("/shelter/" + pet._shelter + "/pet/" + pet._id);
-            } else {
-                // check if the petfinder shelter exists in the db. if so, return the _id.
-                // otherwise, create an entry in the db and return the new _id.
-                // then check if the petfinder pet exists in teh db. if so, return the _id.
-                // otherwise, create an entry in the db and return the new _id.
-                ShelterService
-                    .findShelterByPetfinderId(pet.shelterId)
-                    .then(findShelterByPetfinderIdSuccess, findShelterByPetfinderIdError);
-            }
-
-            // if shelter comes back, next search for pet.
-            // if not, then look up the shelter with petfinder API
-            function findShelterByPetfinderIdSuccess(response) {
-                var existingShelter = response.data;
-                if (!$.isEmptyObject(existingShelter)) {
-                    petfinderShelter = existingShelter;
-                    PetService
-                        .findPetByPetfinderId(pet.id)
-                        .then(findPetByPetfinderIdSuccess, findPetByPetfinderIdError);
+                if (error && error.data && error.data.message) {
+                    vm.error = error.data.message;
+                    scrollToError();
                 } else {
-                    ShelterService
-                        .findPetfinderShelterById(pet.shelterId)
-                        .then(findPetfinderShelterByIdSuccess, findPetfinderShelterByIdError);
+                    vm.error = "Could not perform search at this time. Please try again later.";
+                    scrollToError();
                 }
             }
 
-            function findShelterByPetfinderIdError(error) {
-
-            }
-
-            // if pet comes back, navigate user to pet detail page.
-            // if not, then create petfinder entry in db
-            function findPetByPetfinderIdSuccess(response) {
-                var existingPet = response.data;
-                if (!$.isEmptyObject(existingPet)) {
-                    $location.url("/shelter/" + existingPet._shelter + "/pet/" + existingPet._id);
-                } else {
-                    var newPet = {
-                        animal: pet.animal,
-                        name: pet.name,
-                        breeds: pet.breeds,
-                        photoUrl: pet.photoUrl,
-                        _shelter: petfinderShelter._id,
-                        source: "PETFINDER",
-                        petfinderId: pet.id
-                    };
-                    PetService
-                        .createPet(petfinderShelter._id, newPet)
-                        .then(createPetSuccess, createPetError);
-                }
-            }
-
-            function findPetByPetfinderIdError(error) {
-
-            }
-
-            // if shelter comes back, create entry in db.
-            // otherwise, an error occurred
-            function findPetfinderShelterByIdSuccess(response) {
-                var shelterResult = response.data;
-                if (!$.isEmptyObject(shelterResult)) {
-                    var newShelter = {
-                        name: shelterResult.name,
-                        zip: shelterResult.zip,
-                        source: "PETFINDER",
-                        petfinderId: pet.shelterId
-                    };
-                    ShelterService
-                        .createShelter(null, newShelter)
-                        .then(createShelterSuccess, createShelterError);
-                }
-            }
-
-            function findPetfinderShelterByIdError(error) {
-
-            }
-
-            // navigate user to pet detail page
-            function createPetSuccess(response) {
-                var newPet = response.data;
-                if (!$.isEmptyObject(newPet)) {
-                    $location.url("/shelter/" + petfinderShelter._id + "/pet/" + newPet._id);
-                } else {
-
-                }
-            }
-
-            function createPetError(response) {
-
-            }
-
-            // if shelter returned, then shelter was created successfully. now create entry for pet.
-            // if not, then an error occurred.
-            function createShelterSuccess(response) {
-                var newShelter = response.data;
-                if (!$.isEmptyObject(newShelter)) {
-                    petfinderShelter = newShelter;
-                    var newPet = {
-                        animal: pet.animal,
-                        name: pet.name,
-                        breeds: pet.breeds,
-                        photoUrl: pet.photoUrl,
-                        _shelter: petfinderShelter._id,
-                        source: "PETFINDER",
-                        petfinderId: pet.id
-                    };
-                    PetService
-                        .createPet(newShelter._id, newPet)
-                        .then(createPetSuccess, createPetError);
-                } else {
-
-                }
-            }
-
-            function createShelterError(error) {
-
+            // scroll to the top of the page so that the user can see the error message more easily
+            function scrollToError() {
+                $('html, body').animate({
+                    scrollTop: $('ps-header').offset().top + 'px'
+                }, 'slow');
             }
         }
     }

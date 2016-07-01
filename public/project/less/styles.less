@@ -259,17 +259,27 @@ a {
     }
   }
   &-search {
+    &-go {
+      margin-bottom: 30px;
+    }
     &-result {
       &-container {
         background-color: @description-dark-gray;
         box-shadow: 2px 2px 2px @box-shadow-gray;
         cursor: pointer;
         margin-bottom: 10px;
+        @media(max-width: @screen-sm-max) {
+          padding-top: 15px;
+        }
       }
       &-description {
         height: 130px;
         padding-top: 15px;
         padding-left: 130px;
+        @media(max-width: @screen-sm-max) {
+          float: none;
+          padding-left: 15px;
+        }
 
         div {
           margin-bottom: 5px;
@@ -284,6 +294,11 @@ a {
         margin-top: 15px;
         margin-left: 15px;
         text-align: center;
+        @media(max-width: @screen-sm-max) {
+          display: block;
+          float: none;
+          margin: auto;
+        }
 
         &-missing {
           &-icon {
@@ -304,6 +319,7 @@ a {
       background-color: @description-dark-gray;
       box-shadow: 2px 2px 2px @box-shadow-gray;
       color: black;
+      margin-bottom: 10px;
       padding: 10px;
 
       &-name {
