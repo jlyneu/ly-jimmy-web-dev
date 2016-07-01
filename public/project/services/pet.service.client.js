@@ -39,6 +39,7 @@
         // then the promise will resolve with the list of pets. if the search was not successful,
         // then the promise will resolve with an error.
         function findPet(query) {
+            // use the given query to form the url to pass parameters to the server
             var url = "/api/petshelter/pet?";
             url += "location=" + query.location;
             if (query.animal) {
@@ -67,11 +68,17 @@
             return $http.get(url);
         }
 
+        // return a promise for finding a pet in the database that has the provided
+        // petfinderId. if the pet was found, then the promise will resolve with the
+        // existing pet. if the pet was not found, then the promise will resolve with an error.
         function findPetByPetfinderId(petfinderId) {
             var url = "/api/petshelter/petfinder/pet/" + petfinderId;
             return $http.get(url);
         }
-        
+
+        // return a promise for finding a petfinder pet using the third party petfinder API.
+        // if the pet was found, then the promise will resolve with the pet.
+        // if the pet was not found, then the promise will resolve with an error.
         function findPetfinderPetById(petfinderId) {
             var url = "/api/petfinder/pet/" + petfinderId;
             return $http.get(url);
@@ -85,6 +92,9 @@
             return $http.put(url, pet);
         }
 
+        // return a promise for saving or unsaving a pet for the user with the given userId.
+        // if the pet was saved/unsaved properly, then the promise will resolve with the updated
+        // user. if not, then the promise will resolve with an error.
         function savePet(userId, petId, isSaved) {
             var url = "/api/petshelter/user/" + userId + "/pet/" + petId;
             return $http.put(url, { isSaved: isSaved });

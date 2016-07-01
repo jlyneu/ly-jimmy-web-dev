@@ -4,11 +4,11 @@
         .factory("MessageService", MessageService);
     function MessageService($http) {
         var api = {
-            "createMessage"           : createMessage,
+            "createMessage"                 : createMessage,
             "findMessagesByMessagethreadId" : findMessagesByMessagethreadId,
-            "findMessageById"         : findMessageById,
-            "updateMessage"           : updateMessage,
-            "deleteMessage"           : deleteMessage
+            "findMessageById"               : findMessageById,
+            "updateMessage"                 : updateMessage,
+            "deleteMessage"                 : deleteMessage
         };
         return api;
 

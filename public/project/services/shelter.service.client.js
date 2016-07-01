@@ -39,11 +39,18 @@
             return $http.get(url);
         }
 
+        // return a promise for finding a petfinder shelter in the petshelter database with
+        // the provided petfinderId. if the shelter was found, then the promise will resolve
+        // with the existing shelter. if the shelter was not found, then the promise will
+        // resolve with an error.
         function findShelterByPetfinderId(petfinderId) {
             var url = "/api/petshelter/petfinder/shelter/" + petfinderId;
             return $http.get(url);
         }
 
+        // return a promise for finding a petfinder shelter using the third party petfinder API.
+        // if the shelter was found, then the promise will resolve with the shelter.
+        // if the shelter was not found, then the promise will resolve with an error.
         function findPetfinderShelterById(petfinderId) {
             var url = "/api/petfinder/shelter/" + petfinderId;
             return $http.get(url);
@@ -57,6 +64,9 @@
             return $http.put(url, shelter);
         }
 
+        // return a promise for saving or unsaving a shelter for the user with the given userId.
+        // if the shelter was saved/unsaved properly, then the promise will resolve with the updated
+        // user. if not, then the promise will resolve with an error.
         function saveShelter(userId, shelterId, isSaved) {
             var url = "/api/petshelter/user/" + userId + "/shelter/" + shelterId;
             return $http.put(url, { isSaved: isSaved });

@@ -4,11 +4,11 @@
         .factory("NotificationService", NotificationService);
     function NotificationService($http) {
         var api = {
-            "createNotification"           : createNotification,
+            "createNotification"        : createNotification,
             "findNotificationsByUserId" : findNotificationsByUserId,
-            "findNotificationById"         : findNotificationById,
-            "updateNotification"           : updateNotification,
-            "deleteNotification"           : deleteNotification
+            "findNotificationById"      : findNotificationById,
+            "updateNotification"        : updateNotification,
+            "deleteNotification"        : deleteNotification
         };
         return api;
 
