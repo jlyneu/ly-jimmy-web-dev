@@ -302,6 +302,9 @@ a :active {
 .ps-search-go {
   margin-bottom: 30px;
 }
+.ps-search-last {
+  margin-bottom: 50px;
+}
 .ps-search-result-container {
   background-color: #E2E2E2;
   box-shadow: 2px 2px 2px #666666;

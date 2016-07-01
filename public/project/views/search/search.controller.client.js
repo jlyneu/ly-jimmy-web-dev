@@ -18,6 +18,7 @@
         vm.sizes = PetShelterConstants.getSizes();
         vm.sexes = PetShelterConstants.getSexes();
         vm.ages = PetShelterConstants.getAges();
+        vm.hasSearched = false;
 
         // send the search query to the server, searching in both the database and with the third party
         // petfinder api. the results will be populated in the search results at the bottom of the page
@@ -36,15 +37,25 @@
             // down to the search results.
             function findPetSuccess(response) {
                 if (response.data) {
+                    vm.hasSearched = true;
                     vm.pets = response.data;
                     // when trying to scroll directly after setting the pets, angular has not updated the DOM yet
                     // so jQuery has nothing to scroll down to. a better solution would be to have some listener
                     // that fires after angular has updated the DOM for the search results
-                    setTimeout(function() {
-                        $('html, body').animate({
-                            scrollTop: $('#ps-search-results').offset().top + 'px'
-                        }, 'slow');
-                    }, 250);
+                    if (vm.pets.length > 0) {
+                        setTimeout(function() {
+                            $('html, body').animate({
+                                scrollTop: $('#ps-search-results').offset().top + 'px'
+                            }, 'slow');
+                        }, 250);
+                    } else {
+                        setTimeout(function() {
+                            $('html, body').animate({
+                                scrollTop: $('.ps-search-last').offset().top + 'px'
+                            }, 'slow');
+                        }, 250);
+                    }
+
                 } else {
                     vm.error = "Could not search for pets at this time. Please try again later.";
                     scrollToError();
