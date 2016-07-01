@@ -208,6 +208,19 @@ a :active {
     display: none;
   }
 }
+.ps-messagethread-img-missing {
+  color: #777777;
+  font-weight: bold;
+  float: left;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .ps-messagethread-img-missing {
+    display: none;
+  }
+}
 .ps-messagethread-info {
   padding-left: 115px;
   padding-top: 15px;
@@ -260,11 +273,13 @@ a :active {
 }
 @media (max-width: 768px) {
   .ps-profile-info-container {
-    margin: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 }
 .ps-profile-label {
   font-size: 20px;
+  margin-top: 20px;
 }
 .ps-register-login-link {
   margin-bottom: 30px;

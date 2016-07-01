@@ -9,7 +9,14 @@
          ng-repeat="messagethread in model.messagethreads">
         <a href="#/profile/message/{{messagethread._id}}">
             <div class="ps-messagethread-container">
-                <img ng-src="{{messagethread._user.photoUrl}}" class="ps-messagethread-img"/>
+                <img ng-if="messagethread._user.photoUrl" ng-src="{{messagethread._user.photoUrl}}" class="ps-messagethread-img"/>
+                <div ng-if="!messagethread._user.photoUrl"
+                     class="ps-messagethread-img-missing">
+                    <div ng-if="!messagethread._user.photoUrl"
+                         class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
+                    <div ng-if="!messagethread._user.photoUrl"
+                         class="ps-search-result-img-missing-text">No Image Provided</div>
+                </div>
                 <div class="ps-messagethread-info">
                     <div>User: {{messagethread._user.firstName}} {{messagethread._user.lastName}}</div>
                     <div>Shelter: {{messagethread._shelter.name}}</div>

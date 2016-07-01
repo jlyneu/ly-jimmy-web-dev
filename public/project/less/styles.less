@@ -228,6 +228,18 @@ a {
       @media(max-width: @screen-sm-max) {
         display: none;
       }
+
+      &-missing {
+        color: @header-text-gray;
+        font-weight: bold;
+        float: left;
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        @media(max-width: @screen-sm-max) {
+          display: none;
+        }
+      }
     }
     &-info {
       padding-left: 115px;
@@ -282,12 +294,14 @@ a {
           margin-top: 0;
         }
         @media(max-width: @screen-sm-max) {
-          margin: 15px;
+          margin-top: 15px;
+          margin-bottom: 15px;
         }
       }
     }
     &-label {
       font-size: 20px;
+      margin-top: 20px;
     }
   }
   &-register {
