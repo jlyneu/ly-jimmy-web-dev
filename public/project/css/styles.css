@@ -245,7 +245,7 @@ a:hover {
   cursor: pointer;
   margin-bottom: 10px;
 }
-@media (max-width: 768px) {
+@media (max-width: 420px) {
   .ps-search-result-container {
     padding-top: 15px;
   }
@@ -255,7 +255,7 @@ a:hover {
   padding-top: 15px;
   padding-left: 130px;
 }
-@media (max-width: 768px) {
+@media (max-width: 420px) {
   .ps-search-result-description {
     float: none;
     padding-left: 15px;
@@ -274,7 +274,7 @@ a:hover {
   margin-left: 15px;
   text-align: center;
 }
-@media (max-width: 768px) {
+@media (max-width: 420px) {
   .ps-search-result-img {
     display: block;
     float: none;
@@ -309,4 +309,46 @@ a:hover {
 .ps-user-detail-header {
   font-size: 30px;
   margin-top: 0;
+}
+.ps-user-result {
+  background-color: #E2E2E2;
+  box-shadow: 2px 2px 2px #666666;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+@media (max-width: 420px) {
+  .ps-user-result {
+    padding-top: 15px;
+  }
+}
+.ps-user-result-img {
+  color: #777777;
+  font-weight: bold;
+  float: left;
+  width: 100px;
+  height: 100px;
+  margin-top: 15px;
+  margin-left: 15px;
+  text-align: center;
+}
+@media (max-width: 420px) {
+  .ps-user-result-img {
+    display: block;
+    float: none;
+    margin: auto;
+  }
+}
+.ps-user-result-name {
+  color: black;
+  font-size: 30px;
+  height: 130px;
+  padding-top: 40px;
+  padding-left: 130px;
+  text-align: center;
+}
+@media (max-width: 420px) {
+  .ps-user-result-name {
+    float: none;
+    padding-left: 15px;
+  }
 }

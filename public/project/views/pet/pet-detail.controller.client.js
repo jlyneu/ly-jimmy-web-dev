@@ -14,13 +14,13 @@
         vm.petId = $routeParams["petId"];
         vm.user = $rootScope.currentUser;
         vm.isSaved = false;
-        vm.isSavedDisplay = "Not Saved";
+        vm.isSavedDisplay = "Click here to save this pet";
 
         function init() {
             if (vm.user) {
                 // determine if the user has saved this pet or not
                 vm.isSaved = false;
-                vm.isSavedDisplay = "Not Saved";
+                vm.isSavedDisplay = "Save";
                 for (var i = 0; i < vm.user.savedPets.length; i++) {
                     if (vm.user.savedPets[i]._id === vm.petId) {
                         vm.isSaved = true;
@@ -88,7 +88,7 @@
                 if (vm.isSaved) {
                     vm.isSavedDisplay = "Saved";
                 } else {
-                    vm.isSavedDisplay = "Not Saved";
+                    vm.isSavedDisplay = "Save";
                 }
             }
 

@@ -1,38 +1,58 @@
 <ps-header user="model.user"></ps-header>
 <ps-profile-menu></ps-profile-menu>
 <div class="container">
-    <h1>{{model.shelter.name}}</h1>
+    <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
+    <h1 class="col-sm-12">{{model.shelter.name}}</h1>
+    <div class="col-sm-6">
+        <h2>Address</h2>
+        <div>{{model.shelter.address1}}</div>
+        <div ng-if="model.shelter.address2">{{model.shelter.address2}}</div>
+        <div>City: {{model.shelter.city}}</div>
+        <div>State: {{model.shelter.state}}</div>
+        <div>Zip: {{model.shelter.zip}}</div>
+        <div>Country: {{model.shelter.country}}</div>
+    </div>
+    <div class="col-sm-6">
+        <h2>Contact Info</h2>
+        <div ng-if="model.shelter.email">Email: {{model.shelter.email}}</div>
+        <div ng-if="model.shelter.phone">Phone Number: {{model.shelter.phone}}</div>
+        <div ng-if="model.shelter.fax">Fax: {{model.shelter.fax}}</div>
+    </div>
+    <h2 ng-if="model.shelter.users"
+        class="col-sm-12">PetShelter Users That Manage This Shelter</h2>
+    <div ng-if="model.shelter.users"
+         class="col-sm-12"
+         ng-repeat="user in model.shelter.users">
+        <a href="#/user/{{user._id}}">
+            <div class="ps-user-result col-sm-6">
+                <img class="ps-user-result-img" ng-src="{{user.photoUrl}}"/>
+                <div class="ps-user-result-name">{{user.firstName}} {{user.lastName}}</div>
+            </div>
+        </a>
+    </div>
     <a href="#/shelter/{{model.shelterId}}/edit"
+       class="col-sm-12"
        ng-if="model.isOwner">
         <div class="btn btn-block btn-primary">Edit Shelter</div>
     </a>
-    <h2>Address</h2>
-    <ul>
-        <li>{{model.shelter.address1}}</li>
-        <li ng-if="model.shelter.address2">{{model.shelter.address2}}</li>
-        <li>{{model.shelter.city}}, {{model.shelter.state}} {{model.shelter.zip}}</li>
-        <li>{{model.shelter.country}}</li>
-    </ul>
-    <h2>Contact Info</h2>
-    <ul>
-        <li ng-if="model.shelter.email">{{model.shelter.email}}</li>
-        <li ng-if="model.shelter.phone">{{model.shelter.phone}}</li>
-        <li ng-if="model.shelter.fax">{{model.shelter.fax}}</li>
-    </ul>
-    <h2>PetShelter Users That Manage This Shelter</h2>
-    <ul>
-        <li ng-repeat="user in model.shelter.users">
-            <a href="#/user/{{user._id}}">{{user.firstName}} {{user.lastName}}</a>
-        </li>
-    </ul>
-    <h2>Pets at this shelter</h2>
+    <a ng-if="model.isOwner"
+       class="col-sm-12"
+       href="#/shelter/{{model.shelterId}}/pet/new">
+        <div class="btn btn-block btn-primary">Add a pet</div>
+    </a>
+    <div ng-if="!model.user" class="col-sm-12">Want to save this shelter for quick access later? <a href="#/login">Login</a>
+        or <a href="#/register">Sign up for an account</a>.
+    </div>
+    <a href="javascript:void(0);" class="col-sm-12">
+        <div ng-if="model.user"
+         ng-click="model.saveShelter()"
+         class="btn btn-block" ng-class="model.saveStats.isSavedClass">{{model.saveStats.isSavedDisplay}}</div>
+    </a>
+    <h2 class="col-sm-12">Pets at this shelter</h2>
     <div ng-repeat="pet in model.pets">
         <ps-pet-result pet="pet"></ps-pet-result>
     </div>
-    <a ng-if="model.isOwner" href="#/shelter/{{model.shelterId}}/pet/new">
-        <div class="btn btn-block btn-primary">Add a pet</div>
-    </a>
-    <div ng-click="model.saveShelter()"
-         class="btn btn-block btn-primary">{{model.isSavedDisplay}}</div>
-
+    <h4 ng-if="model.pets.length == 0" class="col-sm-12">There are currently no pets at this shelter.</h4>
 </div>
