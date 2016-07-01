@@ -77,7 +77,6 @@ a :active {
 }
 .ps-home-cover-learn-more {
   border: 1px solid green;
-  font-size: 20px;
   margin-left: 100px;
 }
 @media (max-width: 992px) {
@@ -180,7 +179,6 @@ a :active {
   width: 200px;
 }
 .ps-home-get-started {
-  font-size: 20px;
   margin-bottom: -20px;
 }
 .ps-home-link {
