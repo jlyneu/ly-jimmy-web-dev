@@ -1,10 +1,5 @@
+var q = require("q");
 module.exports = function(mongoose) {
-
-    var q = require("q");
-    var UserSchema = require("./user.schema.server.js")(mongoose);
-    // need to use PetUser model since User is already used for the assignment:
-    // OverwriteModelError: Cannot overwrite `User` model once compiled.
-    var User = mongoose.model("PetUser", UserSchema);
 
     var api = {
         createUser: createUser,
@@ -20,6 +15,11 @@ module.exports = function(mongoose) {
         pullPet: pullPet
     };
     return api;
+
+    var UserSchema = require("./user.schema.server.js")(mongoose);
+    // need to use PetUser model since User is already used for the assignment:
+    // OverwriteModelError: Cannot overwrite `User` model once compiled.
+    var User = mongoose.model("PetUser", UserSchema);
 
     // create a new user instance
     function createUser(user) {

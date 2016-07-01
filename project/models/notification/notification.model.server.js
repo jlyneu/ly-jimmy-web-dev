@@ -1,8 +1,5 @@
 module.exports = function(mongoose) {
 
-    var NotificationSchema = require("./notification.schema.server.js")(mongoose);
-    var Notification = mongoose.model("Notification", NotificationSchema);
-
     var api = {
         createNotification: createNotification,
         findAllNotificationsForUser: findAllNotificationsForUser,
@@ -11,6 +8,9 @@ module.exports = function(mongoose) {
         deleteNotification: deleteNotification
     };
     return api;
+
+    var NotificationSchema = require("./notification.schema.server.js")(mongoose);
+    var Notification = mongoose.model("Notification", NotificationSchema);
 
     // create a new notification instance
     function createNotification(notification) {

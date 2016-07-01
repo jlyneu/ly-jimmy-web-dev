@@ -1,9 +1,7 @@
+var q = require("q");
+
 module.exports = function(mongoose, messagethreadModel) {
-
-    var q = require("q");
-    var MessageSchema = require("./message.schema.server.js")(mongoose);
-    var Message = mongoose.model("Message", MessageSchema);
-
+    
     var api = {
         createMessage: createMessage,
         findAllMessagesForMessagethread: findAllMessagesForMessagethread,
@@ -12,6 +10,9 @@ module.exports = function(mongoose, messagethreadModel) {
         deleteMessage: deleteMessage
     };
     return api;
+
+    var MessageSchema = require("./message.schema.server.js")(mongoose);
+    var Message = mongoose.model("Message", MessageSchema);
 
     // Creates a new message instance for messagethread whose _id is messagethreadId
     function createMessage(messagethreadId, message) {
@@ -36,6 +37,7 @@ module.exports = function(mongoose, messagethreadModel) {
             return messagethreadModel.pushMessage(messagethreadId, newMessage._id);
         }
 
+        // change updateDate of messagethread so users can tell which conversations are recent
         function updateDate(numUpdated) {
             var newUpdateDate = { dateUpdated : Date.now() };
             return messagethreadModel.updateMessagethread(messagethreadId, newUpdateDate);

@@ -1,8 +1,6 @@
-module.exports = function(mongoose, shelterModel) {
+var q = require("q");
 
-    var q = require("q");
-    var PetSchema = require("./pet.schema.server.js")(mongoose);
-    var Pet = mongoose.model("Pet", PetSchema);
+module.exports = function(mongoose, shelterModel) {
 
     var api = {
         createPet: createPet,
@@ -14,6 +12,9 @@ module.exports = function(mongoose, shelterModel) {
         deletePet: deletePet
     };
     return api;
+
+    var PetSchema = require("./pet.schema.server.js")(mongoose);
+    var Pet = mongoose.model("Pet", PetSchema);
 
     // Creates a new pet instance for shelter whose _id is shelterId
     function createPet(shelterId, pet) {
@@ -59,6 +60,9 @@ module.exports = function(mongoose, shelterModel) {
         return Pet.findById(petId);
     }
 
+    // find pets in teh database based on the given query criteria. first find shelters in the
+    // location specified in the query then find pets from those shelters that match the
+    // rest of the criteria
     function findPetByQuery(query) {
         var errorMessage = {};
         var deferred = q.defer();
@@ -74,6 +78,7 @@ module.exports = function(mongoose, shelterModel) {
 
         return deferred.promise;
 
+        // if shelters are found then look for pets based on the rest of the query criteria
         function findShelterByQuerySuccess(shelters) {
             var shelterIds = [];
             for (var i = 0; i < shelters.length; i++) {
@@ -87,21 +92,25 @@ module.exports = function(mongoose, shelterModel) {
                 .then(findSuccess, findError);
         }
 
+        // an error occurred so reject the promise
         function findShelterByQueryError(error) {
             errorMessage.message = "Could not find pets at this time. Please try again later.";
             deferred.reject(errorMessage);
         }
 
+        // the pets were found so resolve the promise with the list of pets
         function findSuccess(pets) {
             deferred.resolve(pets);
         }
 
+        // an error occurred so reject the promise
         function findError(error) {
             errorMessage.message = "Could not find pets at this time. Please try again later.";
             deferred.reject(errorMessage);
         }
     }
 
+    // find the pet in the database with the given petfinderId
     function findPetByPetfinderId(petfinderId) {
         return Pet.findOne({ petfinderId: petfinderId });
     }
