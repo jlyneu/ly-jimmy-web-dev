@@ -79,7 +79,7 @@
         or <a href="#/register">Sign up for an account</a> to message the shelter owner.<br>
         Being logged in also lets you save pets for quick reference later!
     </div>
-    <div ng-if="model.hasMessagethread" class="col-sm-12 ps-pet-detail-last">
+    <div ng-if="model.hasMessagethread && !model.isOwner" class="col-sm-12 ps-pet-detail-last">
         <h3>
             Have more questions? <a href="#/profile/message/{{model.messagethreadId}}">Click here</a> to send your
             questions to {{model.shelter.name}}

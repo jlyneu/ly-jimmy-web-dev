@@ -226,15 +226,10 @@ a :active {
   font-size: 20px;
 }
 .ps-profile-info {
-  margin-top: 10px;
-  margin-bottom: 10px;
   font-size: 18px;
 }
-.ps-profile-info-container {
-  background-color: #E2E2E2;
-  box-shadow: 2px 2px 2px #666666;
-  padding-top: 15px;
-  padding-bottom: 15px;
+.ps-profile-info-container h2 {
+  margin-top: 0;
 }
 @media (max-width: 768px) {
   .ps-profile-info-container {

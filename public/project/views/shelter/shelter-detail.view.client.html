@@ -27,7 +27,14 @@
          ng-repeat="user in model.shelter.users">
         <a href="#/user/{{user._id}}">
             <div class="ps-user-result col-sm-6">
-                <img class="ps-user-result-img" ng-src="{{user.photoUrl}}"/>
+                <img ng-if="user.photoUrl" class="ps-user-result-img" ng-src="{{user.photoUrl}}"/>
+                <div ng-if="!user.photoUrl"
+                     class="ps-search-result-img">
+                    <div ng-if="!user.photoUrl"
+                         class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
+                    <div ng-if="!user.photoUrl"
+                         class="ps-search-result-img-missing-text">No Image Provided</div>
+                </div>
                 <div class="ps-user-result-name">{{user.firstName}} {{user.lastName}}</div>
             </div>
         </a>

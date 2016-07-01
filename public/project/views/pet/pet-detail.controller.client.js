@@ -114,14 +114,12 @@
             // otherwise, an error occurred so display an error
             function findMessagethreadsByUserIdSuccess(response) {
                 if (response.data) {
-                    console.log(response.data);
                     var messagethreads = response.data;
                     vm.hasMessagethread = false;
                     for (var i = 0; i < messagethreads.length; i++) {
                         if (vm.shelterId === messagethreads[i]._shelter._id) {
                             vm.hasMessagethread = true;
                             vm.messagethreadId = messagethreads[i]._id;
-                            console.log("!");
                             break;
                         }
                     }

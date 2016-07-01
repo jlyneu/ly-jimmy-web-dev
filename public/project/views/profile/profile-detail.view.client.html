@@ -26,14 +26,18 @@
             </form>
         </div>
     </div>
-    <div class="col-sm-6 ps-profile-info-container">
-        <h2>Your Info</h2>
-        <div class="ps-profile-info">First name: {{model.user.firstName}}</div>
-        <div class="ps-profile-info">Last name: {{model.user.lastName}}</div>
-        <div ng-if="model.user.google.id" class="ps-profile-info">Signed in via Google</div>
-        <div ng-if="!model.user.google.id" class="ps-profile-info">Username: {{model.user.username}}</div>
-        <div class="ps-profile-info">Email: {{model.user.email}}</div>
-        <div class="ps-profile-info">Phone: {{model.user.phone}}</div>
+    <div class="col-sm-6">
+        <div class="ps-profile-info-container">
+            <h2>Your Info</h2>
+            <div class="ps-profile-info">First name: {{model.user.firstName}}</div>
+            <div class="ps-profile-info">Last name: {{model.user.lastName}}</div>
+            <div ng-if="model.user.google.id" class="ps-profile-info">Signed in via Google</div>
+            <div ng-if="!model.user.google.id" class="ps-profile-info">Username: {{model.user.username}}</div>
+            <div ng-if="model.user.email" class="ps-profile-info">Email: {{model.user.email}}</div>
+            <div ng-if="!model.user.email" class="ps-profile-info">Email: Not Provided</div>
+            <div ng-if="model.user.phone" class="ps-profile-info">Phone: {{model.user.phone}}</div>
+            <div ng-if="!model.user.phone" class="ps-profile-info">Phone: Not Provided</div>
+        </div>
     </div>
     <div class="col-xs-12">
         <a href="#/profile/edit"><div class="btn btn-block btn-primary">Edit</div></a>
