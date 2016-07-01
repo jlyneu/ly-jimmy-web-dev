@@ -10,10 +10,14 @@
         // event handlers
         vm.register = register;
 
-        // get current user from rootScope if present
-        vm.currentUser = $rootScope.currentUser;
-        // regex to validate phone numbers
-        vm.phoneRegex = "^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$";
+        // initialize register controller by getting current user
+        function init() {
+            // get current user from rootScope if present
+            vm.currentUser = $rootScope.currentUser;
+            // regex to validate phone numbers
+            vm.phoneRegex = "^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$";
+        }
+        init();
 
         // send the user object to the server to create an instance in the database.
         // if an error returned, then display an error. Otherwise navigate to the profile page.

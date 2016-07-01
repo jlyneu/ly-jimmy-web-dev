@@ -10,12 +10,17 @@
         // event handlers
         vm.createShelter = createShelter;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // get list of state abbreviations from constants for state dropdown
-        vm.states = PetShelterConstants.getStates();
-        // regex to validate zip codes
-        vm.zipRegex = '^\\d{5}$';
+        // initialize the new shelter page by getting the current user, state abbreviations, and
+        // zip code regex for validation
+        function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // get list of state abbreviations from constants for state dropdown
+            vm.states = PetShelterConstants.getStates();
+            // regex to validate zip codes
+            vm.zipRegex = '^\\d{5}$';
+        }
+        init();
 
         // pass the new shelter object to the server to create an entry in the database
         function createShelter(shelter) {

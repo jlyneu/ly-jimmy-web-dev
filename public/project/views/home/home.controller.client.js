@@ -10,8 +10,12 @@
         // event handlers
         vm.learnMore = learnMore;
 
-        // get the current user object from the rootScope if present
-        vm.user = $rootScope.currentUser;
+        // initialize the home page by getting the current user
+        function init() {
+            // get the current user object from the rootScope if present
+            vm.user = $rootScope.currentUser;
+        }
+        init();
 
         // When the user clicks the 'Learn More' button on the cover photo, scroll down the page to
         // the description about PetShelter.

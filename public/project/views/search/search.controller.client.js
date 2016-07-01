@@ -10,15 +10,20 @@
         // event handlers
         vm.search = search;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // get options for search field dropdowns
-        vm.animals = PetShelterConstants.getAnimals();
-        vm.breeds = PetShelterConstants.getBreeds();
-        vm.sizes = PetShelterConstants.getSizes();
-        vm.sexes = PetShelterConstants.getSexes();
-        vm.ages = PetShelterConstants.getAges();
-        vm.hasSearched = false;
+        // initialize search page by getting current user and dropdown options
+        function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // will be true once search is ran
+            vm.hasSearched = false;
+            // get options for search field dropdowns
+            vm.animals = PetShelterConstants.getAnimals();
+            vm.breeds = PetShelterConstants.getBreeds();
+            vm.sizes = PetShelterConstants.getSizes();
+            vm.sexes = PetShelterConstants.getSexes();
+            vm.ages = PetShelterConstants.getAges();
+        }
+        init();
 
         // send the search query to the server, searching in both the database and with the third party
         // petfinder api. the results will be populated in the search results at the bottom of the page

@@ -9,11 +9,11 @@
 
         // no event handlers
 
-        // get the current user from the rootScope if present
-        vm.user = $rootScope.currentUser;
-
         // initialize the saved pet list page by fetching the user's list of saved pets
         function init() {
+            // get the current user from the rootScope if present
+            vm.user = $rootScope.currentUser;
+            
             UserService
                 .findUserById(vm.user._id)
                 .then(findUserByIdSuccess, findUserByIdError);

@@ -7,15 +7,17 @@
     function UserDetailController($rootScope, $location, $routeParams, UserService, ShelterService) {
         var vm = this;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // initialize empty userDetail object
-        vm.userDetail = {};
-        // get user id from url
-        vm.userDetail._id = $routeParams["userId"];
+        // no event handlers
 
         // fetch the user object from the database to populate the user details page
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // initialize empty userDetail object
+            vm.userDetail = {};
+            // get user id from url
+            vm.userDetail._id = $routeParams["userId"];
+            
             UserService
                 .findUserById(vm.userDetail._id)
                 .then(findUserByIdSuccess, findUserByIdError)

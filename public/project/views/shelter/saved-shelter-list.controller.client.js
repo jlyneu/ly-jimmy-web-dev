@@ -9,11 +9,11 @@
 
         // no event handlers
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-
         // initialize saved shelter list page by fetching user's saved shelters from server
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+
             UserService
                 .findUserById(vm.user._id)
                 .then(findUserByIdSuccess, findUserByIdError);

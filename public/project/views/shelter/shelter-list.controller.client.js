@@ -7,11 +7,13 @@
     function ShelterListController($rootScope, ShelterService) {
         var vm = this;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
+        // no event handlers
 
         // initialize shelter list page by fetching shelters form the server that current user manages
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            
             ShelterService
                 .findSheltersByUserId(vm.user._id)
                 .then(findSheltersByUserIdSuccess, findSheltersByUserIdError);

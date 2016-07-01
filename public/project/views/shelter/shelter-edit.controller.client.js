@@ -11,17 +11,17 @@
         vm.updateShelter = updateShelter;
         vm.deleteShelter = deleteShelter;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // get shelter id from URL
-        vm.shelterId = $routeParams["shelterId"];
-        // get list of state abbreviations from constants for state dropdown
-        vm.states = PetShelterConstants.getStates();
-        // regex to validate zip codes
-        vm.zipRegex = '^\\d{5}$';
-
         // initialize edit shelter page by getting shelter info from server and populating input fields
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // get shelter id from URL
+            vm.shelterId = $routeParams["shelterId"];
+            // get list of state abbreviations from constants for state dropdown
+            vm.states = PetShelterConstants.getStates();
+            // regex to validate zip codes
+            vm.zipRegex = '^\\d{5}$';
+
             ShelterService
                 .findShelterById(vm.shelterId)
                 .then(findShelterByIdSuccess, findShelterByIdError);
@@ -109,6 +109,8 @@
                 .deleteShelter(vm.shelterId)
                 .then(deleteShelterSuccess, deleteShelterError);
 
+            // a 200 came back. if the response is not null, then navigate back to the shelter list
+            // page. otherwise, display an error
             function deleteShelterSuccess(response) {
                 if (response) {
                     $location.url("/profile/shelter");
@@ -118,6 +120,7 @@
                 }
             }
 
+            // an error occurred so display an error
             function deleteShelterError(error) {
                 vm.error = "Could not delete shelter at this time. Please try again later.";
                 scrollToError();

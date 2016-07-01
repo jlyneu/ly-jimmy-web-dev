@@ -11,23 +11,23 @@
         vm.updatePet = updatePet;
         vm.deletePet = deletePet;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // get shelter and pet id from URL
-        vm.shelterId = $routeParams["shelterId"];
-        vm.petId = $routeParams["petId"];
-        // get options for field dropdowns
-        vm.animals = PetShelterConstants.getAnimals();
-        vm.breeds = PetShelterConstants.getBreeds();
-        vm.sizes = PetShelterConstants.getSizes();
-        vm.sexes = PetShelterConstants.getSexes();
-        vm.ages = PetShelterConstants.getAges();
-        // regex for validating phone, fax, and zip codes
-        vm.phoneRegex = "^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$";
-        vm.zipRegex = vm.zipRegex = '^\\d{5}$';
-
         // initialize pet edit page by fetching pet info from server and populating input fields
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // get shelter and pet id from URL
+            vm.shelterId = $routeParams["shelterId"];
+            vm.petId = $routeParams["petId"];
+            // get options for field dropdowns
+            vm.animals = PetShelterConstants.getAnimals();
+            vm.breeds = PetShelterConstants.getBreeds();
+            vm.sizes = PetShelterConstants.getSizes();
+            vm.sexes = PetShelterConstants.getSexes();
+            vm.ages = PetShelterConstants.getAges();
+            // regex for validating phone, fax, and zip codes
+            vm.phoneRegex = "^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$";
+            vm.zipRegex = vm.zipRegex = '^\\d{5}$';
+            
             PetService
                 .findPetById(vm.petId)
                 .then(findPetByIdSuccess, findPetByIdError);

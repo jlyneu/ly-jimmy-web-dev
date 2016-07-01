@@ -11,14 +11,14 @@
         vm.send = send;
         vm.getMessageClass = getMessageClass;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // get messagethread id from URL
-        vm.messagethreadId = $routeParams["messagethreadId"];
-
         // initialize messagethread detail page by getting messages for the current message thread as well
         // as the messagethread info as well
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // get messagethread id from URL
+            vm.messagethreadId = $routeParams["messagethreadId"];
+
             MessageService
                 .findMessagesByMessagethreadId(vm.messagethreadId)
                 .then(findMessagesByMessagethreadIdSuccess, findMessagesByMessagethreadIdError)

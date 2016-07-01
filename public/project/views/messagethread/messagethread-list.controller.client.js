@@ -6,12 +6,12 @@
     // controller for the messagethread-list.view.client.html template
     function MessagethreadListController($rootScope, MessagethreadService) {
         var vm = this;
-        
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
 
         // intialize messagethread list page by finding message threads for current user
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            
             MessagethreadService
                 .findMessagethreadsByUserId(vm.user._id)
                 .then(findMessagethreadsByUserIdSuccess, findMessagethreadsByUserIdError);

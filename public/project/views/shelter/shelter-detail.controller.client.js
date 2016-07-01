@@ -10,24 +10,23 @@
         // event handlers
         vm.saveShelter = saveShelter;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // get shelter id from url
-        vm.shelterId = $routeParams["shelterId"];
-
-        // records whether current user has saved this shelter or not
-        vm.saveStats = {
-            isSaved: false,
-            isSavedDisplay: "Save",
-            isSavedClass: "btn-primary"
-        };
-        // records whether shelter was created in petshelter or in petfinder
-        vm.source = null;
-
         // initialize the shelter detail page by fetching the shelter by id then all of the pets
         // at this shelter. also determine whether the current user owns this shelter. if so,
         // then allow the user to edit the shelter or add additional pets.
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // get shelter id from url
+            vm.shelterId = $routeParams["shelterId"];
+            // records whether current user has saved this shelter or not
+            vm.saveStats = {
+                isSaved: false,
+                isSavedDisplay: "Save",
+                isSavedClass: "btn-primary"
+            };
+            // records whether shelter was created in petshelter or in petfinder
+            vm.source = null;
+
             ShelterService
                 .findShelterById(vm.shelterId)
                 .then(findShelterByIdSuccess, displayError);

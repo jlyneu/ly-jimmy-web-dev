@@ -10,23 +10,23 @@
         // event handlers
         vm.createPet = createPet;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // get shelter id from URL
-        vm.shelterId = $routeParams["shelterId"];
-        // get options for field dropdowns
-        vm.animals = PetShelterConstants.getAnimals();
-        vm.breeds = PetShelterConstants.getBreeds();
-        vm.sizes = PetShelterConstants.getSizes();
-        vm.sexes = PetShelterConstants.getSexes();
-        vm.ages = PetShelterConstants.getAges();
-        // regex for validating phone, fax, and zip codes
-        vm.phoneRegex = "^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$";
-        vm.zipRegex = vm.zipRegex = '^\\d{5}$';
-
         // initialize the new pet page by fetching the shelter info for this pet and populating the
         // contact info fields with the shelter info by default
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // get shelter id from URL
+            vm.shelterId = $routeParams["shelterId"];
+            // get options for field dropdowns
+            vm.animals = PetShelterConstants.getAnimals();
+            vm.breeds = PetShelterConstants.getBreeds();
+            vm.sizes = PetShelterConstants.getSizes();
+            vm.sexes = PetShelterConstants.getSexes();
+            vm.ages = PetShelterConstants.getAges();
+            // regex for validating phone, fax, and zip codes
+            vm.phoneRegex = "^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$";
+            vm.zipRegex = vm.zipRegex = '^\\d{5}$';
+            
             ShelterService
                 .findShelterById(vm.shelterId)
                 .then(findShelterByIdSuccess, findShelterByIdError);

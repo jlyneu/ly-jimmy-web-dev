@@ -13,21 +13,21 @@
         vm.getSizeDisplay = getSizeDisplay;
         vm.getSexDisplay = getSexDisplay;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
-        // get shelter id and pet id from URL
-        vm.shelterId = $routeParams["shelterId"];
-        vm.petId = $routeParams["petId"];
-        // records whether current user has saved this shelter or not
-        vm.saveStats = {
-            isSaved: false,
-            isSavedDisplay: "Save",
-            isSavedClass: "btn-primary"
-        };
-
         // initialize pet detail page by determining whether user has saved this pet, then getting the pet info.
         // then get the shelter info to determine whether the current user owns this pet
         function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+            // get shelter id and pet id from URL
+            vm.shelterId = $routeParams["shelterId"];
+            vm.petId = $routeParams["petId"];
+            // records whether current user has saved this shelter or not
+            vm.saveStats = {
+                isSaved: false,
+                isSavedDisplay: "Save",
+                isSavedClass: "btn-primary"
+            };
+            
             if (vm.user) {
                 // determine if the user has saved this pet or not
                 vm.saveStats = {

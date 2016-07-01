@@ -10,8 +10,12 @@
         // event handlers
         vm.logout = logout;
 
-        // get current user from rootScope if present
-        vm.user = $rootScope.currentUser;
+        // initialize profile detail page by getting current user
+        function init() {
+            // get current user from rootScope if present
+            vm.user = $rootScope.currentUser;
+        }
+        init();
 
         // make a request to the server to logout the current user. if successful,
         // route the user to the login page. also clear the current user from the rootScope.
