@@ -37,9 +37,9 @@
                 <span ng-if="$last">{{breed}}</span>
             </span>
         </div>
-        <div ng-if="model.pet.size">Size: {{model.pet.size}}</div>
+        <div ng-if="model.pet.size">Size: {{model.getSizeDisplay(model.pet.size)}}</div>
         <div ng-if="!model.pet.size">Size: Not Provided</div>
-        <div ng-if="model.pet.sex">Sex: {{model.pet.sex}}</div>
+        <div ng-if="model.pet.sex">Sex: {{model.getSexDisplay(model.pet.sex)}}</div>
         <div ng-if="!model.pet.sex">Sex: Not Provided</div>
         <div ng-if="model.pet.age">Age: {{model.pet.age}}</div>
         <div ng-if="!model.pet.age">Age: Not Provided</div>

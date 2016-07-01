@@ -10,6 +10,8 @@
         // event handlers
         vm.savePet = savePet;
         vm.sendMessage = sendMessage;
+        vm.getSizeDisplay = getSizeDisplay;
+        vm.getSexDisplay = getSexDisplay;
 
         // get current user from rootScope if present
         vm.user = $rootScope.currentUser;
@@ -214,6 +216,38 @@
                 } else {
                     vm.error = "Could not create message at this time. Please try again later.";
                 }
+            }
+        }
+
+        // given the size value stored in the database,
+        // return the more understandable display value
+        function getSizeDisplay(sizeValue) {
+            if (sizeValue == "S") {
+                return "Small";
+            } else if (sizeValue == "M") {
+                return "Medium";
+            } else if (sizeValue == "L") {
+                return "Large";
+            } else if (sizeValue == "XL") {
+                return "Extra-Large";
+            } else {
+                // if the size value doesn't match a
+                // valid value, return the original size
+                return sizeValue
+            }
+        }
+
+        // given the sex value stored in the database,
+        // return the more understandable display value
+        function getSexDisplay(sexValue) {
+            if (sexValue == "M") {
+                return "Male";
+            } else if (sexValue == "F") {
+                return "Female";
+            } else {
+                // if the size value doesn't match a
+                // valid value, return the original size
+                return sexValue;
             }
         }
     }
