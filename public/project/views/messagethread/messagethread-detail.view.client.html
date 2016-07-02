@@ -5,13 +5,14 @@
         {{model.error}}
     </div>
     <h3>{{model.messagethread._user.firstName}} {{model.messagethread._user.lastName}} and {{model.messagethread._shelter.name}}</h3>
-    <div ng-repeat="message in model.messages">
-        <div class="ps-message-detail-message"">
+    <div class="list-group">
+        <div ng-repeat="message in model.messages">
+            <div class="list-group-item ps-message-detail-message"">
             <span ng-class="model.getMessageClass(message._user._id)">
                 {{message._user.firstName}} {{message._user.lastName}} [{{message.dateCreated | date:'h:mma MMMM d, yyyy'}}]
             </span>: {{message.text}}
         </div>
-    </div>
+    </div><br>
     <textarea ng-model="model.message"
               class="form-control"
               rows="3"></textarea>

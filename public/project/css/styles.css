@@ -21,6 +21,16 @@ a :active {
 .form-control {
   margin-bottom: 10px;
 }
+.list-group {
+  color: #333333;
+}
+.list-group a {
+  color: #333333;
+  text-decoration: none;
+}
+.list-group a:hover {
+  text-decoration: none;
+}
 .navbar {
   margin-bottom: 0;
 }
@@ -259,10 +269,12 @@ a :active {
 }
 .ps-profile-img {
   width: 250px;
+  margin-top: 42px;
 }
 @media (max-width: 768px) {
   .ps-profile-img {
     width: 100%;
+    margin-top: 0px;
   }
 }
 .ps-profile-img-missing {
@@ -298,6 +310,7 @@ a :active {
 }
 .ps-profile-upload {
   max-width: 250px;
+  margin-top: 10px;
 }
 .ps-register-login-link {
   margin-bottom: 30px;
@@ -312,14 +325,11 @@ a :active {
   margin-bottom: 50px;
 }
 .ps-search-result-container {
-  background-color: #E2E2E2;
-  box-shadow: 2px 2px 2px #666666;
-  cursor: pointer;
-  margin-bottom: 10px;
+  height: 130px;
 }
 @media (max-width: 420px) {
   .ps-search-result-container {
-    padding-top: 15px;
+    height: auto;
   }
 }
 .ps-search-result-description {
@@ -340,17 +350,16 @@ a :active {
   color: #777777;
   font-weight: bold;
   float: left;
-  width: 100px;
-  height: 100px;
-  margin-top: 15px;
-  margin-left: 15px;
+  width: 109px;
+  height: 109px;
+  margin-right: 15px;
   text-align: center;
 }
 @media (max-width: 420px) {
   .ps-search-result-img {
     display: block;
     float: none;
-    margin: auto;
+    margin: 15px auto 15px;
   }
 }
 .ps-search-result-img-missing-icon {
@@ -385,6 +394,23 @@ a :active {
   font-size: 30px;
   margin-top: 0;
 }
+@media (max-width: 768px) {
+  .ps-user-detail-header {
+    margin-top: 15px;
+  }
+}
+.ps-user-detail-img {
+  width: 250px;
+  height: 250px;
+  margin-top: 42px;
+}
+@media (max-width: 420px) {
+  .ps-user-detail-img {
+    width: 190px;
+    height: 190px;
+    margin-top: 0;
+  }
+}
 .ps-user-result {
   background-color: #E2E2E2;
   box-shadow: 2px 2px 2px #666666;
@@ -394,6 +420,16 @@ a :active {
 @media (max-width: 420px) {
   .ps-user-result {
     padding-top: 15px;
+  }
+}
+.ps-user-result-heading {
+  color: #333333;
+  margin-top: 40px;
+}
+@media (max-width: 420px) {
+  .ps-user-result-heading {
+    margin-top: 0;
+    text-align: center;
   }
 }
 .ps-user-result-img {

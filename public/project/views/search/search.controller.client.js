@@ -63,7 +63,7 @@
                                     scrollTop: $('#ps-search-results').offset().top + 'px'
                                 }, 'slow');
                             }
-                        }, 250);
+                        }, 500);
                     } else {
                         setTimeout(function() {
                             if ($('.ps-search-last')) {
@@ -71,7 +71,7 @@
                                     scrollTop: $('.ps-search-last').offset().top + 'px'
                                 }, 'slow');
                             }
-                        }, 250);
+                        }, 500);
                     }
 
                 } else {

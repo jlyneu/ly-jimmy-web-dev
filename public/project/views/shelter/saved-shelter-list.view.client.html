@@ -5,17 +5,15 @@
         {{model.error}}
     </div>
     <h1 class="col-sm-12">Saved Shelters</h1>
-    <div ng-repeat="shelter in model.savedShelters">
-        <div class="col-sm-6">
+    <div class="list-group col-sm-12">
+        <div ng-repeat="shelter in model.savedShelters" class="col-sm-6">
             <a href="#/shelter/{{shelter._id}}">
-                <a href="#/shelter/{{shelter._id}}">
-                    <div class="ps-shelter-result">
-                        <div class="ps-shelter-result-name">{{shelter.name}}</div>
-                        <div class="ps-shelter-result-city-state">
-                            {{shelter.city}}<span ng-if="shelter.city && shelter.state">, </span>{{shelter.state}}</div>
-                        <div class="ps-shelter-result-zip">{{shelter.zip}}</div>
-                    </div>
-                </a>
+                <div class="list-group-item ps-search-result-container">
+                    <h2 class="list-group-item-heading">{{shelter.name}}</h2>
+                    <p class="list-group-item-text">
+                        {{shelter.city}}<span ng-if="shelter.city && shelter.state">, </span>{{shelter.state}}</p>
+                    <p class="list-group-item-text">{{shelter.zip}}</p>
+                </div>
             </a>
         </div>
     </div>

@@ -22,22 +22,18 @@
     </div>
     <h2 ng-if="model.shelter.users"
         class="col-sm-12">PetShelter Users That Manage This Shelter</h2>
-    <div ng-if="model.shelter.users"
-         class="col-sm-12"
-         ng-repeat="user in model.shelter.users">
-        <a href="#/user/{{user._id}}">
-            <div class="ps-user-result col-sm-6">
-                <img ng-if="user.photoUrl" class="ps-user-result-img" ng-src="{{user.photoUrl}}"/>
-                <div ng-if="!user.photoUrl"
-                     class="ps-search-result-img">
-                    <div ng-if="!user.photoUrl"
-                         class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
-                    <div ng-if="!user.photoUrl"
-                         class="ps-search-result-img-missing-text">No Image Provided</div>
+    <div class="list-group col-sm-12">
+        <div ng-if="model.shelter.users"
+             ng-repeat="user in model.shelter.users"
+             class="col-sm-6">
+            <a href="#/user/{{user._id}}">
+                <div class="list-group-item ps-search-result-container">
+                    <img ng-if="user.photoUrl" class="ps-search-result-img" ng-src="{{user.photoUrl}}"/>
+                    <img ng-if="!user.photoUrl" class="ps-search-result-img" ng-src="img/noimagefound.jpg"/>
+                    <h4 class="list-group-item-heading ps-user-result-heading">{{user.firstName}} {{user.lastName}}</h4>
                 </div>
-                <div class="ps-user-result-name">{{user.firstName}} {{user.lastName}}</div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
     <a href="#/shelter/{{model.shelterId}}/edit"
        class="col-sm-12"
@@ -76,8 +72,10 @@
          class="btn btn-block" ng-class="model.saveStats.isSavedClass">{{model.saveStats.isSavedDisplay}}</div>
     </a>
     <h2 class="col-sm-12">Pets at this shelter</h2>
-    <div ng-repeat="pet in model.pets">
-        <ps-pet-result pet="pet"></ps-pet-result>
+    <div class="list-group col-sm-12">
+        <div class="col-sm-6" ng-repeat="pet in model.pets">
+            <ps-pet-result pet="pet"></ps-pet-result>
+        </div>
     </div>
     <h4 ng-if="model.pets.length == 0" class="col-sm-12 ps-shelter-detail-no-pets">There are currently no pets at this shelter.</h4>
 </div>

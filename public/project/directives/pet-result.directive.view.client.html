@@ -1,32 +1,30 @@
-<div ng-click="model.visitPet()"
-     class="col-sm-6">
-    <div class="ps-search-result-container">
-        <img ng-if="model.pet.photoUrl"
-             ng-src="{{model.pet.photoUrl}}"
-             class="ps-search-result-img"/>
-        <div ng-if="!model.pet.photoUrl"
-             class="ps-search-result-img">
-            <div ng-if="!model.pet.photoUrl"
-                 class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
-            <div ng-if="!model.pet.photoUrl"
-                 class="ps-search-result-img-missing-text">No Image Provided</div>
-        </div>
-        <div class="ps-search-result-description">
-            <div ng-if="model.pet.name">{{model.pet.name}}</div>
-            <div ng-if="!model.pet.name">Name Not Specified</div>
-            <div ng-if="model.pet.animal"><strong>Animal Type</strong>: {{model.pet.animal}}</div>
-            <div ng-if="model.pet.breeds.length > 0">
-                <div>
-                    <strong>Breed</strong>:
-                <span ng-repeat="breed in model.pet.breeds">
-                    <span ng-if="!$last">{{breed}} | </span>
-                    <span ng-if="$last">{{breed}}</span>
-                </span>
-                </div>
-            </div>
-            <div ng-if="model.pet.breeds.length == 0">
-                <div><strong>Breed</strong>: Not Specified</div>
-            </div>
-        </div>
-    </div>
+
+<div class="list-group-item ps-search-result-container" ng-click="model.visitPet()">
+    <img ng-if="model.pet.photoUrl"
+         ng-src="{{model.pet.photoUrl}}"
+         class="ps-search-result-img"/>
+    <img ng-if="!model.pet.photoUrl"
+         ng-src="img/noimagefound.jpg"
+         class="ps-search-result-img"/>
+    <h4 ng-if="model.pet.name"
+        class="list-group-item-heading">{{model.pet.name}}</h4>
+    <h4 ng-if="!model.pet.name"
+        class="list-group-item-heading">Name Not Specified</h4>
+    <p ng-if="model.pet.animal"
+       class="list-group-item-text">Animal Type: {{model.pet.animal}}</p>
+
+    <p ng-if="model.pet.breeds.length > 0"
+       class="list-group-item-text">
+        <span>
+            <strong>Breed</strong>:
+            <span ng-repeat="breed in model.pet.breeds">
+                <span ng-if="!$last">{{breed}} | </span>
+                <span ng-if="$last">{{breed}}</span>
+            </span>
+        </span>
+    </p>
+    <p ng-if="model.pet.breeds.length == 0"
+         class="list-group-item-text">
+        Breed</strong>: Not Specified
+    </p>
 </div>

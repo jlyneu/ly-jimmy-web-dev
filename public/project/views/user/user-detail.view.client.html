@@ -4,34 +4,31 @@
     <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
         {{model.error}}
     </div>
-    <h1 class="col-xs-12">{{model.userDetail.firstName}} {{model.userDetail.lastName}}</h1>
+    <h1 class="col-sm-12">{{model.userDetail.firstName}} {{model.userDetail.lastName}}</h1>
     <div class="ps-user-detail-img-container col-sm-6">
         <img ng-if="model.userDetail.photoUrl"
              ng-src="{{model.userDetail.photoUrl}}"
-             height="250px"
-             width="250px"/>
-        <div ng-if="!model.userDetail.photoUrl"
-             class="ps-profile-img-missing">
-            <div ng-if="!model.userDetail.photoUrl"
-                 class="ps-profile-img-missing-icon glyphicon glyphicon-question-sign"></div>
-            <div ng-if="!model.userDetail.photoUrl"
-                 class="ps-profile-img-missing-text">No Image Provided</div>
-        </div>
+             class="ps-user-detail-img"/>
+        <img ng-if="!model.userDetail.photoUrl"
+             ng-src="img/noimagefound.jpg"
+             class="ps-user-detail-img"/>
         <div class="ps-user-detail-date">
             {{model.userDetail.firstName}} has been a PetShelter member since {{model.userDetail.dateCreated | date:'MMMM d, yyyy'}}
         </div>
     </div>
     <div class="ps-user-detail-shelter-container col-sm-6">
         <div class="ps-user-detail-header">Shelters</div>
-        <div ng-repeat="shelter in model.shelters">
-            <a href="#/shelter/{{shelter._id}}">
-                <div class="ps-shelter-result">
-                    <div class="ps-shelter-result-name">{{shelter.name}}</div>
-                    <div class="ps-shelter-result-city-state">
-                        {{shelter.city}}<span ng-if="shelter.city && shelter.state">, </span>{{shelter.state}}</div>
-                    <div class="ps-shelter-result-zip">{{shelter.zip}}</div>
-                </div>
-            </a>
+        <div class="list-group">
+            <div ng-repeat="shelter in model.shelters" class="">
+                <a href="#/shelter/{{shelter._id}}">
+                    <div class="list-group-item ps-search-result-container">
+                        <h2 class="list-group-item-heading">{{shelter.name}}</h2>
+                        <p class="list-group-item-text">
+                            {{shelter.city}}<span ng-if="shelter.city && shelter.state">, </span>{{shelter.state}}</p>
+                        <p class="list-group-item-text">{{shelter.zip}}</p>
+                    </div>
+                </a>
+            </div>
         </div>
         <div ng-if="model.shelters.length == 0">{{model.userDetail.firstName}} does not own any shelters</div>
     </div>

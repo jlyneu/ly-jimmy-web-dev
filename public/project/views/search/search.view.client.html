@@ -21,12 +21,6 @@
                 value="{{animal.value}}">{{animal.display}}
         </option>
     </select>
-    <!--<select ng-model="model.query.animal"-->
-            <!--id="animal"-->
-            <!--class="form-control"-->
-            <!--ng-options="item as item.display for item in model.animals track by item.value">-->
-        <!--<option value="">Any Animal Type</option>-->
-    <!--</select>-->
     <label for="breed">Breed</label>
     <select ng-model="model.query.breed"
             id="breed"
@@ -91,11 +85,12 @@
     <div ng-click="model.search(model.query)"
          class="btn btn-block btn-primary ps-search-go">Go!</div>
 
-    <h1 ng-if="model.hasSearched && model.pets.length > 0"
-        class="col-sm-12"
-        id="ps-search-results">Search Results</h1>
-    <div ng-repeat="pet in model.pets">
-        <ps-pet-result pet="pet"></ps-pet-result>
+    <h2 ng-if="model.hasSearched && model.pets.length > 0"
+        id="ps-search-results">Search Results</h2>
+    <div class="list-group">
+        <div class="col-sm-6" ng-repeat="pet in model.pets">
+            <ps-pet-result pet="pet"></ps-pet-result>
+        </div>
     </div>
     <h2 class="ps-search-last"
         ng-if="model.hasSearched && model.pets.length == 0">No search results were found. Please refine your search and try again.</h2>

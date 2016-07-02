@@ -5,24 +5,23 @@
         {{model.error}}
     </div>
     <h1 class="col-sm-12">Messages</h1>
-    <div class="col-sm-12"
-         ng-repeat="messagethread in model.messagethreads">
-        <a href="#/profile/message/{{messagethread._id}}">
-            <div class="ps-messagethread-container">
-                <img ng-if="messagethread._user.photoUrl" ng-src="{{messagethread._user.photoUrl}}" class="ps-messagethread-img"/>
-                <div ng-if="!messagethread._user.photoUrl"
-                     class="ps-messagethread-img-missing">
-                    <div ng-if="!messagethread._user.photoUrl"
-                         class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
-                    <div ng-if="!messagethread._user.photoUrl"
-                         class="ps-search-result-img-missing-text">No Image Provided</div>
-                </div>
-                <div class="ps-messagethread-info">
-                    <div>User: {{messagethread._user.firstName}} {{messagethread._user.lastName}}</div>
-                    <div>Shelter: {{messagethread._shelter.name}}</div>
-                    <div>Last message sent on {{messagethread.dateUpdated | date:'MMMM d, yyyy'}}</div>
-                </div>
+    <div class="col-sm-12">
+        <div class="list-group">
+            <div ng-repeat="messagethread in model.messagethreads">
+                <a href="#/profile/message/{{messagethread._id}}">
+                    <div class="list-group-item ps-search-result-container">
+                        <img ng-if="messagethread._user.photoUrl"
+                             ng-src="{{messagethread._user.photoUrl}}"
+                             class="ps-search-result-img"/>
+                        <img ng-if="!messagethread._user.photoUrl"
+                             ng-src="img/noimagefound.jpg"
+                             class="ps-search-result-img"/>
+                        <h4 class="list-group-item-heading">User: {{messagethread._user.firstName}} {{messagethread._user.lastName}}</h4>
+                        <h4 class="list-group-item-heading">Shelter: {{messagethread._shelter.name}}</h4>
+                        <p class="list-group-item-text">Last message sent on {{messagethread.dateUpdated | date:'MMMM d, yyyy'}}</p>
+                    </div>
+                </a>
             </div>
-        </a>
+        </div>
     </div>
 </div>
