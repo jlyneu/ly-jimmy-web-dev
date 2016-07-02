@@ -13,7 +13,6 @@
             <img ng-if="!model.user.photoUrl"
                  ng-src="img/noimagefound.jpg"
                  class="ps-user-detail-img"/>
-            <div class="ps-user-detail-date"
             <form action="/api/petshelter/user/upload"  method="post" enctype="multipart/form-data">
                 <label  for="file" class="ps-profile-label">Upload an image</label>
                 <input  name="myFile"    type="file" class="" id="file"/>
