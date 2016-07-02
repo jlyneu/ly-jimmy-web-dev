@@ -7,10 +7,10 @@
     <h1 ng-if="model.pet.name" class="col-sm-12">{{model.pet.name}}</h1>
     <h1 ng-if="!model.pet.name" class="col-sm-12">Name Not Provided</h1>
     <div class="col-sm-6">
-        <img ng-if="model.userDetail.photoUrl"
-             ng-src="{{model.userDetail.photoUrl}}"
+        <img ng-if="model.pet.photoUrl"
+             ng-src="{{model.pet.photoUrl}}"
              class="ps-user-detail-img"/>
-        <img ng-if="!model.userDetail.photoUrl"
+        <img ng-if="!model.pet.photoUrl"
              ng-src="img/noimagefound.jpg"
              class="ps-user-detail-img"/>
         <form ng-if="model.isOwner" class="ps-profile-upload" action="/api/petshelter/pet/upload"  method="post" enctype="multipart/form-data">
