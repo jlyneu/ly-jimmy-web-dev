@@ -12,53 +12,74 @@
     <label for="animal">Animals Type</label>
     <select ng-model="model.query.animal"
             id="animal"
-            class="form-control"
-            ng-options="item as item.display for item in model.animals track by item.value">
+            class="form-control">
         <option value="">Any Animal Type</option>
+        <option
+                ng-repeat="animal in model.animals"
+                title="{{animal.display}}"
+                ng-selected="{{animal.value == model.query.animal}}"
+                value="{{animal.value}}">{{animal.display}}
+        </option>
     </select>
+    <!--<select ng-model="model.query.animal"-->
+            <!--id="animal"-->
+            <!--class="form-control"-->
+            <!--ng-options="item as item.display for item in model.animals track by item.value">-->
+        <!--<option value="">Any Animal Type</option>-->
+    <!--</select>-->
     <label for="breed">Breed</label>
     <select ng-model="model.query.breed"
             id="breed"
             class="form-control">
         <option value="">Any Breed</option>
-        <option ng-if="model.query.animal.value === 'barnyard'"
+        <option ng-if="model.query.animal === 'barnyard'"
                 ng-repeat="breed in model.breeds.barnyard"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.query.animal.value === 'bird'"
+        <option ng-if="model.query.animal === 'bird'"
                 ng-repeat="breed in model.breeds.bird"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.query.animal.value === 'cat'"
+        <option ng-if="model.query.animal === 'cat'"
                 ng-repeat="breed in model.breeds.cat"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.query.animal.value === 'dog'"
+        <option ng-if="model.query.animal === 'dog'"
                 ng-repeat="breed in model.breeds.dog"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.query.animal.value === 'horse'"
+        <option ng-if="model.query.animal === 'horse'"
                 ng-repeat="breed in model.breeds.horse"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.query.animal.value === 'pig'"
+        <option ng-if="model.query.animal === 'pig'"
                 ng-repeat="breed in model.breeds.pig"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.query.animal.value === 'reptile'"
+        <option ng-if="model.query.animal === 'reptile'"
                 ng-repeat="breed in model.breeds.reptile"
                 value="{{breed}}">{{breed}}</option>
-        <option ng-if="model.query.animal.value === 'smallfurry'"
+        <option ng-if="model.query.animal === 'smallfurry'"
                 ng-repeat="breed in model.breeds.smallfurry"
                 value="{{breed}}">{{breed}}</option>
     </select>
     <label for="size">Size</label>
     <select ng-model="model.query.size"
             id="size"
-            class="form-control"
-            ng-options="item as item.display for item in model.sizes track by item.value">
+            class="form-control">
         <option value="">Any Size</option>
+        <option
+                ng-repeat="size in model.sizes"
+                title="{{size.display}}"
+                ng-selected="{{size.value == model.query.size}}"
+                value="{{size.value}}">{{size.display}}
+        </option>
     </select>
     <label for="sex">Sex</label>
     <select ng-model="model.query.sex"
             id="sex"
-            class="form-control"
-            ng-options="item as item.display for item in model.sexes track by item.value">
+            class="form-control">
         <option value="">Any Sex</option>
+        <option
+                ng-repeat="sex in model.sexes"
+                title="{{sex.display}}"
+                ng-selected="{{sex.value == model.query.sex}}"
+                value="{{sex.value}}">{{sex.display}}
+        </option>
     </select>
     <label for="age">Age</label>
     <select ng-model="model.query.age"

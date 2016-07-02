@@ -42,16 +42,16 @@
             var url = "/api/petshelter/pet?";
             url += "location=" + query.location;
             if (query.animal) {
-                url += "&animal=" + query.animal.value;
+                url += "&animal=" + query.animal;
             }
             if (query.breed) {
                 url += "&breed=" + query.breed;
             }
             if (query.size) {
-                url += "&size=" + query.size.value;
+                url += "&size=" + query.size;
             }
             if (query.sex) {
-                url += "&sex=" + query.sex.value;
+                url += "&sex=" + query.sex;
             }
             if (query.age) {
                 url += "&age=" + query.age;

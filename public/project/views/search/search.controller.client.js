@@ -10,7 +10,8 @@
         // event handlers
         vm.search = search;
 
-        // initialize search page by getting current user and dropdown options
+        // initialize search page by getting current user and dropdown options/
+        // if there are search parameters in the url, then perform an initial search
         function init() {
             // get current user from rootScope if present
             vm.user = $rootScope.currentUser;
@@ -22,6 +23,11 @@
             vm.sizes = PetShelterConstants.getSizes();
             vm.sexes = PetShelterConstants.getSexes();
             vm.ages = PetShelterConstants.getAges();
+            // do initial search if there are search parameters in the URL
+            if (!$.isEmptyObject($location.search())) {
+                vm.query = $location.search();
+                vm.search(vm.query);
+            }
         }
         init();
 
@@ -34,6 +40,9 @@
                 scrollToError();
                 return;
             }
+
+            // store the search parameters in the URL for browsing history purposes
+            $location.search(query);
             
             PetService.findPet(query)
                 .then(findPetSuccess, findPetError);
@@ -49,15 +58,19 @@
                     // that fires after angular has updated the DOM for the search results
                     if (vm.pets.length > 0) {
                         setTimeout(function() {
-                            $('html, body').animate({
-                                scrollTop: $('#ps-search-results').offset().top + 'px'
-                            }, 'slow');
+                            if ($('#ps-search-results')) {
+                                $('html, body').animate({
+                                    scrollTop: $('#ps-search-results').offset().top + 'px'
+                                }, 'slow');
+                            }
                         }, 250);
                     } else {
                         setTimeout(function() {
-                            $('html, body').animate({
-                                scrollTop: $('.ps-search-last').offset().top + 'px'
-                            }, 'slow');
+                            if ($('.ps-search-last')) {
+                                $('html, body').animate({
+                                    scrollTop: $('.ps-search-last').offset().top + 'px'
+                                }, 'slow');
+                            }
                         }, 250);
                     }
 
