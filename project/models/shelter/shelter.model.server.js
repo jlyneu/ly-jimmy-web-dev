@@ -14,7 +14,9 @@ module.exports = function(mongoose) {
         updateShelter: updateShelter,
         deleteShelter: deleteShelter,
         pushPet: pushPet,
-        pullPet: pullPet
+        pullPet: pullPet,
+        pushUser: pushUser,
+        pullUser: pullUser
     };
     return api;
 
@@ -92,6 +94,30 @@ module.exports = function(mongoose) {
             { $pullAll:
                 {
                     pets: [petId]
+                }
+            }
+        );
+    }
+
+    // Add the given userId to the list of user ids for the shelter with the given shelterId
+    function pushUser(shelterId, userId) {
+        return Shelter.update(
+            { _id: shelterId },
+            { $pushAll:
+                {
+                    users: [userId]
+                }
+            }
+        );
+    }
+
+    // Remove the given userId from the list of user ids for the shelter with the given shelterId
+    function pullUser(shelterId, userId) {
+        return Shelter.update(
+            { _id: shelterId },
+            { $pullAll:
+                {
+                    users: [userId]
                 }
             }
         );

@@ -49,6 +49,24 @@
        href="#/shelter/{{model.shelterId}}/pet/new">
         <div class="btn btn-block btn-primary">Add a pet</div>
     </a>
+    <div ng-if="model.isOwner" class="col-sm-12">
+        <h3>Want to add more users to manage this shelter? Start typing their name below</h3>
+        <input class="form-control" ng-model="model.input" ng-change="model.search()"/>
+        <div>
+            <div ng-repeat="user in model.users" class="ps-user-search-result">
+                <img ng-if="user.photoUrl" ng-src="{{user.photoUrl}}" class="ps-user-search-result-img"/>
+                <div ng-if="!user.photoUrl"
+                     class="ps-user-search-result-missing-img">
+                    <div ng-if="!user.photoUrl"
+                         class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
+                    <div ng-if="!user.photoUrl"
+                         class="ps-search-result-img-missing-text">No Image Provided</div>
+                </div>
+                <div class="ps-user-search-result-name">{{user.firstName}} {{user.lastName}}</div>
+                <div ng-click="model.addUser(user._id)" class="btn btn-success">Add</div>
+            </div>
+        </div>
+    </div>
     <div ng-if="!model.user" class="col-sm-12">Want to save this shelter for quick access later? <a href="#/login">Login</a>
         or <a href="#/register">Sign up for an account</a>.
     </div>

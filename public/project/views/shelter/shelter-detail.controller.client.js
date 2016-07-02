@@ -9,6 +9,8 @@
 
         // event handlers
         vm.saveShelter = saveShelter;
+        vm.search = search;
+        vm.addUser = addUser;
 
         // initialize the shelter detail page by fetching the shelter by id then all of the pets
         // at this shelter. also determine whether the current user owns this shelter. if so,
@@ -162,6 +164,67 @@
             // an error occurred so display an error
             function saveShelterError(error) {
                 vm.error = "Could not change saved shelters at this time. Please try again later.";
+            }
+        }
+
+        // search for the users whos name contains the contents of the input box on the page.
+        // display the results below the input box.
+        function search() {
+            // don't search if the box is empty
+            if (!vm.input) {
+                vm.users = [];
+                return;
+            }
+            UserService
+                .findAllUsersByName(vm.input)
+                .then(findAllUsersByNameSuccess, findAllUsersByNameError);
+
+            // set the users found from the search
+            function findAllUsersByNameSuccess(response) {
+                var users = response.data;
+                var filteredUsers = [];
+                // filter out user results that are the current user or any users that manage this shelter
+                for (var i = 0; i < users.length; i++) {
+                    var isOwner = false;
+                    for (var j = 0; j < vm.shelter.users.length; j++) {
+                        if (users[i]._id === vm.shelter.users[j]._id) {
+                            isOwner = true;
+                            break;
+                        }
+                    }
+                    if (!isOwner) {
+                        filteredUsers.push(users[i]);
+                    }
+                }
+                vm.users = filteredUsers;
+            }
+
+            // an error occurred so display an error
+            function findAllUsersByNameError(error) {
+                vm.error = "Could not fetch users at this time. Please try again later.";
+            }
+        }
+
+        // add the user with the provided userId to this shelter's list of managing users
+        function addUser(userId) {
+            ShelterService
+                .addUserToShelter(vm.shelterId, userId)
+                .then(addUserToShelterSuccess, addUserToShelterError);
+
+            // if user was successfully added, refresh the page. otherwise, display an error
+            function addUserToShelterSuccess(response) {
+                if (response.data) {
+                    vm.shelter = response.data;
+                    // clear the search results
+                    vm.users = [];
+                } else {
+                    vm.error = "Could not add user to shelter at this time. Please try again later.";
+                }
+            }
+
+            // an error occurred so display an error
+            function addUserToShelterError(error) {
+                vm.error = "Could not add user to shelter at this time. Please try again later.";
             }
         }
     }

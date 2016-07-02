@@ -24,6 +24,7 @@ module.exports = function(app, models) {
     app.post("/api/petshelter/user/upload", upload.single("myFile"), uploadImage);
     app.post("/api/petshelter/user", createUser);
     app.get("/api/petshelter/user", getUsers);
+    app.get("/api/petshelter/user/search/:name", findAllUsersByName);
     app.get("/api/petshelter/user/:userId", findUserById);
     app.put("/api/petshelter/user/:userId", updateUser);
     app.put("/api/petshelter/user/:userId/shelter/:shelterId", saveShelter);
@@ -335,6 +336,27 @@ module.exports = function(app, models) {
                 message: "Must provide either a username or both username and password."
             };
             res.status(400).json(errorMessage);
+        }
+    }
+
+    // Retrieves all users whose first or last name contain the given string
+    function findAllUsersByName(req, res) {
+        var name = req.params['name'];
+        var errorMessage = {};
+
+        userModel
+            .findAllUsersByName(name)
+            .then(findAllUsersByNameSuccess, findAllUsersByNameError);
+
+        // return the found users back to the client
+        function findAllUsersByNameSuccess(users) {
+            res.json(users);
+        }
+
+        // an error occurred so return an error to the client
+        function findAllUsersByNameError(error) {
+            errorMessage.message = "Could not fetch users at this time. Please try again later.";
+            res.status(500).json(errorMessage);
         }
     }
 

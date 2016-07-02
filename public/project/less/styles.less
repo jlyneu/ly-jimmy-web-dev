@@ -448,4 +448,47 @@ a {
       }
     }
   }
+  &-user-search {
+    &-result {
+      background-color: white;
+      border: 1px solid gray;
+      height: 130px;
+      padding: 15px;
+      @media(max-width: @screen-xs-max) {
+        height: auto;
+        text-align: center;
+      }
+
+      &-img {
+        margin-top: 0;
+        height: 100px;
+        width: 100px;
+        @media(max-width: @screen-xs-max) {
+          float: none;
+        }
+      }
+      &-missing-img {
+        color: @header-text-gray;
+        font-weight: bold;
+        float: left;
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        @media(max-width: @screen-xs-max) {
+          display: block;
+          float: none;
+          margin: auto;
+        }
+      }
+      &-name {
+        display: inline-block;
+        margin-left: 15px;
+        margin-right: 15px;
+        font-size: 22px;
+        @media(max-width: @screen-xs-max) {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
 }

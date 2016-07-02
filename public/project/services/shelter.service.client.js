@@ -10,6 +10,7 @@
             "findShelterByPetfinderId": findShelterByPetfinderId,
             "findPetfinderShelterById": findPetfinderShelterById,
             "updateShelter"           : updateShelter,
+            "addUserToShelter"        : addUserToShelter,
             "deleteShelter"           : deleteShelter
         };
         return api;
@@ -61,6 +62,14 @@
         function updateShelter(shelterId, shelter) {
             var url = "/api/petshelter/shelter/" + shelterId;
             return $http.put(url, shelter);
+        }
+
+        // return a promise for adding a user to a shelter's list of owners. if the shelter was updated
+        // successfully, then the promise will resolve with true. otherwise, the promise will resolve
+        // with an error.
+        function addUserToShelter(shelterId, userId) {
+            var url = "/api/petshelter/shelter/" + shelterId + "/user/" + userId;
+            return $http.put(url);
         }
 
         // return a promise for deleting the given shelter on the server. if the shelter was deleted

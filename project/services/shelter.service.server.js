@@ -10,6 +10,7 @@ module.exports = function(app, models) {
     app.get("/api/petshelter/petfinder/shelter/:petfinderId", findShelterByPetfinderId);
     app.get("/api/petfinder/shelter/:petfinderId", findPetfinderShelterById);
     app.put("/api/petshelter/shelter/:shelterId", updateShelter);
+    app.put("/api/petshelter/shelter/:shelterId/user/:userId", addUserToShelter);
     app.delete("/api/petshelter/shelter/:shelterId", deleteShelter);
 
     var shelterModel = models.shelterModel;
@@ -208,6 +209,46 @@ module.exports = function(app, models) {
             errorMessage.message = "Could not update shelter. Please try again later.";
             res.status(500).json(errorMessage);
         }
+    }
+
+    // adds the user with the parameter userId to the shelter with the parameters shelterId.
+    // return the updated shelter if the user is successfully added to the shelter. otherwise, return an error
+    function addUserToShelter(req, res) {
+        var shelterId = req.params["shelterId"];
+        var userId = req.params["userId"];
+        var errorMessage = {};
+
+        shelterModel
+            .pushUser(shelterId, userId)
+            .then(pushUserSuccess, pushUserError)
+            .then(findShelterByIdSuccess, findShelterByIdError);
+
+        // if the user was added to the shelter successfully, then find the shelter to return
+        function pushUserSuccess(numUpdated) {
+            return shelterModel.findShelterById(shelterId);
+        }
+
+        // an error occurred so return an error to the client
+        function pushUserError(error) {
+            throw new Error("Could not update shelter at this time. Please try again later.");
+        }
+
+        // if the shelter comes back, then send the shelter back to the client. otherwise, an error occurred
+        function findShelterByIdSuccess(shelter) {
+            if (shelter) {
+                res.json(shelter);
+            } else {
+                errorMessage.message = "Could not update shelter at this time. Please try again later.";
+                res.status(500).json(errorMessage);
+            }
+        }
+
+        // an error occurred to return an error to the client
+        function findShelterByIdError(error) {
+            errorMessage.message = "Could not update shelter at this time. Please try again later.";
+            res.status(500).json(errorMessage);
+        }
+
     }
 
     // removes the shelter from the database whose _id matches the shelterId parameter.

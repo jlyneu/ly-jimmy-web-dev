@@ -11,6 +11,7 @@
             "findUserById"          : findUserById,
             "findUserByUsername"    : findUserByUsername,
             "findUserByCredentials" : findUserByCredentials,
+            "findAllUsersByName"    : findAllUsersByName,
             "saveShelter"           : saveShelter,
             "savePet"               : savePet,
             "updateUser"            : updateUser,
@@ -72,6 +73,14 @@
         // found, then the promise will resolve with an error.
         function findUserByCredentials(username, password) {
             var url = "/api/petshelter/user?username=" + username + "&password=" + password;
+            return $http.get(url);
+        }
+
+        // return a promise for finding users whose names contain the given string. if the search
+        // is successful, then the promise will resolve with the found users. if not, then the
+        // promise will resolve with an error.
+        function findAllUsersByName(name) {
+            var url = "/api/petshelter/user/search/" + name;
             return $http.get(url);
         }
 

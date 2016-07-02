@@ -12,6 +12,7 @@ module.exports = function(mongoose) {
         findUserByGoogleId: findUserByGoogleId,
         findUserByUsername: findUserByUsername,
         findUserByCredentials: findUserByCredentials,
+        findAllUsersByName: findAllUsersByName,
         updateUser: updateUser,
         deleteUser: deleteUser,
         pushShelter: pushShelter,
@@ -65,6 +66,19 @@ module.exports = function(mongoose) {
             username: username,
             password: password
         });
+    }
+
+    // Retrieves all users whose first or last name contain the given string
+    function findAllUsersByName(name) {
+        var names = name.split(" ");
+        var queries = [];
+        for (var i = 0; i < names.length; i++) {
+            var rx = new RegExp(names[i], "i");
+            queries.push({ firstName: { $regex: rx } });
+            queries.push({ lastName: { $regex: rx } });
+        }
+        return User
+            .find({ $or: queries });
     }
 
     // Updates user instance whose _id is equal to parameter userId
