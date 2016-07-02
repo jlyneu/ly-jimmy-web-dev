@@ -228,12 +228,20 @@ module.exports = function(app, models) {
         if (req.query.age) {
             url += "&age=" + req.query.age;
         }
+        if (req.query.offset) {
+            url += "&offset=" + req.query.offset;
+        }
         url += "&format=json";
 
-        // look for pets in the database that match the query criteria
-        petModel
-            .findPetByQuery(req.query)
-            .then(findPetByQuerySuccess, findPetByQueryError);
+        // look for pets in the database that match the query criteria if no offset is provided.
+        // if offset is provided, this means the database pet results are already showing.
+        if (!req.query.offset) {
+            petModel
+                .findPetByQuery(req.query)
+                .then(findPetByQuerySuccess, findPetByQueryError);
+        } else {
+            request(url, requestCallback);
+        }
 
         // add the pets to the result list then make a request to the petfinder API
         // to find petfinder pets that match the query criteria

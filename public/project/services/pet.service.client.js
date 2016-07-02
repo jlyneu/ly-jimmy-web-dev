@@ -56,6 +56,9 @@
             if (query.age) {
                 url += "&age=" + query.age;
             }
+            if (query.offset) {
+                url += "&offset=" + query.offset;
+            }
             return $http.get(url);
         }
 

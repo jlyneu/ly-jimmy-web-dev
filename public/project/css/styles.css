@@ -269,7 +269,6 @@ a :active {
 }
 .ps-profile-img {
   width: 250px;
-  margin-top: 42px;
 }
 @media (max-width: 768px) {
   .ps-profile-img {
@@ -367,6 +366,9 @@ a :active {
 }
 .ps-search-result-img-missing-text {
   font-size: 14px;
+}
+.ps-search-result-wrapper {
+  margin-bottom: 30px;
 }
 .ps-shelter-detail-no-pets {
   margin-bottom: 50px;

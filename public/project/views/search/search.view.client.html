@@ -92,6 +92,10 @@
             <ps-pet-result pet="pet"></ps-pet-result>
         </div>
     </div>
+    <div ng-if="model.showLoadMore && model.source == 'PETFINDER'"
+         ng-click="model.loadMore()"
+         class="btn btn-block btn-primary col-sm-12">Load More</div>
     <h2 class="ps-search-last"
         ng-if="model.hasSearched && model.pets.length == 0">No search results were found. Please refine your search and try again.</h2>
+    <div class="ps-search-result-wrapper col-sm-12"></div>
 </div>
