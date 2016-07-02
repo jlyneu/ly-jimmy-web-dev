@@ -1,7 +1,13 @@
 (function() {
     angular
         .module("PetShelter")
-        .config(Config);
+        .config(Config)
+        // scroll to the top of the page when switching between pages
+        .run(function($rootScope) {
+            $rootScope.$on('$routeChangeSuccess', function () {
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+            })
+        });
     function Config($routeProvider) {
         $routeProvider
         .when("/", {
@@ -96,7 +102,7 @@
             resolve: { loggedin: checkLoggedin }
         }).otherwise({
             redirectTo: "/"
-        });
+        })
 
         // make a call to the server to determine whether or not the user
         // is currently logged in. if the user is not logged in, then send
