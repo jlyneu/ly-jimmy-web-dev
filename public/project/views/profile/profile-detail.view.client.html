@@ -9,15 +9,11 @@
         <div class="ps-profile-img">
             <img ng-if="model.user.photoUrl"
                  ng-src="{{model.user.photoUrl}}"
-                 height="250px"
-                 width="250px"/>
-            <div ng-if="!model.user.photoUrl"
-                 class="ps-profile-img-missing">
-                <div ng-if="!model.user.photoUrl"
-                     class="ps-profile-img-missing-icon glyphicon glyphicon-question-sign"></div>
-                <div ng-if="!model.user.photoUrl"
-                     class="ps-profile-img-missing-text">No Image Provided</div>
-            </div>
+                 class="ps-user-detail-img"/>
+            <img ng-if="!model.user.photoUrl"
+                 ng-src="img/noimagefound.jpg"
+                 class="ps-user-detail-img"/>
+            <div class="ps-user-detail-date"
             <form action="/api/petshelter/user/upload"  method="post" enctype="multipart/form-data">
                 <label  for="file" class="ps-profile-label">Upload an image</label>
                 <input  name="myFile"    type="file" class="" id="file"/>
