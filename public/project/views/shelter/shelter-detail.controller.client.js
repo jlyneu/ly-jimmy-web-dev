@@ -11,6 +11,7 @@
         vm.saveShelter = saveShelter;
         vm.search = search;
         vm.addUser = addUser;
+        vm.removeUser = removeUser;
 
         // initialize the shelter detail page by fetching the shelter by id then all of the pets
         // at this shelter. also determine whether the current user owns this shelter. if so,
@@ -225,6 +226,29 @@
             // an error occurred so display an error
             function addUserToShelterError(error) {
                 vm.error = "Could not add user to shelter at this time. Please try again later.";
+            }
+        }
+
+        // remove the user with the provided userId from this shelter's list of managing users
+        function removeUser(userId) {
+            ShelterService
+                .removeUserFromShelter(vm.shelterId, userId)
+                .then(removeUserFromShelterSuccess, removeUserFromShelterError);
+
+            // if user was successfully removed, refresh the page. otherwise, display an error
+            function removeUserFromShelterSuccess(response) {
+                if (response.data) {
+                    vm.shelter = response.data;
+                    // clear the search results
+                    vm.users = [];
+                } else {
+                    vm.error = "Could not remove user from shelter at this time. Please try again later.";
+                }
+            }
+
+            // an error occurred so display an error
+            function removeUserFromShelterError(error) {
+                vm.error = "Could not remove user from shelter at this time. Please try again later.";
             }
         }
     }

@@ -408,6 +408,17 @@ a {
     &-new {
       margin-top: 0;
     }
+    &-user-remove {
+      margin: 0 0 0 10px;
+      @media(max-width: @screen-md-max) {
+        margin: 0;
+      }
+      @media(max-width: @screen-xs-max) {
+        display: block;
+        width: 78px;
+        margin: auto;
+      }
+    }
     &-result {
       background-color: @description-dark-gray;
       box-shadow: 2px 2px 2px @box-shadow-gray;
@@ -456,6 +467,10 @@ a {
     &-heading {
       color: #333333;
       margin-top: 40px;
+      display: inline-block;
+      @media(max-width: @screen-md-max) {
+        display: block;
+      }
       @media(max-width: @screen-xs-max) {
         margin-top: 0;
         text-align: center;

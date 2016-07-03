@@ -26,13 +26,16 @@
         <div ng-if="model.shelter.users"
              ng-repeat="user in model.shelter.users"
              class="col-sm-6">
-            <a href="#/user/{{user._id}}">
-                <div class="list-group-item ps-search-result-container">
+            <div ng-click="model.goToUserDetail(user._id)" class="list-group-item ps-search-result-container">
+                <a href="#/user/{{user._id}}">
                     <img ng-if="user.photoUrl" class="ps-search-result-img" ng-src="{{user.photoUrl}}"/>
                     <img ng-if="!user.photoUrl" class="ps-search-result-img" ng-src="img/noimagefound.jpg"/>
                     <h4 class="list-group-item-heading ps-user-result-heading">{{user.firstName}} {{user.lastName}}</h4>
-                </div>
-            </a>
+                </a>
+                <div ng-if="model.isOwner"
+                     ng-click="model.removeUser(user._id)"
+                     class="btn btn-danger ps-shelter-user-remove">Remove</div>
+            </div>
         </div>
     </div>
     <a href="#/shelter/{{model.shelterId}}/edit"
@@ -51,13 +54,7 @@
         <div>
             <div ng-repeat="user in model.users" class="ps-user-search-result">
                 <img ng-if="user.photoUrl" ng-src="{{user.photoUrl}}" class="ps-user-search-result-img"/>
-                <div ng-if="!user.photoUrl"
-                     class="ps-user-search-result-missing-img">
-                    <div ng-if="!user.photoUrl"
-                         class="ps-search-result-img-missing-icon glyphicon glyphicon-question-sign"></div>
-                    <div ng-if="!user.photoUrl"
-                         class="ps-search-result-img-missing-text">No Image Provided</div>
-                </div>
+                <img ng-if="!user.photoUrl" class="ps-user-search-result-img" ng-src="img/noimagefound.jpg"/>
                 <div class="ps-user-search-result-name">{{user.firstName}} {{user.lastName}}</div>
                 <div ng-click="model.addUser(user._id)" class="btn btn-success">Add</div>
             </div>

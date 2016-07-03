@@ -376,6 +376,21 @@ a :active {
 .ps-shelter-new {
   margin-top: 0;
 }
+.ps-shelter-user-remove {
+  margin: 0 0 0 10px;
+}
+@media (max-width: 992px) {
+  .ps-shelter-user-remove {
+    margin: 0;
+  }
+}
+@media (max-width: 420px) {
+  .ps-shelter-user-remove {
+    display: block;
+    width: 78px;
+    margin: auto;
+  }
+}
 .ps-shelter-result {
   background-color: #E2E2E2;
   box-shadow: 2px 2px 2px #666666;
@@ -427,6 +442,12 @@ a :active {
 .ps-user-result-heading {
   color: #333333;
   margin-top: 40px;
+  display: inline-block;
+}
+@media (max-width: 992px) {
+  .ps-user-result-heading {
+    display: block;
+  }
 }
 @media (max-width: 420px) {
   .ps-user-result-heading {
