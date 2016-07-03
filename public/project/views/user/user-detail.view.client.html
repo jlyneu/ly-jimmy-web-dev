@@ -4,8 +4,8 @@
     <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
         {{model.error}}
     </div>
-    <h1 class="col-sm-12">{{model.userDetail.firstName}} {{model.userDetail.lastName}}</h1>
     <div class="ps-user-detail-img-container col-sm-6">
+        <h2>{{model.userDetail.firstName}} {{model.userDetail.lastName}}</h2>
         <img ng-if="model.userDetail.photoUrl"
              ng-src="{{model.userDetail.photoUrl}}"
              class="ps-user-detail-img"/>
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="ps-user-detail-shelter-container col-sm-6">
-        <div class="ps-user-detail-header">Shelters</div>
+        <h2>Shelters</h2>
         <div class="list-group">
             <div ng-repeat="shelter in model.shelters" class="">
                 <a href="#/shelter/{{shelter._id}}">

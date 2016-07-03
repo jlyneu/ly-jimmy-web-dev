@@ -419,7 +419,6 @@ a :active {
 .ps-user-detail-img {
   width: 250px;
   height: 250px;
-  margin-top: 42px;
 }
 @media (max-width: 420px) {
   .ps-user-detail-img {

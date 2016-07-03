@@ -4,9 +4,9 @@
     <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
         {{model.error}}
     </div>
-    <h1 ng-if="model.pet.name" class="col-sm-12">{{model.pet.name}}</h1>
-    <h1 ng-if="!model.pet.name" class="col-sm-12">Name Not Provided</h1>
     <div class="col-sm-6">
+        <h2 ng-if="model.pet.name">{{model.pet.name}}</h2>
+        <h2 ng-if="!model.pet.name">Name Not Provided</h2>
         <img ng-if="model.pet.photoUrl"
              ng-src="{{model.pet.photoUrl}}"
              class="ps-user-detail-img"/>
@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <h2 class="ps-pet-detail-header">Pet Info</h2>
+        <h2>Pet Info</h2>
         <div>Animal Type: {{model.pet.animal}}</div>
         <div ng-if="model.pet.breeds">Breed:
             <span ng-repeat="breed in model.pet.breeds">

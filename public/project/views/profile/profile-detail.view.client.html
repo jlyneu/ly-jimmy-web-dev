@@ -4,8 +4,9 @@
     <div id="ps-alert" ng-if="model.error" class="alert alert-danger">
         {{model.error}}
     </div>
-    <h1 class="col-xs-12">Profile</h1>
+    <!--<h1 class="col-xs-12">Profile</h1>-->
     <div class="col-sm-6">
+        <h2>Profile</h2>
         <div class="ps-profile-img">
             <img ng-if="model.user.photoUrl"
                  ng-src="{{model.user.photoUrl}}"
@@ -22,20 +23,18 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="ps-profile-info-container">
-            <h2>Your Info</h2>
-            <div class="ps-profile-info">First name: {{model.user.firstName}}</div>
-            <div class="ps-profile-info">Last name: {{model.user.lastName}}</div>
-            <div ng-if="model.user.google.id" class="ps-profile-info">Signed in via Google</div>
-            <div ng-if="!model.user.google.id" class="ps-profile-info">Username: {{model.user.username}}</div>
-            <div ng-if="model.user.email" class="ps-profile-info">Email: {{model.user.email}}</div>
-            <div ng-if="!model.user.email" class="ps-profile-info">Email: Not Provided</div>
-            <div ng-if="model.user.phone" class="ps-profile-info">Phone: {{model.user.phone}}</div>
-            <div ng-if="!model.user.phone" class="ps-profile-info">Phone: Not Provided</div>
-        </div>
+        <h2>Your Info</h2>
+        <div class="ps-profile-info">First name: {{model.user.firstName}}</div>
+        <div class="ps-profile-info">Last name: {{model.user.lastName}}</div>
+        <div ng-if="model.user.google.id" class="ps-profile-info">Signed in via Google</div>
+        <div ng-if="!model.user.google.id" class="ps-profile-info">Username: {{model.user.username}}</div>
+        <div ng-if="model.user.email" class="ps-profile-info">Email: {{model.user.email}}</div>
+        <div ng-if="!model.user.email" class="ps-profile-info">Email: Not Provided</div>
+        <div ng-if="model.user.phone" class="ps-profile-info">Phone: {{model.user.phone}}</div>
+        <div ng-if="!model.user.phone" class="ps-profile-info">Phone: Not Provided</div>
         <div ng-if="model.user.biography">
-            <h2>About Me</h2>
-            <div>{{model.user.biography}}</div>
+        <h2>About Me</h2>
+        <div>{{model.user.biography}}</div>
         </div>
     </div>
     <div class="col-xs-12">
